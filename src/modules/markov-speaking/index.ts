@@ -5,6 +5,7 @@ import { User } from '../../misskey'
 import { IDatabase } from './database';
 import createDatabase from './databases';
 import config from '../../config';
+import * as moment from 'moment'
 import { Body } from 'node-fetch';
 const MarkovJa = require('markov-ja')
 
@@ -15,6 +16,7 @@ export default class MarkovSpeakingModule implements IModule {
   private ai: Ai
   private markov: any
   private database: IDatabase
+  private intervalObj: NodeJS.Timer
 
   private get sentenceLength(): number {
     function getRandomInt(max) {
@@ -33,6 +35,22 @@ export default class MarkovSpeakingModule implements IModule {
     this.markov = new MarkovJa()
     this.database = createDatabase(config.database.type, this.markov)
     this.database.load()
+    if(config.intervalPost) {
+      this.intervalObj = setInterval(async () => {
+        let text = ''
+        text += this.markov.generate(this.sentenceLength).join('\n')
+        let res = await this.ai.api('notes/create', {
+          text: text
+        })
+        let json = await res.json()
+        if(json.error) {
+          console.error('An error occured while creating the interval post')
+          console.error(json.error)
+        } else {
+          console.log('Successfully posted on setInterval')
+        }
+      }, moment.duration(config.intervalPostDuration.value, config.intervalPostDuration.unit).asMilliseconds())
+    }
   }
 
   public onNote(note: any) {

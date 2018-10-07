@@ -33,7 +33,7 @@ async function main() {
 }
 
 process.on('SIGINT', async () => {
-  console.log('Received interrupt signal, exising...')
+  console.log('Received interrupt signal, exiing...')
   await ai.onInterrupt()
 })
 main()

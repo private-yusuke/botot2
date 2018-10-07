@@ -3,7 +3,10 @@
   "host": "misskey.xyz",
   "timeline": "social",
   "intervalPost": true,
-  "intervalPostDuration": [1, "h"],
+  "intervalPostDuration": {
+    "value": 1,
+    "unit": "hour"
+  },
   "autoFollow": true,
   "database": {
       "path": "db/triplets_db.json",
@@ -13,7 +16,7 @@
 
       "maxSize": 50e6
   },
-  "sentenceLengthRange": [2, 5],
+  "sentenceLengthRange": [1, 1],
   "mecab": {
       "commandOptions": ""
   },

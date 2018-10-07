@@ -1,5 +1,6 @@
 import Ai from './ai'
 import { User } from './misskey'
+import config from './config';
 const delay = require('timeout-as-promise')
 
 export default class MessageLike {
@@ -39,7 +40,8 @@ export default class MessageLike {
       let a = await this.ai.api('notes/create', {
         replyId: this.messageOrNote.id,
         text: text,
-        cw: cw
+        cw: cw,
+        visibility: config.visibility
       })
       return a
     }

@@ -36,6 +36,10 @@ export default class MarkovSpeakingModule implements IModule {
     this.database = createDatabase(config.database.type, this.markov)
     this.database.load()
     if(config.intervalPost) {
+      let duration = moment.duration(config.intervalPostDuration.value, config.intervalPostDuration.unit).asMilliseconds()
+      if(duration == 0) {
+        console.error('Bad duration setting. intervalPost feature is disabled.')
+      }
       this.intervalObj = setInterval(async () => {
         let text = ''
         text += this.markov.generate(this.sentenceLength).join('\n')
@@ -49,7 +53,7 @@ export default class MarkovSpeakingModule implements IModule {
         } else {
           console.log('Successfully posted on setInterval')
         }
-      }, moment.duration(config.intervalPostDuration.value, config.intervalPostDuration.unit).asMilliseconds())
+      }, duration)
     }
   }
 

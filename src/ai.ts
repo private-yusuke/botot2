@@ -73,34 +73,40 @@ export default class Ai {
 
   private onNote(msg: any) {
     const body = msg.body
-    if(body.userId == this.account.id || body.user.isBot) return
+    if(body.userId == this.account.id) return
     const reply = body.reply || { userId: 'none' }
     if((body.text || '').indexOf(`@${this.account.username}`) >= 0 || reply.userId == this.account.id) {
       this.onMention(new MessageLike(this, body, false))
     }
+    if(body.user.isBot) return
     this.modules.filter(m => typeof m.onNote == 'function').forEach(m => {
       return m.onNote(body)
     })
   }
 
   private async onMention(msg: MessageLike) {
-    let res: ReturnType<IModule['onMention']>
-    this.modules.filter(m => typeof m.onMention == 'function').some(m => {
-      res = m.onMention(msg)
-      return res === true || typeof res === 'object'
-    })
-
-    await delay(1000)
     if(msg.isMessage) {
       this.api('messaging/messages/read', {
         messageId: msg.id
       })
     } else {
+      let reaction: Reaction
+      if(msg.user.isBot) reaction = 'angry'
+      else reaction = 'like'
       this.api('notes/reactions/create', {
         noteId: msg.id,
-        reaction: 'like'
+        reaction: reaction
       })
     }
+    if(msg.user.isBot) return
+    await delay(1000)
+
+    let res: ReturnType<IModule['onMention']>
+    this.modules.filter(m => typeof m.onMention == 'function').some(m => {
+      res = m.onMention(msg)
+      return res === true || typeof res === 'object'
+    })
+    
   }
 
   private onMessage(msg: any) {

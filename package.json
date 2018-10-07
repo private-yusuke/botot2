@@ -1,0 +1,32 @@
+{
+  "name": "botot2",
+  "version": "2.0.0",
+  "description": "A chatbot for Misskey with Markov chain",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./built",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node-fetch": "^2.1.2",
+    "@types/ws": "^6.0.1",
+    "eslint": "^5.6.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^10.11.4",
+    "markov-ja": "^1.0.6",
+    "moment": "^2.22.2",
+    "node-fetch": "^2.2.0",
+    "reconnecting-websocket": "^4.1.5",
+    "timeout-as-promise": "^1.0.0",
+    "typescript": "^3.1.1",
+    "ws": "^6.1.0"
+  }
+}

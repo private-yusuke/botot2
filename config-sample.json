@@ -1,0 +1,21 @@
+{
+  "i": "!xxxxxxxxxxxxxxxxxx",
+  "host": "misskey.xyz",
+  "timeline": "social",
+  "intervalPost": true,
+  "intervalPostDuration": [1, "h"],
+  "autoFollow": true,
+  "database": {
+      "path": "db/triplets_db.json",
+      "type": "onlyOne",
+      "saveFrequency": 10,
+      "saveDuration": [30, "minute"],
+
+      "maxSize": 50e6
+  },
+  "sentenceLengthRange": [2, 5],
+  "mecab": {
+      "commandOptions": ""
+  },
+  "visibility": "followers"
+}

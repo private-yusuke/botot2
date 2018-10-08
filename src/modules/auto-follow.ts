@@ -13,7 +13,11 @@ export default class AutoFollowModule implements IModule {
     this.ai = ai
   }
 
-  public async onFollowed(user: User) {
+  public onFollowed(user: User) {
+    this.follow(user)
+  }
+
+  async follow(user: User) {
     try {
       const res = await this.ai.api('following/create', {
         userId: user.id

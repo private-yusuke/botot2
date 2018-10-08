@@ -8,6 +8,7 @@
     "unit": "hour"
   },
   "autoFollow": true,
+  "othelloRedirect": true,
   "database": {
       "path": "db/triplets_db.json",
       "type": "onlyOne",

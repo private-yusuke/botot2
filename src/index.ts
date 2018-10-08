@@ -20,9 +20,16 @@ async function main() {
   const modules: IModule[] = []
   Modulez.forEach(M => {
     const m = new M()
-    if(m.name == 'autoFollow') {
-      if(config.autoFollow) modules.push(m)
-    } else modules.push(m)
+    switch(m.name) {
+      case 'autoFollow':
+        if(config.autoFollow) modules.push(m)
+        break
+      case 'othelloRedirect':
+        if(config.othelloRedirect) modules.push(m)
+        break
+      default:
+        modules.push(m)
+    }
   })
   modules.sort((a, b) => {
     return b.priority - a.priority
@@ -35,7 +42,7 @@ async function main() {
 }
 
 process.on('SIGINT', async () => {
-  console.log('Received interrupt signal, exiing...')
+  console.log('Received interrupt signal, exiting...')
   await ai.onInterrupt()
 })
 main()

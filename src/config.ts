@@ -22,7 +22,8 @@ type Config = {
   notificationURL?: string
   intervalPost: boolean
   intervalPostDuration: Duration
-  autoFollow: boolean
+  autoFollow?: boolean
+  othelloRedirect?: boolean
   database: {
     path: string
     type: Database

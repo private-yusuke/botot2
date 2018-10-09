@@ -93,6 +93,7 @@ export default class Ai {
       let reaction: Reaction
       if(msg.user.isBot) reaction = 'angry'
       else reaction = 'like'
+      await delay(1000)
       this.api('notes/reactions/create', {
         noteId: msg.id,
         reaction: reaction

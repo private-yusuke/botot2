@@ -22,8 +22,12 @@ type Config = {
   notificationURL?: string
   intervalPost: boolean
   intervalPostDuration: Duration
-  autoFollow?: boolean
-  othelloRedirect?: boolean
+  modules: {
+    markovSpeaking?: boolean
+    autoFollow?: boolean
+    othelloRedirect?: boolean
+    greeting?: boolean
+  }
   database: {
     path: string
     type: Database

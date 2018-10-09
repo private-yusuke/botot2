@@ -11,7 +11,6 @@ const MarkovJa = require('markov-ja')
 
 export default class MarkovSpeakingModule implements IModule {
   public readonly priority = 1
-  public readonly required = false
   public readonly name = 'markovSpeaking'
   private ai: Ai
   private markov: any

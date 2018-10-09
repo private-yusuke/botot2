@@ -3,7 +3,6 @@ import MessageLike from './message-like'
 import { User } from './misskey';
 
 export default interface IModule {
-  required: boolean
   name: string
   priority: number
   install?: (ai: Ai) => void

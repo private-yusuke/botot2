@@ -5,7 +5,6 @@ import { User } from '../misskey'
 
 export default class AutoFollowModule implements IModule {
   public readonly priority = 0
-  public readonly required = false
   public readonly name = 'autoFollow'
   private ai: Ai
 

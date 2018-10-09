@@ -2,19 +2,20 @@ import IModule from "../module";
 import Ai from "../ai";
 import MessageLike from "../message-like";
 
-export default class OthelloRedirectModule implements IModule {
-  public readonly name = 'othelloRedirect'
+export default class GreetingModule implements IModule {
   public readonly priority = 2
+  public readonly name = 'greeting'
   private ai: Ai
 
   public install(ai: Ai) {
     this.ai = ai
   }
 
-  public onMention(msg: MessageLike): boolean {
+  public onMention(msg: MessageLike) {
     if(!msg.text) return false
-    if(msg.text.match(/(オセロ|リバーシ)/)) {
-      msg.reply('cc: @ai')
+    let m = msg.text.match(/(おはよう|こんにちは|こんばんは|おやすみ)/)
+    if(m) {
+      msg.reply(`${m[1]}〜!`)
       return true
     } else return false
   }

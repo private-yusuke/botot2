@@ -20,16 +20,7 @@ async function main() {
   const modules: IModule[] = []
   Modulez.forEach(M => {
     const m = new M()
-    switch(m.name) {
-      case 'autoFollow':
-        if(config.autoFollow) modules.push(m)
-        break
-      case 'othelloRedirect':
-        if(config.othelloRedirect) modules.push(m)
-        break
-      default:
-        modules.push(m)
-    }
+    if(config.modules[m.name]) modules.push(m)
   })
   modules.sort((a, b) => {
     return b.priority - a.priority

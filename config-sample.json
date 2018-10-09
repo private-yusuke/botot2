@@ -7,8 +7,12 @@
     "value": 1,
     "unit": "hour"
   },
-  "autoFollow": true,
-  "othelloRedirect": true,
+  "modules": {
+    "autoFollow": true,
+    "othelloRedirect": true,
+    "markovSpeaking": true,
+    "greeting": true
+  },
   "database": {
       "path": "db/triplets_db.json",
       "type": "onlyOne",

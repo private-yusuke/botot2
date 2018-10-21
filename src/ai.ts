@@ -71,7 +71,7 @@ export default class Ai {
   }
 
   private onData(msg: any) {
-    console.log(`${msg.body.type} from ${msg.body.id}`)
+    // console.log(`${msg.body.type} from ${msg.body.id}`)
     switch(msg.type) {
       case 'channel': 
         switch(msg.body.id) {
@@ -122,8 +122,7 @@ export default class Ai {
     }
     if(msg.user.isBot) return
     await delay(1000)
-    console.log('came here')
-
+    
     let res: ReturnType<IModule['onMention']>
     this.modules.filter(m => typeof m.onMention == 'function').some(m => {
       res = m.onMention(msg)

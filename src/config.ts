@@ -17,9 +17,9 @@ type Config = {
   baseURL?: string
   wsURL?: string
   apiURL?: string
+  streamURL?: string
   timeline: Misskey.Timeline
-  timelineURL?: string
-  notificationURL?: string
+  timelineChannel: Misskey.Channel
   intervalPost: boolean
   intervalPostDuration: Duration
   modules: {
@@ -48,6 +48,7 @@ const config = require('../config.json')
 config.baseURL = `https://${config.host}`
 config.wsURL = `wss://${config.host}`
 config.apiURL = `${config.baseURL}/api`
+config.streamURL = `${config.wsURL}/streaming?i=${config.i}`
 
 function getTimelineURL (config: Config) {
   switch (config.timeline) {
@@ -66,7 +67,21 @@ function getTimelineURL (config: Config) {
   }
 }
 
-config.timelineURL = getTimelineURL(config)
-config.notificationURL = `${config.wsURL}/?i=${config.i}`
+function getProperTimelineProperty(config: Config) {
+  switch (config.timeline) {
+    case 'home':
+    case 'local':
+    case 'global':
+    case 'hybrid':
+      return `${config.timeline}Timeline`
+    case 'social':
+      console.warn('specifying \'social\' as a timeline is deprecated. using hybridTimeline.')
+      return 'hybridTimeline'
+    default:
+      console.warn('Timeline not specified correctly, using home...')
+      return 'homeTimeline'
+  }
+}
+config.timelineChannel = getProperTimelineProperty(config)
 
 export default config as Config

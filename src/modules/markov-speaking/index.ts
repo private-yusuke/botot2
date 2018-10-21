@@ -62,23 +62,20 @@ export default class MarkovSpeakingModule implements IModule {
   }
   public onMention(msg: MessageLike): boolean {
     if(msg.text) this.markov.learn(msg.text.replace(/(@.+)?\s/, ''))
-    if(msg.isMessage) {
-
-    } else {
-      let speech: string
-      try {
-        speech = this.markov.generate(this.sentenceLength).join('\n')
-      } catch(e) {
-        speech = '...'
-      }
-      if(speech.trim() == '') speech = '...'
-      try {
-        msg.reply(speech)
-      } catch(e) {
-        console.error('ERROR! Couldn\'t reply!')
-        console.error(e)
-        return false
-      }
+    
+    let speech: string
+    try {
+      speech = this.markov.generate(this.sentenceLength).join('\n')
+    } catch(e) {
+      speech = '...'
+    }
+    if(speech.trim() == '') speech = '...'
+    try {
+      msg.reply(speech)
+    } catch(e) {
+      console.error('ERROR! Couldn\'t reply!')
+      console.error(e)
+      return false
     }
     return true
   }

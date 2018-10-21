@@ -9,11 +9,8 @@ const delay = require('timeout-as-promise')
 
 export default class Ai {
   public account: User
-
-  private timelineConnection: any
-  private messageConnection: any
+  private connection: any
   private modules: IModule[] = []
-
   private isInterrupted: boolean = false
 
   constructor(account: User, modules: IModule[]) {
@@ -34,41 +31,65 @@ export default class Ai {
     })
   }
 
+  private initConnection() {
+    this.connection = new ReconnectingWebSocket(config.streamURL, [], {
+      WebSocket: WebSocket
+    })
+    
+    this.connection.addEventListener('open', () => {
+      console.log('WebSocket connected')
+    })
+    this.connection.addEventListener('close', () => {
+      if(this.isInterrupted) this.connection.close()
+      else this.initConnection()
+    })
+    this.connection.addEventListener('message', message => {
+      const msg = JSON.parse(message.data)
+
+      this.onData(msg)
+    })
+    function generateData(id: string, channel: string) {
+      return {
+        type: "connect",
+        body: {
+          id: id,
+          channel: channel
+        }
+      }
+    }
+    const timelineData = generateData('timeline', config.timelineChannel)
+    const messageData = generateData('message', 'messagingIndex')
+    const mainData = generateData('main', 'main')
+    this.connection.send(JSON.stringify(timelineData))
+    this.connection.send(JSON.stringify(messageData))
+    this.connection.send(JSON.stringify(mainData))
+  }
+
   private init() {
     this.modules.forEach(m => m.install(this))
-    this.timelineConnection = new ReconnectingWebSocket(config.timelineURL, [], {
-      WebSocket: WebSocket
-    })
+    this.initConnection()
+  }
 
-    this.timelineConnection.addEventListener('open', () => {
-      console.log('timeline WebSocket connected')
-    })
-    this.timelineConnection.addEventListener('close', () => {
-      if(this.isInterrupted) this.timelineConnection.close()
-      else this.timelineConnection.reconnect()
-    })
-    this.timelineConnection.addEventListener('message', message => {
-      const msg = JSON.parse(message.data)
-
-      this.onNote(msg)
-    })
-
-    this.messageConnection = new ReconnectingWebSocket(config.notificationURL, [], {
-      WebSocket: WebSocket
-    })
-
-    this.messageConnection.addEventListener('open', () => {
-      console.log('notification WebSocket connected')
-    })
-    this.messageConnection.addEventListener('close', () => {
-      if(this.isInterrupted) this.messageConnection.close()
-      else this.messageConnection.reconnect()
-    })
-    this.messageConnection.addEventListener('message', message => {
-      const msg = JSON.parse(message.data)
-      if(msg.type == 'messaging_message' && msg.body.userId != this.account.id) this.onMessage(msg)
-      else if(msg.type == 'followed' && msg.body.id != this.account.id) this.onFollowed(msg.body)
-    })
+  private onData(msg: any) {
+    console.log(`${msg.body.type} from ${msg.body.id}`)
+    switch(msg.type) {
+      case 'channel': 
+        switch(msg.body.id) {
+          case 'timeline':
+            this.onNote(msg.body)
+            break
+          case 'message':
+            if(msg.body.type == 'message' && msg.body.userId != this.account.id) this.onMessage(msg.body.body)
+            break
+          case 'main':
+            if(msg.body.type == 'followed' && msg.body.id != this.account.id) this.onFollowed(msg.body.body)
+            break
+          default: break
+        }
+        break
+      default:
+        break
+    }
   }
 
   private onNote(msg: any) {
@@ -101,6 +122,7 @@ export default class Ai {
     }
     if(msg.user.isBot) return
     await delay(1000)
+    console.log('came here')
 
     let res: ReturnType<IModule['onMention']>
     this.modules.filter(m => typeof m.onMention == 'function').some(m => {
@@ -111,19 +133,7 @@ export default class Ai {
   }
 
   private onMessage(msg: any) {
-    switch(msg.type) {
-      case 'mention':
-        if(msg.body.userId == this.account.id || msg.body.isBot) return
-        if(msg.body.text.startsWith(`@${this.account.username}`)) {
-          this.onMention(new MessageLike(this, msg.body, false))
-        }
-        break
-      case 'reply':
-        if(msg.body.userId == this.account.id || msg.body.isBot) return
-        this.onMention(new MessageLike(this, msg.body, true))
-        break
-      default: break
-    }
+    this.onMention(new MessageLike(this, msg, true))
   }
   
   private onFollowed(user: User) {
@@ -134,8 +144,7 @@ export default class Ai {
 
   async onInterrupt() {
     this.isInterrupted = true
-    this.messageConnection.close()
-    this.timelineConnection.close()
+    this.connection.close()
     this.modules.filter(m => typeof m.onInterrupted == 'function').forEach(m =>
       m.onInterrupted()
     )

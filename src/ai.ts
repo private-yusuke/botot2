@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
 import config from './config'
 import IModule from './module'
-import { User, Reaction } from './misskey'
 import * as WebSocket from 'ws'
+import { User, Reaction } from './misskey'
 const ReconnectingWebSocket = require('reconnecting-websocket')
 import MessageLike from './message-like';
 const delay = require('timeout-as-promise')
@@ -37,11 +37,17 @@ export default class Ai {
     })
     
     this.connection.addEventListener('open', () => {
+      const timelineData = generateData('timeline', config.timelineChannel)
+      const messageData = generateData('message', 'messagingIndex')
+      const mainData = generateData('main', 'main')
+      this.connection.send(JSON.stringify(timelineData))
+      this.connection.send(JSON.stringify(messageData))
+      this.connection.send(JSON.stringify(mainData))
       console.log('WebSocket connected')
     })
     this.connection.addEventListener('close', () => {
       if(this.isInterrupted) this.connection.close()
-      else this.initConnection()
+      console.log('WebSocket closed')
     })
     this.connection.addEventListener('message', message => {
       const msg = JSON.parse(message.data)
@@ -57,12 +63,6 @@ export default class Ai {
         }
       }
     }
-    const timelineData = generateData('timeline', config.timelineChannel)
-    const messageData = generateData('message', 'messagingIndex')
-    const mainData = generateData('main', 'main')
-    this.connection.send(JSON.stringify(timelineData))
-    this.connection.send(JSON.stringify(messageData))
-    this.connection.send(JSON.stringify(mainData))
   }
 
   private init() {

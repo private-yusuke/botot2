@@ -84,4 +84,19 @@ function getProperTimelineProperty(config: Config) {
 }
 config.timelineChannel = getProperTimelineProperty(config)
 
+function getProperVisibilityProperty(config: Config) {
+  switch(config.visibility) {
+    case 'followers':
+    case 'home':
+    case 'private':
+    case 'public':
+    case 'specified':
+      return config.visibility
+    default:
+      console.warn('Visibility not specified correctly, using home...')
+      return 'home'
+  }
+}
+config.visibility = getProperVisibilityProperty(config)
+
 export default config as Config

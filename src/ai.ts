@@ -43,7 +43,7 @@ export default class Ai {
       this.connection.send(JSON.stringify(timelineData))
       this.connection.send(JSON.stringify(messageData))
       this.connection.send(JSON.stringify(mainData))
-      console.log('WebSocket connected')
+      console.log(`WebSocket connected to ${config.timelineChannel}`)
     })
     this.connection.addEventListener('close', () => {
       if(this.isInterrupted) this.connection.close()
@@ -68,6 +68,10 @@ export default class Ai {
   private init() {
     this.modules.forEach(m => m.install(this))
     this.initConnection()
+    console.log({
+      visibility: config.visibility,
+      timelineChannel: config.timelineChannel
+    })
   }
 
   private onData(msg: any) {

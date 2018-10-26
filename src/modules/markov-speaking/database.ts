@@ -6,5 +6,6 @@ export interface IDatabase {
   markov: any
   load: () => void
   save: () => void
+  updateSave: () => void
   onInterrupted: () => void
 }

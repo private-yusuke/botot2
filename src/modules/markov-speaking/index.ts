@@ -32,7 +32,7 @@ export default class MarkovSpeakingModule implements IModule {
   public install(ai: Ai) {
     this.ai = ai
     this.markov = new MarkovJa()
-    this.database = createDatabase(config.database.type, this.markov)
+    this.database = createDatabase(config.database.type, this.markov, this.ai)
     this.database.load()
     if(config.intervalPost) {
       let duration = moment.duration(config.intervalPostDuration.value, config.intervalPostDuration.unit).asMilliseconds()
@@ -57,6 +57,7 @@ export default class MarkovSpeakingModule implements IModule {
   }
 
   public onNote(note: any) {
+    this.database.updateSave()
     if(note.text) this.markov.learn(note.text.replace(/(@.+)?\s/, ''))
     console.log(`${note.user.name}(@${note.user.username}): ${note.text}`)
   }

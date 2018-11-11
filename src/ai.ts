@@ -36,10 +36,21 @@ export default class Ai {
       WebSocket: WebSocket
     })
     
-    this.connection.addEventListener('open', () => {
+    this.connection.addEventListener('open', async () => {
       const timelineData = generateData('timeline', config.timelineChannel)
       const messageData = generateData('message', 'messagingIndex')
       const mainData = generateData('main', 'main')
+      if(process.env.DEBUG) {
+        console.log(timelineData)
+        console.log(messageData)
+        console.log(mainData)
+      }
+      function sleep(time: number) {
+        return new Promise<void>(resolve => {
+          setTimeout(() => resolve(), time);
+        })
+      }
+      await sleep(3000)
       this.connection.send(JSON.stringify(timelineData))
       this.connection.send(JSON.stringify(messageData))
       this.connection.send(JSON.stringify(mainData))

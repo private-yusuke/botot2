@@ -51,7 +51,7 @@ export default class Ai {
     })
     this.connection.addEventListener('message', message => {
       const msg = JSON.parse(message.data)
-
+      if(process.env.DEBUG) console.log(msg)
       this.onData(msg)
     })
     function generateData(id: string, channel: string) {
@@ -72,6 +72,7 @@ export default class Ai {
       visibility: config.visibility,
       timelineChannel: config.timelineChannel
     })
+    if(process.env.DEBUG) console.log('DEBUG enabled')
   }
 
   private onData(msg: any) {

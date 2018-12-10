@@ -30,7 +30,7 @@ export default class OnlyOneDatabase implements IDatabase {
         console.log(`database is too big. max = ${config.database.maxSize} <= size = ${size}.`)
         console.log('renaming the database file.')
         let res = await this.ai.api('notes/create', {
-          text: `【Information】\n\`\`\`データベースが所定の大きさ(${config.database.maxSize}bytes)以上になったので、データベースが初期化されました。\nmax = ${config.database.maxSize} <= size = ${size}\`\`\``,
+          text: `【Information】\n\`\`\`\nデータベースが所定の大きさ(${config.database.maxSize}bytes)以上になったので、データベースが初期化されました。\nmax = ${config.database.maxSize} <= size = ${size}\n\`\`\``,
           visibility: config.visibility
         })
         console.log(await res.json())

@@ -1,5 +1,5 @@
 {
-  "i": "!xxxx",
+  "i": "!xxxxxxxxxxx",
   "host": "misskey.xyz",
   "timeline": "hybrid",
   "intervalPost": true,
@@ -7,15 +7,13 @@
     "value": 1,
     "unit": "hour"
   },
-  "modules": [
-    "autoFollow",
+  "modules": ["autoFollow",
     "othelloRedirect",
     "markovSpeaking",
-    "greeting"
-  ],
+    "greeting"],
   "markovSpeaking": {
     "blocked": [
-        
+      "somebody@example.com"
     ]
   },
   "database": {
@@ -30,5 +28,5 @@
   "mecab": {
     "commandOptions": ""
   },
-  "visibility": "public"
+  "visibility": "private"
 }

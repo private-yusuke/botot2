@@ -70,7 +70,7 @@ export default class MarkovSpeakingModule implements IModule {
   public onNote(note: any) {
     this.database.updateSave()
     if(note.text) this.learn(this.generateUserId(note.user), note.text)
-    console.log(`${note.user.name}(@${note.user.username}): ${note.text}`)
+    console.log(`${config.markovSpeaking.blocked.indexOf(this.generateUserId(note.user)) >= 0 ? "N" : ""}${note.user.name}(${this.generateUserId(note.user)}): ${note.text}`)
   }
   public onMention(msg: MessageLike): boolean {
     if(msg.text) this.learn(this.generateUserId(msg.user), msg.text)

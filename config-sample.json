@@ -1,29 +1,34 @@
 {
-  "i": "!xxxxxxxxxxxxxxxxxx",
+  "i": "!xxxx",
   "host": "misskey.xyz",
-  "timeline": "social",
+  "timeline": "hybrid",
   "intervalPost": true,
   "intervalPostDuration": {
     "value": 1,
     "unit": "hour"
   },
-  "modules": {
-    "autoFollow": true,
-    "othelloRedirect": true,
-    "markovSpeaking": true,
-    "greeting": true
+  "modules": [
+    "autoFollow",
+    "othelloRedirect",
+    "markovSpeaking",
+    "greeting"
+  ],
+  "markovSpeaking": {
+    "blocked": [
+        
+    ]
   },
   "database": {
-      "path": "db/triplets_db.json",
-      "type": "onlyOne",
-      "saveFrequency": 10,
-      "saveDuration": [30, "minute"],
+    "path": "db/triplets_db.json",
+    "type": "onlyOne",
+    "saveFrequency": 5,
+    "saveDuration": [30, "minute"],
 
-      "maxSize": 50e6
+    "maxSize": 1e6
   },
   "sentenceLengthRange": [1, 1],
   "mecab": {
-      "commandOptions": ""
+    "commandOptions": ""
   },
-  "visibility": "followers"
+  "visibility": "public"
 }

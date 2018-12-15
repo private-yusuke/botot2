@@ -112,7 +112,9 @@ export default class Ai {
     const body = msg.body
     if(body.userId == this.account.id) return
     const reply = body.reply || { userId: 'none' }
-    if((body.text || '').indexOf(`@${this.account.username}`) >= 0 || reply.userId == this.account.id) {
+    let text = (body.text || '')
+    let reg = text.match(/^@(.+)?\s/)
+    if(text == `@${this.account.username}` || (reg != null && reg[1] == this.account.username && text.startsWith(`@${this.account.username}`)) || reply.userId == this.account.id) {
       this.onMention(new MessageLike(this, body, false))
     }
     if(body.user.isBot) return

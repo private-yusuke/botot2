@@ -22,11 +22,15 @@ type Config = {
   timelineChannel: Misskey.Channel
   intervalPost: boolean
   intervalPostDuration: Duration
-  modules: {
-    markovSpeaking?: boolean
-    autoFollow?: boolean
-    othelloRedirect?: boolean
-    greeting?: boolean
+  modules: [string]
+  markovSpeaking: {
+    /* 
+     * If you want the bot not to learn the message
+     * from a specified account, you can add an account
+     * into this list to block learning things from them.
+     * It only prevents from learning. Still send a reply to them.
+    */
+    blocked: [string]
   }
   database: {
     path: string

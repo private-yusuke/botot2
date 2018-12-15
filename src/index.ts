@@ -20,7 +20,7 @@ async function main() {
   const modules: IModule[] = []
   Modulez.forEach(M => {
     const m = new M()
-    if(config.modules[m.name]) modules.push(m)
+    if(config.modules.indexOf(m.name) >= 0) modules.push(m)
   })
   modules.sort((a, b) => {
     return b.priority - a.priority

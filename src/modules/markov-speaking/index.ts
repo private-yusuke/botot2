@@ -56,13 +56,24 @@ export default class MarkovSpeakingModule implements IModule {
     }
   }
 
+  public learn(sender: string, message: string) {
+    if(config.markovSpeaking.blocked.indexOf(sender) < 0) {
+      this.markov.learn(message.replace(/(@.+)?\s/, ''))
+    }
+  }
+  public generateUserId(user: any) {
+    let res: string = user.username
+    if(user.hostLower) res += `@${user.hostLower}`
+    else res += `@${config.host}`
+    return res
+  }
   public onNote(note: any) {
     this.database.updateSave()
-    if(note.text) this.markov.learn(note.text.replace(/(@.+)?\s/, ''))
+    if(note.text) this.learn(this.generateUserId(note.user), note.text)
     console.log(`${note.user.name}(@${note.user.username}): ${note.text}`)
   }
   public onMention(msg: MessageLike): boolean {
-    if(msg.text) this.markov.learn(msg.text.replace(/(@.+)?\s/, ''))
+    if(msg.text) this.learn(this.generateUserId(msg.user), msg.text)
     
     let speech: string
     try {

@@ -46,6 +46,11 @@ export default class OnlyOneDatabase implements IDatabase {
       this.unsavedPostCount = 0
     }
   }
+  reset() {
+    fs.writeFileSync(config.database.path, this.markov.exportDatabase(), 'utf-8')
+    fs.renameSync(config.database.path, `${config.database.path}-${moment().unix()}.json`)
+    this.markov.loadDatabase('{}')
+  }
   onInterrupted() {
     this.save()
   }

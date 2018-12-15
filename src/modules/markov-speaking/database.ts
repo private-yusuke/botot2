@@ -7,5 +7,6 @@ export interface IDatabase {
   load: () => void
   save: () => void
   updateSave: () => void
+  reset: () => void
   onInterrupted: () => void
 }

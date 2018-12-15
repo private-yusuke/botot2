@@ -18,6 +18,9 @@
       "somebody@example.com"
     ]
   },
+  "op": [
+    "somebody@example.com"
+  ],
   "database": {
     "path": "db/triplets_db.json",
     "type": "onlyOne",

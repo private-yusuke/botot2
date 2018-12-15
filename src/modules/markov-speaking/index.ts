@@ -72,7 +72,39 @@ export default class MarkovSpeakingModule implements IModule {
     if(note.text) this.learn(this.generateUserId(note.user), note.text)
     console.log(`${config.markovSpeaking.blocked.indexOf(this.generateUserId(note.user)) >= 0 ? "N" : ""}${note.user.name}(${this.generateUserId(note.user)}): ${note.text}`)
   }
+  public onCommand(cmd: string, msg: MessageLike) {
+    let seq = cmd.split(" ")
+    console.log(seq)
+    switch(seq[0]) {
+      case 'markov':
+        switch(seq[1]) {
+          case 'reset':
+            if(config.op.indexOf(this.generateUserId(msg.user)) >= 0) {
+              this.database.reset()
+              msg.reply('👍')
+            } else {
+              msg.reply('👎(You don\'t have permission)')
+            }
+            break
+          default: break
+        }
+        break
+      case 'ping':
+        msg.reply('PONG')
+        break
+      default:
+        msg.reply('comand not found')
+        break
+    }
+  }
   public onMention(msg: MessageLike): boolean {
+    let regex = new RegExp(`@${this.ai.account.username}\\s\\/(.+)?`)
+    let r = msg.text.match(regex)
+    console.log(r)
+    if(r != null && r[1] != null) {
+      this.onCommand(r[1], msg)
+      return true
+    }
     if(msg.text) this.learn(this.generateUserId(msg.user), msg.text)
     
     let speech: string

@@ -32,6 +32,7 @@ type Config = {
     */
     blocked: [string]
   }
+  op: [string],
   database: {
     path: string
     type: Database

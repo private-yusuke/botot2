@@ -35,6 +35,9 @@ export default class FlexibleDataBase implements IDatabase {
   updateSave() {
     
   }
+  reset() {
+    
+  }
 
   onInterrupted() {
     clearInterval(this.intervalObj)

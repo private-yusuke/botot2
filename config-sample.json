@@ -7,10 +7,12 @@
     "value": 1,
     "unit": "hour"
   },
-  "modules": ["autoFollow",
+  "modules": [
+    "autoFollow",
     "othelloRedirect",
     "markovSpeaking",
-    "greeting"],
+    "greeting"
+  ],
   "markovSpeaking": {
     "blocked": [
       "somebody@example.com"

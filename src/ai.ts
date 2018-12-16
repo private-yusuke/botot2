@@ -116,7 +116,6 @@ export default class Ai {
     let reg = text.match(/^@(.+?)\s/)
     if(text == `@${this.account.username}` || (reg != null && reg[1] == this.account.username && text.startsWith(`@${this.account.username}`)) || reply.userId == this.account.id) {
       this.onMention(new MessageLike(this, body, false))
-      console.log('mentioned')
     }
     if(body.user.isBot) return
     this.modules.filter(m => typeof m.onNote == 'function').forEach(m => {
@@ -139,12 +138,12 @@ export default class Ai {
         reaction: reaction
       })
     }
-    if(msg.user.isBot) return
+    if(msg.user.isBot || msg.user.id == this.account.id) return
     await delay(1000)
-    
-    // If the mention starts with "@username /some arg1 arg2 ..."
-    let regex = new RegExp(`@${this.account.username}\\s\\/(.+)?`)
+    // If the mention /some arg1 arg2 ..."
+    let regex = /(?:@reijubot\s)?\/(.+)?/
     let r = msg.text.match(regex)
+    console.log(r)
     if(r != null && r[1] != null) {
       let res: ReturnType<IModule['onCommand']>
       let done = this.modules.filter(m => typeof m.onCommand == 'function').some(m => {

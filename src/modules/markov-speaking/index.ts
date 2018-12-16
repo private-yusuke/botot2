@@ -56,16 +56,18 @@ export default class MarkovSpeakingModule implements IModule {
     }
   }
 
-  public learn(sender: string, message: string) {
-    if(config.markovSpeaking.blocked.indexOf(sender) < 0) {
-      this.markov.learn(message.replace(/(@.+)?\s/, ''))
+  public learn(sender: User, message: string) {
+    if(!this.isBlocked(sender)) {
+      this.markov.learn(message.replace(/@[a-z0-9_]+(?:@[a-z0-9\.\-]+[a-z0-9])?/, ''))
     }
   }
-
+  public isBlocked(user: User): boolean {
+    return config.markovSpeaking.blocked.indexOf(generateUserId(user)) >= 0
+  } 
   public onNote(note: any) {
     this.database.updateSave()
-    if(note.text) this.learn(generateUserId(note.user), note.text)
-    console.log(`${config.markovSpeaking.blocked.indexOf(generateUserId(note.user)) >= 0 ? "N" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
+    if(note.text) this.learn(note.user, note.text)
+    console.log(`${this.isBlocked(note.user) ? "><" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
   }
   public onCommand(msg: MessageLike, cmd: string[]): boolean {
     if(cmd[0] == 'markov') {
@@ -86,8 +88,8 @@ export default class MarkovSpeakingModule implements IModule {
     } else return false
   }
   public onMention(msg: MessageLike): boolean {
-    if(msg.text) this.learn(generateUserId(msg.user), msg.text)
-    
+    if(msg.text) this.learn(msg.user, msg.text)
+    if(msg.isMessage) console.log(`${this.isBlocked(msg.user) ? '><' : ''}*${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`)
     let speech: string
     try {
       speech = this.markov.generate(this.sentenceLength).join('\n')

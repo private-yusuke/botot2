@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import config from './config'
 import IModule from './module'
 import * as WebSocket from 'ws'
-import { User, Reaction } from './misskey'
+import { User, Reaction, generateUserId } from './misskey'
 const ReconnectingWebSocket = require('reconnecting-websocket')
 import MessageLike from './message-like';
 const delay = require('timeout-as-promise')
@@ -143,8 +143,8 @@ export default class Ai {
     // If the mention /some arg1 arg2 ..."
     let regex = new RegExp(`(?:@${this.account.username}\\s)?\\/(.+)?`, 'i')
     let r = msg.text.match(regex)
-    console.log(r)
     if(r != null && r[1] != null) {
+      console.log(`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`)
       let res: ReturnType<IModule['onCommand']>
       let done = this.modules.filter(m => typeof m.onCommand == 'function').some(m => {
         res = m.onCommand(msg, r[1].split(" "))

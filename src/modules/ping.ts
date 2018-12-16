@@ -19,3 +19,4 @@ export default class PingModule implements IModule {
     }
     return false
   }
+}

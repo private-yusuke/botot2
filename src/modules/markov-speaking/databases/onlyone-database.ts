@@ -52,7 +52,7 @@ export default class OnlyOneDatabase implements IDatabase {
     this.markov.loadDatabase('{}')
   }
   size() {
-    return this.markov.exportDatabase().length
+    return fs.statSync(config.database.path).size
   }
   onInterrupted() {
     this.save()

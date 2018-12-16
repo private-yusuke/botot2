@@ -141,7 +141,7 @@ export default class Ai {
     if(msg.user.isBot || msg.user.id == this.account.id) return
     await delay(1000)
     // If the mention /some arg1 arg2 ..."
-    let regex = /(?:@reijubot\s)?\/(.+)?/
+    let regex = new RegExp(`(?:@${this.account.username}\\s)?\\/(.+)?`, 'i')
     let r = msg.text.match(regex)
     console.log(r)
     if(r != null && r[1] != null) {

@@ -1,7 +1,7 @@
 import IModule from '../../module'
 import MessageLike from '../../message-like'
 import Ai from '../../ai';
-import { User } from '../../misskey'
+import { User, generateUserId } from '../../misskey'
 import { IDatabase } from './database';
 import createDatabase from './databases';
 import config from '../../config';
@@ -61,51 +61,32 @@ export default class MarkovSpeakingModule implements IModule {
       this.markov.learn(message.replace(/(@.+)?\s/, ''))
     }
   }
-  public generateUserId(user: any) {
-    let res: string = user.username
-    if(user.hostLower) res += `@${user.hostLower}`
-    else res += `@${config.host}`
-    return res
-  }
+
   public onNote(note: any) {
     this.database.updateSave()
-    if(note.text) this.learn(this.generateUserId(note.user), note.text)
-    console.log(`${config.markovSpeaking.blocked.indexOf(this.generateUserId(note.user)) >= 0 ? "N" : ""}${note.user.name}(${this.generateUserId(note.user)}): ${note.text}`)
+    if(note.text) this.learn(generateUserId(note.user), note.text)
+    console.log(`${config.markovSpeaking.blocked.indexOf(generateUserId(note.user)) >= 0 ? "N" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
   }
-  public onCommand(cmd: string, msg: MessageLike) {
-    let seq = cmd.split(" ")
-    console.log(seq)
-    switch(seq[0]) {
-      case 'markov':
-        switch(seq[1]) {
-          case 'reset':
-            if(config.op.indexOf(this.generateUserId(msg.user)) >= 0) {
-              this.database.reset()
-              msg.reply('👍')
-            } else {
-              msg.reply('👎(You don\'t have permission)')
-            }
-            break
-          default: break
-        }
-        break
-      case 'ping':
-        msg.reply('PONG')
-        break
-      default:
-        msg.reply('comand not found')
-        break
-    }
+  public onCommand(msg: MessageLike, cmd: string[]): boolean {
+    if(cmd[0] == 'markov') {
+      switch(cmd[1]) {
+        case 'reset':
+          if(config.op.indexOf(generateUserId(msg.user)) >= 0) {
+            this.database.reset()
+            msg.reply('👍')
+          } else {
+            msg.reply('👎(You don\'t have permission)')
+          }
+          break
+        default:
+          msg.reply('markov: /markov <reset>\nOnly op-ed users can exec this command.')
+          break
+      }
+      return true
+    } else return false
   }
   public onMention(msg: MessageLike): boolean {
-    let regex = new RegExp(`@${this.ai.account.username}\\s\\/(.+)?`)
-    let r = msg.text.match(regex)
-    console.log(r)
-    if(r != null && r[1] != null) {
-      this.onCommand(r[1], msg)
-      return true
-    }
-    if(msg.text) this.learn(this.generateUserId(msg.user), msg.text)
+    if(msg.text) this.learn(generateUserId(msg.user), msg.text)
     
     let speech: string
     try {
@@ -122,6 +103,10 @@ export default class MarkovSpeakingModule implements IModule {
       return false
     }
     return true
+  }
+  public info(): string {
+    let res: string = `Database: ${config.database.type}, ${this.database.size()} / ${config.database.maxSize} (${(this.database.size() / config.database.maxSize) * 100}%)`
+    return res
   }
 
   public onInterrupted() {

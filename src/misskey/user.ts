@@ -4,5 +4,7 @@ type User = {
   username: string
   isBot: boolean
   isCat: boolean
+  host?: string
+  hostLower?: string
 }
 export default User

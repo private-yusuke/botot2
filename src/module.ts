@@ -8,7 +8,8 @@ export default interface IModule {
   install?: (ai: Ai) => void
   onMention?: (msg: MessageLike) => boolean
   onNote?: (note: any) => void
-  onReplyThisModule?: (msg: MessageLike, data?: any) => void
   onFollowed?: (user: User) => void
   onInterrupted?: () => void
+  onCommand?: (msg: MessageLike, cmd: string[]) => boolean
+  info?: () => string
 }

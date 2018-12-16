@@ -12,8 +12,7 @@ export default class OthelloRedirectModule implements IModule {
   }
 
   public onMention(msg: MessageLike): boolean {
-    if(!msg.text) return false
-    if(msg.text.match(/(オセロ|リバーシ)/)) {
+    if(msg.text.match(/(オセロ|リバーシ|othello|reversi|Othello|Reversi)/)) {
       msg.reply('cc: @ai')
       return true
     } else return false

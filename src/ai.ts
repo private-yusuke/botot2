@@ -10,7 +10,7 @@ const delay = require('timeout-as-promise')
 export default class Ai {
   public account: User
   private connection: any
-  private modules: IModule[] = []
+  modules: IModule[] = []
   private isInterrupted: boolean = false
 
   constructor(account: User, modules: IModule[]) {
@@ -142,12 +142,23 @@ export default class Ai {
     if(msg.user.isBot) return
     await delay(1000)
     
-    let res: ReturnType<IModule['onMention']>
-    this.modules.filter(m => typeof m.onMention == 'function').some(m => {
-      res = m.onMention(msg)
-      return res === true || typeof res === 'object'
-    })
-    
+    // If the mention starts with "@username /some arg1 arg2 ..."
+    let regex = new RegExp(`@${this.account.username}\\s\\/(.+)?`)
+    let r = msg.text.match(regex)
+    if(r != null && r[1] != null) {
+      let res: ReturnType<IModule['onCommand']>
+      let done = this.modules.filter(m => typeof m.onCommand == 'function').some(m => {
+        res = m.onCommand(msg, r[1].split(" "))
+        return res === true || typeof res === 'object'
+      })
+      if(!done) msg.reply('command not found')
+    } else {
+      let res: ReturnType<IModule['onMention']>
+      this.modules.filter(m => typeof m.onMention == 'function').some(m => {
+        res = m.onMention(msg)
+        return res === true || typeof res === 'object'
+      })
+    }
   }
 
   private onMessage(msg: any) {

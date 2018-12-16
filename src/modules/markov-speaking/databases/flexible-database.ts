@@ -38,6 +38,9 @@ export default class FlexibleDataBase implements IDatabase {
   reset() {
     
   }
+  size() {
+    return this.markov.exportDatabase().length
+  }
 
   onInterrupted() {
     clearInterval(this.intervalObj)

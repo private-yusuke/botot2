@@ -51,6 +51,9 @@ export default class OnlyOneDatabase implements IDatabase {
     fs.renameSync(config.database.path, `${config.database.path}-${moment().unix()}.json`)
     this.markov.loadDatabase('{}')
   }
+  size() {
+    return this.markov.exportDatabase().length
+  }
   onInterrupted() {
     this.save()
   }

@@ -11,7 +11,9 @@
     "autoFollow",
     "othelloRedirect",
     "markovSpeaking",
-    "greeting"
+    "greeting",
+    "ping",
+    "admin"
   ],
   "markovSpeaking": {
     "blocked": [

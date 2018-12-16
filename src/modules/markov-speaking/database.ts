@@ -9,4 +9,5 @@ export interface IDatabase {
   updateSave: () => void
   reset: () => void
   onInterrupted: () => void
+  size: () => number
 }

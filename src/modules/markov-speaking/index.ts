@@ -1,7 +1,7 @@
 import IModule from '../../module'
 import MessageLike from '../../message-like'
 import Ai from '../../ai';
-import { User, generateUserId } from '../../misskey'
+import { User, generateUserId, isOp, isBlocked } from '../../misskey'
 import { IDatabase } from './database';
 import createDatabase from './databases';
 import config from '../../config';
@@ -57,23 +57,21 @@ export default class MarkovSpeakingModule implements IModule {
   }
 
   public learn(sender: User, message: string) {
-    if(!this.isBlocked(sender)) {
+    if(!isBlocked(sender)) {
       this.markov.learn(message.replace(/@[a-z0-9_]+(?:@[a-z0-9\.\-]+[a-z0-9])?/, ''))
     }
   }
-  public isBlocked(user: User): boolean {
-    return config.markovSpeaking.blocked.indexOf(generateUserId(user)) >= 0
-  } 
+
   public onNote(note: any) {
     this.database.updateSave()
     if(note.text) this.learn(note.user, note.text)
-    console.log(`${this.isBlocked(note.user) ? "><" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
+    console.log(`${isBlocked(note.user) ? "><" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
   }
   public onCommand(msg: MessageLike, cmd: string[]): boolean {
     if(cmd[0] == 'markov') {
       switch(cmd[1]) {
         case 'reset':
-          if(config.op.indexOf(generateUserId(msg.user)) >= 0) {
+          if(isOp(msg.user)) {
             this.database.reset()
             msg.reply('👍')
           } else {
@@ -89,7 +87,7 @@ export default class MarkovSpeakingModule implements IModule {
   }
   public onMention(msg: MessageLike): boolean {
     if(msg.text) this.learn(msg.user, msg.text)
-    if(msg.isMessage) console.log(`${this.isBlocked(msg.user) ? '><' : ''}*${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`)
+    if(msg.isMessage) console.log(`${isBlocked(msg.user) ? '><' : ''}*${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`)
     let speech: string
     try {
       speech = this.markov.generate(this.sentenceLength).join('\n')

@@ -10,6 +10,6 @@ export default interface IModule {
   onNote?: (note: any) => void
   onFollowed?: (user: User) => void
   onInterrupted?: () => void
-  onCommand?: (msg: MessageLike, cmd: string[]) => boolean
+  onCommand?: (msg: MessageLike, cmd: string[]) => Promise<boolean>
   info?: () => string
 }

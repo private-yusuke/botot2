@@ -145,11 +145,13 @@ export default class Ai {
     let r = msg.text.match(regex)
     if(r != null && r[1] != null) {
       console.log(`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`)
-      let res: ReturnType<IModule['onCommand']>
-      let done = this.modules.filter(m => typeof m.onCommand == 'function').some(m => {
-        res = m.onCommand(msg, r[1].split(" "))
-        return res === true || typeof res === 'object'
-      })
+      let funcs = this.modules.filter(m => typeof m.onCommand == 'function')
+      let done: boolean
+      for(let i = 0; i < funcs.length; i++) {
+        if(done) break
+        let res = await funcs[i].onCommand(msg, r[1].split(' '))
+        if(res === true || typeof res === 'object') done = true
+      }
       if(!done) msg.reply('command not found')
     } else {
       let res: ReturnType<IModule['onMention']>

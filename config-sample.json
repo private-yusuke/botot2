@@ -13,7 +13,8 @@
     "markovSpeaking",
     "greeting",
     "ping",
-    "admin"
+    "admin",
+    "emojiList"
   ],
   "markovSpeaking": {
     "blocked": [

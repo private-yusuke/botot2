@@ -4,6 +4,7 @@ import OthelloRedirectModule from './othello-redirect'
 import GreetingModule from './greeting'
 import PingModule from './ping';
 import AdminModule from './admin';
+import EmojiListModule from './emoji-list';
 
 export default [
   AutoFollowModule,
@@ -11,5 +12,6 @@ export default [
   OthelloRedirectModule,
   GreetingModule,
   PingModule,
-  AdminModule
+  AdminModule,
+  EmojiListModule
 ]

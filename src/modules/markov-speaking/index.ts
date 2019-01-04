@@ -67,7 +67,7 @@ export default class MarkovSpeakingModule implements IModule {
     if(note.text) this.learn(note.user, note.text)
     console.log(`${isBlocked(note.user) ? "><" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
   }
-  public onCommand(msg: MessageLike, cmd: string[]): boolean {
+  public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if(cmd[0] == 'markov') {
       switch(cmd[1]) {
         case 'reset':

@@ -14,7 +14,7 @@ export default class AdminModule implements IModule {
   public getUptime(): string {
     return Math.floor(process.uptime()) + 's'
   }
-  public onCommand(msg: MessageLike, cmd: string[]): boolean {
+  public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if(cmd[0] == 'info') {
       let res =
 `\`\`\`

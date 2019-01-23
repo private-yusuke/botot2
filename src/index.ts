@@ -16,7 +16,7 @@ async function main() {
   })
   let me = await tmp.json()
   console.log(`I am ${me.name}(@${me.username})!`)
-
+  me.host = config.host
   const modules: IModule[] = []
   Modulez.forEach(M => {
     const m = new M()

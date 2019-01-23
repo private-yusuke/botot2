@@ -114,7 +114,8 @@ export default class Ai {
     const reply = body.reply || { userId: 'none' }
     let text = (body.text || '')
     let reg = text.match(/^@(.+?)\s/)
-    if(text == `@${this.account.username}` || (reg != null && reg[1] == this.account.username && text.startsWith(`@${this.account.username}`)) || reply.userId == this.account.id) {
+    if(text == `@${this.account.username}` || (reg != null && reg[1] == this.account.username && text.startsWith(`@${this.account.username}`)) ||
+    text == `@${this.account.username}@${this.account.host}` || (reg != null && reg[1] == `${this.account.username}@${this.account.host}` && text.startsWith(`@${this.account.username}@${this.account.host}`)) || reply.userId == this.account.id) {
       this.onMention(new MessageLike(this, body, false))
     }
     if(body.user.isBot) return

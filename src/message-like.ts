@@ -41,7 +41,7 @@ export default class MessageLike {
         replyId: this.messageOrNote.id,
         text: text,
         cw: cw,
-        visibility: config.visibility
+        visibility: this.messageOrNote.visibility
       })
       return a
     }

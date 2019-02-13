@@ -17,7 +17,7 @@ export default class DiceModule implements IModule {
         msg.reply('Usage: /dice <amount> <max>')
       } else {
         let amount = Number(cmd[1]), m = Number(cmd[2])
-        if(amount == NaN || amount <= 0 || m == NaN || m <= 0) {
+        if(isNaN(amount) || amount <= 0 || isNaN(m) || m <= 0) {
           msg.reply('Argument is invalid')
           return true
         }

@@ -14,7 +14,8 @@
     "greeting",
     "ping",
     "admin",
-    "emojiList"
+    "emojiList",
+    "dice"
   ],
   "markovSpeaking": {
     "blocked": [

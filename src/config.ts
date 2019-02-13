@@ -46,6 +46,7 @@ type Config = {
     commandOptions?: string
   }
   visibility: Misskey.Visibility
+  cwStart: number
 }
 
 const config = require('../config.json')

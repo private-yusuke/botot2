@@ -29,6 +29,7 @@ export default class MessageLike {
 
   public async reply(text: string, cw?: string) {
     if(text == null) return null
+    if(cw == null && text.length > config.cwStart) cw = 'Too long result'
 
     await delay(1000)
     if(this.isMessage) {

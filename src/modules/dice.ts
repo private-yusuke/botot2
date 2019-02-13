@@ -17,15 +17,17 @@ export default class DiceModule implements IModule {
         msg.reply('Usage: /dice <amount> <max>')
       } else {
         let amount = Number(cmd[1]), m = Number(cmd[2])
-        if(isNaN(amount) || amount <= 0 || isNaN(m) || m <= 0) {
-          msg.reply('Argument is invalid')
+        if(isNaN(amount) || amount <= 0 || isNaN(m) || m <= 0 || amount > 500) {
+          msg.reply('Argument is invalid. (amount > 0, max > 0, amount <= 500)')
           return true
         }
         let res = []
         for(let i = 0; i < amount; i++) {
           res.push(Math.ceil(Math.random() * m))
         }
-        msg.reply(`Result:\n${res.join(' ')}`)
+        let text = `Result:\n${res.join(' ')}`
+        if(text.length > 1000) text = `Too long result`
+        msg.reply(text)
       }
       return true
     }

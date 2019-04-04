@@ -12,6 +12,10 @@ const MarkovJa = require('markov-ja')
 export default class MarkovSpeakingModule implements IModule {
   public readonly priority = 1
   public readonly name = 'markovSpeaking'
+  public readonly commands = [{
+    name: 'markov reset',
+    desc: 'Explode the DB of NLP related data'
+  }]
   private ai: Ai
   private markov: any
   private database: IDatabase

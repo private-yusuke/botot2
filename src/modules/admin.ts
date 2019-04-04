@@ -6,6 +6,13 @@ import * as os from 'os'
 export default class AdminModule implements IModule {
   public readonly priority = 10
   public readonly name = 'admin'
+  public readonly commands = [{
+    name: 'info',
+    desc: 'Display the status of the bot'
+  }, {
+    name: 'help',
+    desc: 'Display all the comamnds with descriptions'
+  }]
   private ai: Ai
 
   public install(ai: Ai) {
@@ -24,6 +31,19 @@ ${process.title} ${process.version} ${process.arch} ${process.platform}
 `
       res += this.ai.modules.filter(i => typeof i.info == 'function').map(i => i.info()).join('\n')
       res += '\n```'
+      msg.reply(res)
+      return true
+    } else if(cmd[0] == 'help') {
+      let res = '```\n'
+      this.ai.modules.forEach(v => {
+        if(v.commands) {
+          v.commands.forEach(c => {
+            if(c.desc) res += `/${c.name}: ${c.desc}\n`
+            else res += `/${c.name}\n`
+          })
+        }
+      });
+      res += '```'
       msg.reply(res)
       return true
     }

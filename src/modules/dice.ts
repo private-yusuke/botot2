@@ -5,6 +5,10 @@ import Ai from '../ai';
 export default class DiceModule implements IModule {
   public readonly priority = 0
   public readonly name = 'dice'
+  public readonly commands = [{
+    name: 'dice',
+    desc: '3d6 -> /dice 3 6'
+  }]
   private ai: Ai
 
   public install(ai: Ai) {

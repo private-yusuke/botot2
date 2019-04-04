@@ -6,6 +6,9 @@ import { User } from '../misskey'
 export default class PingModule implements IModule {
   public readonly priority = 0
   public readonly name = 'ping'
+  public readonly commands = [{
+    name: 'ping'
+  }]
   private ai: Ai
 
   public install(ai: Ai) {

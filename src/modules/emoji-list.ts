@@ -6,6 +6,10 @@ import { User } from '../misskey'
 export default class EmojiListModule implements IModule {
   public readonly priority = 0
   public readonly name = 'emojiList'
+  public readonly commands = [{
+    name: 'emoji',
+    desc: 'Display all the emojis registered in the instance.'
+  }]
   private ai: Ai
 
   public install(ai: Ai) {

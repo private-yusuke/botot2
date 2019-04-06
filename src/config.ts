@@ -18,6 +18,7 @@ type Config = {
   wsURL?: string
   apiURL?: string
   streamURL?: string
+  connectionTimeout?: number
   timeline: Misskey.Timeline
   timelineChannel: Misskey.Channel
   intervalPost: boolean

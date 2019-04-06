@@ -2,6 +2,7 @@
   "i": "!xxxxxxxxxxx",
   "host": "misskey.xyz",
   "timeline": "hybrid",
+  "connectionTimeout": 5000,
   "intervalPost": true,
   "intervalPostDuration": {
     "value": 1,

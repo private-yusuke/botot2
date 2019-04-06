@@ -36,7 +36,12 @@ export default class Ai {
       WebSocket: WebSocket
     })
     
+    this.connection.addEventListener('error', e => {
+      console.error('WebSocket Error')
+      console.error(e)
+    })
     this.connection.addEventListener('open', async () => {
+      console.log('WebSocket opened')
       const timelineData = generateData('timeline', config.timelineChannel)
       const messageData = generateData('message', 'messagingIndex')
       const mainData = generateData('main', 'main')

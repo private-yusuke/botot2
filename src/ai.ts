@@ -33,7 +33,8 @@ export default class Ai {
 
   private initConnection() {
     this.connection = new ReconnectingWebSocket(config.streamURL, [], {
-      WebSocket: WebSocket
+      WebSocket: WebSocket,
+      connectionTimeout: config.connectionTimeout | 5000
     })
     
     this.connection.addEventListener('error', e => {

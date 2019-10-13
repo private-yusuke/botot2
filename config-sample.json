@@ -16,13 +16,17 @@
     "ping",
     "admin",
     "emojiList",
-    "dice"
+    "dice",
+    "math"
   ],
   "markovSpeaking": {
     "blocked": [
       "somebody@example.com"
     ]
   },
+  "math": {
+    "size": 20
+  }
   "op": [
     "somebody@example.com"
   ],

@@ -6,6 +6,7 @@ import PingModule from './ping';
 import AdminModule from './admin';
 import EmojiListModule from './emoji-list';
 import DiceModule from './dice';
+import MathModule from './math';
 
 export default [
   AutoFollowModule,
@@ -15,5 +16,6 @@ export default [
   PingModule,
   AdminModule,
   EmojiListModule,
-  DiceModule
+  DiceModule,
+  MathModule
 ]

@@ -25,9 +25,6 @@ async function main() {
   modules.sort((a, b) => {
     return b.priority - a.priority
   })
-  console.log('module is sorted as:')
-  modules.forEach(m => console.log(`${m.priority}: ${m.name}`))
-  
 
   ai = new Ai(me, modules)
 }

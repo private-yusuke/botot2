@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import * as request from 'request-promise-native'
 import config from './config'
 import IModule from './module'
 import * as WebSocket from 'ws'
@@ -20,6 +21,29 @@ export default class Ai {
     this.init()
   }
 
+  private init() {
+    let loadedModules = []
+    for(let m of this.modules) {
+      try {
+        m.install(this)
+        loadedModules.push(m)
+      } catch(e) {
+        console.error(`An error has occured while loading module "${m.name}"`)
+        console.error(e)
+      }
+    }
+    this.modules = loadedModules
+    console.info('loaded modules:')
+    this.modules.forEach(m => console.log(`${m.priority}: ${m.name}`))
+
+    this.initConnection()
+    console.log({
+      visibility: config.visibility,
+      timelineChannel: config.timelineChannel
+    })
+    if(process.env.DEBUG) console.log('DEBUG enabled')
+  }
+
   public api(endpoint: string, body?: any) {
     const url = `${config.apiURL}/${endpoint}`
     const data = JSON.stringify(Object.assign({
@@ -29,6 +53,23 @@ export default class Ai {
       method: 'POST',
       body: data
     })
+  }
+
+  public async upload(file: Buffer, meta?: any) {
+    const url = `${config.apiURL}/drive/files/create`
+
+    const res = await request.post({
+      url: url,
+      formData: {
+        i: config.i,
+        file: {
+          value: file,
+          options: meta
+        }
+      },
+      json: true
+    })
+    return res
   }
 
   private initConnection() {
@@ -80,16 +121,6 @@ export default class Ai {
         }
       }
     }
-  }
-
-  private init() {
-    this.modules.forEach(m => m.install(this))
-    this.initConnection()
-    console.log({
-      visibility: config.visibility,
-      timelineChannel: config.timelineChannel
-    })
-    if(process.env.DEBUG) console.log('DEBUG enabled')
   }
 
   private onData(msg: any) {
@@ -145,7 +176,7 @@ export default class Ai {
         reaction: reaction
       })
     }
-    if(msg.user.isBot || msg.user.id == this.account.id) return
+    if(msg.user.isBot || msg.user.id == this.account.id || !msg.text) return
     await delay(1000)
     // If the mention /some arg1 arg2 ..."
     let regex = new RegExp(`(?:@${this.account.username}\\s)?\\/(.+)?`, 'i')

@@ -33,6 +33,9 @@ type Config = {
     */
     blocked: [string]
   }
+  math: {
+    size: number
+  }
   op: [string],
   database: {
     path: string

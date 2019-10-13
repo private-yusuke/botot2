@@ -27,16 +27,18 @@ export default class MessageLike {
     this.isMessage = isMessage
   }
 
-  public async reply(text: string, cw?: string) {
+  public async reply(text: string, cw?: string, meta?: any) {
     if(text == null) return null
     if(cw == null && text.length > config.cwStart) cw = 'Too long result'
 
     await delay(1000)
     if(this.isMessage) {
-      return await this.ai.api('messaging/messages/create', {
+      let obj = {
         userId: this.user.id,
-        text: text
-      })
+        text: text,
+        ...meta
+      }
+      return await this.ai.api('messaging/messages/create', obj)
     } else {
       let a = await this.ai.api('notes/create', {
         replyId: this.messageOrNote.id,

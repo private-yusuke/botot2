@@ -70,10 +70,11 @@ export default class MathModule implements IModule {
             return true
           }
           
-          if(msg.isMessage) msg.reply('Rendered!', null, {
-            fileId: file.id
-          })
-          else msg.reply('Rendered!', null, {
+          if(msg.isMessage) {
+            msg.reply('Rendered!', null, {
+              fileId: file.id
+            })
+          } else msg.reply('Rendered! Here it is', null, {
             fileIds: [file.id]
           })
           break

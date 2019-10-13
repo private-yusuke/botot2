@@ -44,7 +44,8 @@ export default class MessageLike {
         replyId: this.messageOrNote.id,
         text: text,
         cw: cw,
-        visibility: this.messageOrNote.visibility
+        visibility: this.messageOrNote.visibility,
+        ...meta
       })
       return a
     }

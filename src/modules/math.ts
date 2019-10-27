@@ -14,6 +14,9 @@ export default class MathModule implements IModule {
     name: 'math atol',
     desc: 'Convert AsciiMath code to LaTeX'
   }, {
+    name: 'math atol-src',
+    desc: 'Convert AsciiMath code to LaTeX code'
+  }, {
     name: 'math render',
     desc: 'Render LaTeX or AsciiMath to .png file'
   }]
@@ -60,6 +63,10 @@ export default class MathModule implements IModule {
         case 'atol':
           if(!cmd.slice(2).join(' ')) msg.reply('math: /math atol <AsciiMath_code>')
           msg.reply('\\(' + asciimathToLaTeX(cmd.slice(2).join(' ')) + '\\)')
+          break
+        case 'atol-src':
+          if(!cmd.slice(2).join(' ')) msg.reply('math: /math atol-src <AsciiMath_code>')
+          msg.reply('```\n' + asciimathToLaTeX(cmd.slice(2).join(' ')) + '\n```')
           break
         case 'render':
           let file

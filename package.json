@@ -10,27 +10,29 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/node-fetch": "^2.1.4",
-    "@types/ws": "^6.0.1",
+    "@types/node-fetch": "^2.5.4",
+    "@types/ws": "^6.0.4",
+    "@types/xml2js": "^0.4.5",
     "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   },
   "dependencies": {
-    "@types/node": "^10.12.15",
+    "@types/node": "^10.17.6",
     "asciimath-to-latex": "^0.3.2",
-    "markov-ja": "^1.0.6",
+    "markov-ja": "^1.0.7",
     "mathjax-node": "^2.1.1",
     "moment": "^2.23.0",
-    "node-fetch": "^2.3.0",
-    "reconnecting-websocket": "^4.1.10",
-    "request-promise-native": "^1.0.7",
+    "node-fetch": "^2.6.0",
+    "reconnecting-websocket": "^4.2.0",
+    "request-promise-native": "^1.0.8",
     "svg2png": "^4.1.1",
     "timeout-as-promise": "^1.0.0",
-    "typescript": "^3.2.2",
-    "ws": "^6.1.2"
+    "typescript": "^3.7.3",
+    "ws": "^6.1.2",
+    "xml2js": "^0.4.22"
   }
 }

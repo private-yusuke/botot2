@@ -7,6 +7,7 @@ import createDatabase from './databases';
 import config from '../../config';
 import * as moment from 'moment'
 import { Body } from 'node-fetch';
+import WordFilter from './word-filter';
 const MarkovJa = require('markov-ja')
 
 export default class MarkovSpeakingModule implements IModule {
@@ -20,6 +21,7 @@ export default class MarkovSpeakingModule implements IModule {
   private markov: any
   private database: IDatabase
   private intervalObj: NodeJS.Timer
+  private filter: WordFilter
 
   private get sentenceLength(): number {
     function getRandomInt(max) {
@@ -38,6 +40,9 @@ export default class MarkovSpeakingModule implements IModule {
     this.markov = new MarkovJa()
     this.database = createDatabase(config.database.type, this.markov, this.ai)
     this.database.load()
+    this.filter = new WordFilter()
+    this.filter.init()
+
     if(config.intervalPost) {
       let duration = moment.duration(config.intervalPostDuration.value, config.intervalPostDuration.unit).asMilliseconds()
       if(duration == 0) {
@@ -61,7 +66,7 @@ export default class MarkovSpeakingModule implements IModule {
   }
 
   public learn(sender: User, message: string) {
-    if(!isBlocked(sender)) {
+    if(!isBlocked(sender) && !this.filter.isBad(message)) {
       this.markov.learn(message.replace(/@[A-Za-z0-9_]+(?:@[A-Za-z0-9\.\-]+[A-Za-z0-9])?/g, ''))
     }
   }
@@ -69,7 +74,8 @@ export default class MarkovSpeakingModule implements IModule {
   public onNote(note: any) {
     this.database.updateSave()
     if(note.text) this.learn(note.user, note.text)
-    console.log(`${isBlocked(note.user) ? "><" : ""}${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
+    let bad = this.filter.isBad(note.text)
+    console.log(`${isBlocked(note.user) ? "><" : ""}${bad ? 'B* ' : ''}|${note.user.name}(${generateUserId(note.user)}): ${note.text}`)
   }
   public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if(cmd[0] == 'markov') {
@@ -79,11 +85,11 @@ export default class MarkovSpeakingModule implements IModule {
             this.database.reset()
             msg.reply('👍')
           } else {
-            msg.reply('👎(You don\'t have permission)')
+            msg.reply('👎(You don\'t have a permission)')
           }
           break
         default:
-          msg.reply('markov: /markov <reset>\nOnly op-ed users can exec this command.')
+          msg.reply('markov: /markov <reset>\nOnly op-ed users can run this command.')
           break
       }
       return true

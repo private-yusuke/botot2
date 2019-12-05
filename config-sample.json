@@ -22,11 +22,12 @@
   "markovSpeaking": {
     "blocked": [
       "somebody@example.com"
-    ]
+    ],
+    "wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml"
   },
   "math": {
     "size": 20
-  }
+  },
   "op": [
     "somebody@example.com"
   ],

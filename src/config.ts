@@ -32,6 +32,7 @@ type Config = {
      * It only prevents from learning. Still send a reply to them.
     */
     blocked: [string]
+    wordFilterURL: string
   }
   math: {
     size: number

@@ -7,7 +7,7 @@ import config from '../config';
 
 function generateUserId(user: User): string {
   let res: string = user.username
-  if(user.hostLower) res += `@${user.hostLower}`
+  if(user.host) res += `@${user.host}`
   else res += `@${config.host}`
   return res
 }

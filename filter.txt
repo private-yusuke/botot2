@@ -1,0 +1,6 @@
+// You type your desired words that you don't want the computer to learn.
+// Each line should only have one word.
+// Thus the whole sentence that contains these words won't be learned.
+// For example,
+
+てすとてすてすてすてすとてすて // <- A string containing this sequence won't be learned.

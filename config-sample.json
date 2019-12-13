@@ -23,7 +23,11 @@
     "blocked": [
       "somebody@example.com"
     ],
-    "wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml"
+    "filtering": true,
+    "wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",
+    "wordFilterFiles": [
+      "./filter.txt"
+    ]
   },
   "math": {
     "size": 20

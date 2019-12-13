@@ -1,6 +1,8 @@
 import * as XML from 'xml2js'
 import config from '../../config'
 import fetch from 'node-fetch'
+import * as fs from 'fs'
+
 export default class WordFilter {
   private filterURL: string
   private initialized: boolean = false
@@ -25,10 +27,26 @@ export default class WordFilter {
       dict.push(i.word[0]._)
       dict.push(i.word[0].$.reading)
     }
+
+    for(let filePath of config.markovSpeaking.wordFilterFiles) {
+      console.info(`Loading filtered word list from ${filePath}`)
+      const fileContent = fs.readFileSync(filePath, 'utf-8')
+      for(let word of fileContent.split('\n')) {
+        let m = word.match('//')
+        if(m) {
+          /*
+           * "abra // cadabra" => "abra"
+          */
+          word = word.substring(0, m.index).trim()
+        }
+        if(word) dict.push(word)
+      }
+    }
     return dict
   }
 
   async init() {
+    if(!config.markovSpeaking.filtering) return false
     try {
       this.wordDict = await this.fetchDict()
     } catch(e) {
@@ -44,10 +62,11 @@ export default class WordFilter {
     this.wordRegex = RegExp(regexStr)
 
     this.initialized = true
+    return true
   }
 
   isBad(str: string) {
-    if(this.wordRegex.exec(str)) return true
+    if(this.initialized && this.wordRegex.exec(str)) return true
     else return false
   }
 }

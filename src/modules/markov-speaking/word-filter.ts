@@ -6,16 +6,17 @@ import * as fs from 'fs'
 export default class WordFilter {
   private filterURL: string
   private initialized: boolean = false
-  public wordDict: string[]
-  private wordRegex: RegExp
+  public ngwordDict: string[]
+  public okwordDict: string[]
 
   constructor() {
     this.filterURL = config.markovSpeaking.wordFilterURL
   }
-  async fetchDict() {
+  private async fetchDict() {
     let dictReq
     let filterXML
-    let dict = []
+    let badWords: string[]
+    let okWords: string[]
 
     console.info(`Fetching abusive word list from ${this.filterURL}`)
     dictReq = await fetch(this.filterURL)
@@ -24,8 +25,8 @@ export default class WordFilter {
     filterXML = await XML.parseStringPromise(dictStr)
     
     for(let i of filterXML.housouKinshiYougoList.dirtyWord) {
-      dict.push(i.word[0]._)
-      dict.push(i.word[0].$.reading)
+      badWords.push(i.word[0]._)
+      badWords.push(i.word[0].$.reading)
     }
 
     for(let filePath of config.markovSpeaking.wordFilterFiles) {
@@ -39,34 +40,63 @@ export default class WordFilter {
           */
           word = word.substring(0, m.index).trim()
         }
-        if(word) dict.push(word)
+        if(word.startsWith('-')) okWords.push(word.substr(1))
+        else badWords.push(word)
       }
     }
-    return dict
+    // ["ok", "test", "ng", "good", "hey"]
+    // => ['ok', 'ng', 'hey', 'test', 'good']
+    // sorted by the length of the element
+    badWords.sort((a, b) => a.length - b.length)
+    okWords.sort((a, b) => a.length - b.length)
+    this.ngwordDict = badWords
+    this.okwordDict = okWords
   }
 
   async init() {
     if(!config.markovSpeaking.filtering) return false
     try {
-      this.wordDict = await this.fetchDict()
+      await this.fetchDict()
     } catch(e) {
       console.error('Couldn\'t initialize the word filter.')
       console.error(e)
     }
-    let regexStr = '('
-    for(let i = 0; i < this.wordDict.length; i++) {
-      regexStr += this.wordDict[i]
-      if(i != this.wordDict.length - 1) regexStr += '|'
-    }
-    regexStr += ')'
-    this.wordRegex = RegExp(regexStr)
 
     this.initialized = true
     return true
   }
 
   isBad(str: string) {
-    if(this.initialized && this.wordRegex.exec(str)) return true
-    else return false
+    if(!this.initialized) return false
+    let k = 0
+    while(k < str.length) {
+
+      // ng: ["ab"]
+      // ok: ["abc"]
+      // str: "abc cba" => false
+      // str: "ab cba" => true
+
+      let ok: boolean = false
+      for(let okword of this.okwordDict) {
+        if(str.length - k < okword.length) break
+        if(str.substr(k, okword.length) == okword) {
+          k += okword.length
+          ok = true
+          break
+        }
+      }
+      if(ok) continue
+
+      for(let ngword of this.ngwordDict) {
+        if(str.length - k < ngword.length) break
+        if(str.substr(k, ngword.length) == ngword) {
+          return true
+        }
+      }
+      k++
+    }
+
+    // safe!
+    return false
   }
 }

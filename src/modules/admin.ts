@@ -2,6 +2,8 @@ import IModule from "../module";
 import Ai from "../ai";
 import MessageLike from "../message-like";
 import * as os from 'os'
+import { isOp } from "../misskey";
+import { now } from "moment";
 
 export default class AdminModule implements IModule {
   public readonly priority = 10
@@ -12,6 +14,9 @@ export default class AdminModule implements IModule {
   }, {
     name: 'help',
     desc: 'Display all the comamnds with descriptions'
+  }, {
+    name: 'halt',
+    desc: 'Shutdown the bot'
   }]
   private ai: Ai
 
@@ -46,6 +51,13 @@ ${process.title} ${process.version} ${process.arch} ${process.platform}
       res += '```'
       msg.reply(res)
       return true
+    } else if(cmd[0] == 'halt') {
+      if(isOp(msg.user)) {
+        msg.reply(`OK trying to shutdown……\n${now().toLocaleString()}`)
+        this.ai.onInterrupt()
+      } else {
+        msg.reply('You don\'t have a permission to exec /halt.')
+      }
     }
     return false
   }

@@ -15,8 +15,8 @@ export default class WordFilter {
   private async fetchDict() {
     let dictReq
     let filterXML
-    let badWords: string[]
-    let okWords: string[]
+    let badWords: string[] = []
+    let okWords: string[] = []
 
     console.info(`Fetching abusive word list from ${this.filterURL}`)
     dictReq = await fetch(this.filterURL)
@@ -40,6 +40,7 @@ export default class WordFilter {
           */
           word = word.substring(0, m.index).trim()
         }
+        if(!word) continue
         if(word.startsWith('-')) okWords.push(word.substr(1))
         else badWords.push(word)
       }
@@ -62,12 +63,17 @@ export default class WordFilter {
       console.error(e)
     }
 
+    if(process.env.DEBUG_NGFILTER) {
+      console.log(this.ngwordDict)
+      console.log(this.okwordDict)
+    }
     this.initialized = true
     return true
   }
 
   isBad(str: string) {
     if(!this.initialized) return false
+    if(!str) return false
     let k = 0
     while(k < str.length) {
 
@@ -90,6 +96,7 @@ export default class WordFilter {
       for(let ngword of this.ngwordDict) {
         if(str.length - k < ngword.length) break
         if(str.substr(k, ngword.length) == ngword) {
+          if(process.env.DEBUG_NGFILTER) console.log(`*B: ${ngword}`)
           return true
         }
       }

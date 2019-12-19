@@ -53,7 +53,7 @@ ${process.title} ${process.version} ${process.arch} ${process.platform}
       return true
     } else if(cmd[0] == 'halt') {
       if(isOp(msg.user)) {
-        msg.reply(`OK trying to shutdown……\n${now().toLocaleString()}`)
+        await msg.reply(`OK trying to shutdown……\n${now().toLocaleString()}`)
         this.ai.onInterrupt()
       } else {
         msg.reply('You don\'t have a permission to exec /halt.')

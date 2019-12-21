@@ -96,7 +96,7 @@ export default class WordFilter {
       for(let ngword of this.ngwordDict) {
         if(str.length - k < ngword.length) break
         if(str.substr(k, ngword.length) == ngword) {
-          if(process.env.DEBUG_NGFILTER) console.log(`*B: ${ngword}`)
+          if(config.markovSpeaking.wordFilterLog) console.log(`*B: ${ngword}`)
           return true
         }
       }

@@ -35,6 +35,7 @@ type Config = {
     filtering: boolean
     wordFilterURL: string
     wordFilterFiles: [string]
+    wordFilterLog: boolean
   }
   math: {
     size: number

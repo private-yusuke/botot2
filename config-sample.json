@@ -27,7 +27,8 @@
     "wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",
     "wordFilterFiles": [
       "./filter.txt"
-    ]
+    ],
+    "wordFilterLog": true
   },
   "math": {
     "size": 20

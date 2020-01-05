@@ -7,6 +7,7 @@ import AdminModule from './admin';
 import EmojiListModule from './emoji-list';
 import DiceModule from './dice';
 import MathModule from './math';
+import KakariukeGraphModule from './kakariuke-graph';
 
 export default [
   AutoFollowModule,
@@ -17,5 +18,6 @@ export default [
   AdminModule,
   EmojiListModule,
   DiceModule,
-  MathModule
+  MathModule,
+  KakariukeGraphModule
 ]

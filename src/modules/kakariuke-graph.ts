@@ -41,14 +41,20 @@ export default class KakariukeGraphModule implements IModule {
         let sentence = cmd.slice(1).join('')
         let cabochaed = await this.cabochaParsePromise(sentence)
         let graph = graphviz.digraph('G')
-        cabochaed["depRels"].forEach((chunk, index) => {
-            if(chunk[0] != -1) {
-                graph.addNode(`${chunk[1]}${index}`, {'label': chunk[1]})
-                let out = cabochaed["depRels"][chunk[0]][1]
-                graph.addNode(`${out}${chunk[0]}`, {'label': out})
-                graph.addEdge(`${chunk[1]}${index}`, `${out}${chunk[0]}`)
-            }
-        });
+        if(cabochaed["depRels"].length > 1) {
+            cabochaed["depRels"].forEach((chunk, index) => {
+                if(chunk[0] != -1) {
+                    graph.addNode(`${chunk[1]}${index}`, {'label': chunk[1]})
+                    let out = cabochaed["depRels"][chunk[0]][1]
+                    graph.addNode(`${out}${chunk[0]}`, {'label': out})
+                    graph.addEdge(`${chunk[1]}${index}`, `${out}${chunk[0]}`)
+                }
+            });
+          } else {
+            let node = cabochaed["depRels"][0][1]
+            graph.addNode(node)
+            graph.addEdge(node, node)
+          }
 
         let resImage = await this.graphvizOutputPromise(graph, 'png')
         let imageRes = await this.ai.upload(resImage, {

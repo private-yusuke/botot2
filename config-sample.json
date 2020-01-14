@@ -1,54 +1,48 @@
 {
-  "i": "!xxxxxxxxxxx",
-  "host": "misskey.xyz",
-  "timeline": "hybrid",
-  "connectionTimeout": 5000,
-  "intervalPost": true,
-  "intervalPostDuration": {
-    "value": 1,
-    "unit": "hour"
-  },
-  "modules": [
-    "autoFollow",
-    "othelloRedirect",
-    "markovSpeaking",
-    "greeting",
-    "ping",
-    "admin",
-    "emojiList",
-    "dice",
-    "math",
-    "kakariukeGraph"
-  ],
-  "markovSpeaking": {
-    "blocked": [
-      "somebody@example.com"
-    ],
-    "filtering": true,
-    "wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",
-    "wordFilterFiles": [
-      "./filter.txt"
-    ],
-    "wordFilterLog": true
-  },
-  "math": {
-    "size": 20
-  },
-  "op": [
-    "somebody@example.com"
-  ],
-  "database": {
-    "path": "db/triplets_db.json",
-    "type": "onlyOne",
-    "saveFrequency": 5,
-    "saveDuration": [30, "minute"],
+	"i": "!xxxxxxxxxxx",
+	"host": "misskey.xyz",
+	"timeline": "hybrid",
+	"connectionTimeout": 5000,
+	"intervalPost": true,
+	"intervalPostDuration": {
+		"value": 1,
+		"unit": "hour"
+	},
+	"modules": [
+		"autoFollow",
+		"othelloRedirect",
+		"markovSpeaking",
+		"greeting",
+		"ping",
+		"admin",
+		"emojiList",
+		"dice",
+		"math",
+		"kakariukeGraph"
+	],
+	"markovSpeaking": {
+		"blocked": ["somebody@example.com"],
+		"filtering": true,
+		"wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",
+		"wordFilterFiles": ["./filter.txt"],
+		"wordFilterLog": true
+	},
+	"math": {
+		"size": 20
+	},
+	"op": ["somebody@example.com"],
+	"database": {
+		"path": "db/triplets_db.json",
+		"type": "onlyOne",
+		"saveFrequency": 5,
+		"saveDuration": [30, "minute"],
 
-    "maxSize": 1e6
-  },
-  "sentenceLengthRange": [1, 1],
-  "mecab": {
-    "commandOptions": ""
-  },
-  "visibility": "private",
-  "cwStart": 600
+		"maxSize": 1e6
+	},
+	"sentenceLengthRange": [1, 1],
+	"mecab": {
+		"commandOptions": ""
+	},
+	"visibility": "private",
+	"cwStart": 600
 }

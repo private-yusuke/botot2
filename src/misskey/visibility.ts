@@ -1,2 +1,2 @@
-type Visibility = 'public' | 'home' | 'followers' | 'specified' | 'private'
+type Visibility = "public" | "home" | "followers" | "specified" | "private"
 export default Visibility

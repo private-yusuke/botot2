@@ -3,7 +3,7 @@ import Timeline from './timeline'
 import User from './user'
 import Reaction from './reaction'
 import Channel from './channel'
-import config from '../config';
+import config from '../../../config';
 
 function generateUserId(user: User): string {
   let res: string = user.username

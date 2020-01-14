@@ -2,7 +2,7 @@ import IModule from "../module";
 import Ai from "../ai";
 import MessageLike from "../message-like";
 import * as os from 'os'
-import { isOp } from "../misskey";
+import { isOp } from "../connectors/misskey/types";
 import { now } from "moment";
 
 export default class AdminModule implements IModule {

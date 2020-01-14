@@ -1,7 +1,7 @@
 import IModule from '../../module'
 import MessageLike from '../../message-like'
 import Ai from '../../ai';
-import { User, generateUserId, isOp, isBlocked } from '../../misskey'
+import { User, generateUserId, isOp, isBlocked } from '../../connectors/misskey/types'
 import { IDatabase } from './database';
 import createDatabase from './databases';
 import config from '../../config';

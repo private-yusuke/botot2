@@ -1,6 +1,6 @@
 import Ai from './ai'
 import MessageLike from './message-like'
-import { User } from './misskey';
+import { User } from './connectors/misskey/types';
 import ICommand from './command';
 
 export default interface IModule {

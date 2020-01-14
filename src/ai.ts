@@ -3,7 +3,7 @@ import * as request from 'request-promise-native'
 import config from './config'
 import IModule from './module'
 import * as WebSocket from 'ws'
-import { User, Reaction, generateUserId } from './misskey'
+import { User, Reaction, generateUserId } from './connectors/misskey/types'
 const ReconnectingWebSocket = require('reconnecting-websocket')
 import MessageLike from './message-like';
 const delay = require('timeout-as-promise')

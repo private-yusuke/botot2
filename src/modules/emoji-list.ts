@@ -1,7 +1,7 @@
 import IModule from '../module'
 import MessageLike from '../message-like'
 import Ai from '../ai';
-import { User } from '../misskey'
+import { User } from '../connectors/misskey/types'
 
 export default class EmojiListModule implements IModule {
   public readonly priority = 0

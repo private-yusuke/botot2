@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import * as Misskey from './misskey'
+import * as Misskey from './connectors/misskey/types'
 import { Database } from './modules/markov-speaking/database';
 
 type Duration = {

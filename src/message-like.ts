@@ -1,5 +1,5 @@
 import Ai from './ai'
-import { User } from './misskey'
+import { User } from './connectors/misskey/types'
 import config from './config';
 const delay = require('timeout-as-promise')
 

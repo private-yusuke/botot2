@@ -1,40 +1,42 @@
 {
-  "name": "botot2",
-  "version": "2.0.0",
-  "description": "A chatbot for Misskey with Markov chain",
-  "main": "index.js",
-  "scripts": {
-    "start": "node ./built",
-    "build": "tsc"
-  },
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^10.17.13",
-    "@types/node-fetch": "^2.5.4",
-    "@types/ws": "^6.0.4",
-    "@types/xml2js": "^0.4.5",
-    "eslint": "^5.10.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
-  },
-  "dependencies": {
-    "asciimath-to-latex": "^0.3.2",
-    "graphviz": "0.0.9",
-    "markov-ja": "^1.0.7",
-    "mathjax-node": "^2.1.1",
-    "moment": "^2.23.0",
-    "node-cabocha": "0.0.4",
-    "node-fetch": "^2.6.0",
-    "reconnecting-websocket": "^4.2.0",
-    "request-promise-native": "^1.0.8",
-    "svg2png": "^4.1.1",
-    "timeout-as-promise": "^1.0.0",
-    "typescript": "^3.7.3",
-    "ws": "^6.1.2",
-    "xml2js": "^0.4.22"
-  }
+	"name": "botot2",
+	"version": "2.0.0",
+	"description": "A chatbot for Misskey with Markov chain",
+	"main": "index.js",
+	"scripts": {
+		"start": "node ./built",
+		"build": "tsc",
+		"lint": "prettier './**/*'"
+	},
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.17.13",
+		"@types/node-fetch": "^2.5.4",
+		"@types/ws": "^6.0.4",
+		"@types/xml2js": "^0.4.5",
+		"eslint": "^5.10.0",
+		"eslint-config-standard": "^12.0.0",
+		"eslint-plugin-import": "^2.19.1",
+		"eslint-plugin-node": "^7.0.1",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"prettier": "^1.19.1"
+	},
+	"dependencies": {
+		"asciimath-to-latex": "^0.3.2",
+		"graphviz": "0.0.9",
+		"markov-ja": "^1.0.7",
+		"mathjax-node": "^2.1.1",
+		"moment": "^2.23.0",
+		"node-cabocha": "0.0.4",
+		"node-fetch": "^2.6.0",
+		"reconnecting-websocket": "^4.2.0",
+		"request-promise-native": "^1.0.8",
+		"svg2png": "^4.1.1",
+		"timeout-as-promise": "^1.0.0",
+		"typescript": "^3.7.3",
+		"ws": "^6.1.2",
+		"xml2js": "^0.4.22"
+	}
 }

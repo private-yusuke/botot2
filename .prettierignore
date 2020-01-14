@@ -1,0 +1,5 @@
+.*ignore
+*.txt
+LICENSE
+*.sh
+yarn.lock

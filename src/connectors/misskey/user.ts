@@ -1,10 +1,5 @@
-import { IUser } from "../interface/user";
+import { IUser } from "../interface/user"
 
 export class MisskeyUser implements IUser {
-    constructor(
-        public name: string,
-        public screenName: string,
-    ) {
-
-    }
+	constructor(public name: string, public screenName: string) {}
 }

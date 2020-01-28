@@ -174,7 +174,6 @@ export default class Ai {
 				(reg != null &&
 					reg[1] == this.account.username &&
 					text.startsWith(`@${this.account.username}`)))
-			
 		) {
 			this.onMention(new MessageLike(this, body, false))
 		}

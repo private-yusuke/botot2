@@ -158,7 +158,6 @@ export default class Ai {
 
 	private onNote(msg: any) {
 		const body = msg.body
-		if (body.user.isBot) return
 		if (body.userId == this.account.id) return
 		const reply = body.reply || { userId: "none" }
 		let text = body.text || ""
@@ -169,14 +168,15 @@ export default class Ai {
 			(reg != null &&
 				reg[1] == `${this.account.username}@${this.account.host}` &&
 				text.startsWith(`@${this.account.username}@${this.account.host}`)) ||
-			((!body.user.host || body.user.host == this.account.host) &&
+			((!body.user.host || body.user.host == this.account.host) && (
 				text == `@${this.account.username}` ||
 				(reg != null &&
 					reg[1] == this.account.username &&
-					text.startsWith(`@${this.account.username}`)))
+					text.startsWith(`@${this.account.username}`))))
 		) {
 			this.onMention(new MessageLike(this, body, false))
 		}
+		if (body.user.isBot) return
 		
 		this.modules
 			.filter(m => typeof m.onNote == "function")

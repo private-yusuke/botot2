@@ -3,21 +3,27 @@ import * as request from "request-promise-native"
 import config from "./config"
 import IModule from "./module"
 import * as WebSocket from "ws"
-import { User, Reaction, generateUserId } from "./misskey"
+import { User, Reaction, generateUserId } from "./connectors/misskey/types"
 const ReconnectingWebSocket = require("reconnecting-websocket")
 import MessageLike from "./message-like"
+import { IPost } from "./connectors/interface/post"
+import { IUser } from "./connectors/interface/user"
+import { IClient } from "./connectors/interface/client"
 const delay = require("timeout-as-promise")
 
-export default class Ai {
-	public account: User
+export default class Ai<
+	Client extends IClient<User, Post>,
+	User extends IUser,
+	Post extends IPost<User>
+> {
 	private connection: any
-	modules: IModule[] = []
 	private isInterrupted: boolean = false
 
-	constructor(account: User, modules: IModule[]) {
-		this.account = account
-		this.modules = modules
-
+	constructor(
+		public client: Client,
+		public account: User,
+		public modules: IModule[] = []
+	) {
 		this.init()
 	}
 

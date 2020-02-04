@@ -55,14 +55,20 @@ type Config = {
 	}
 	visibility: Misskey.Visibility
 	cwStart: number
+
+	version: string
+	revision: string
 }
 
 const config = require("../config.json")
+const meta = require("./meta.json")
 
 config.baseURL = `https://${config.host}`
 config.wsURL = `wss://${config.host}`
 config.apiURL = `${config.baseURL}/api`
 config.streamURL = `${config.wsURL}/streaming?i=${config.i}`
+config.version = meta.version
+config.revision = meta.revision
 
 function getTimelineURL(config: Config) {
 	switch (config.timeline) {

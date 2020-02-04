@@ -4,6 +4,7 @@ import MessageLike from "../message-like"
 import * as os from "os"
 import { isOp } from "../misskey"
 import { now } from "moment"
+import config from "../config"
 
 export default class AdminModule implements IModule {
 	public readonly priority = 10
@@ -36,6 +37,7 @@ export default class AdminModule implements IModule {
 Modules: ${this.ai.modules.map(i => `${i.name}(${i.priority})`).join(", ")}
 Uptime: ${this.getUptime()}
 ${process.title} ${process.version} ${process.arch} ${process.platform}
+Version: ${config.version}(${config.revision})
 `
 			res += this.ai.modules
 				.filter(i => typeof i.info == "function")

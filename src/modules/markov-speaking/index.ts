@@ -139,7 +139,7 @@ export default class MarkovSpeakingModule implements IModule {
 			config.database.type
 		}, ${this.database.size()} / ${
 			config.database.maxSize
-		} (${(this.database.size() / config.database.maxSize) * 100}%\nFilters: ${
+		} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
 			config.markovSpeaking.wordFilterFiles
 		},${config.markovSpeaking.wordFilterURL}`
 		return res

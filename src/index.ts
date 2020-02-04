@@ -16,6 +16,7 @@ async function main() {
 	})
 	let me = await tmp.json()
 	console.log(`I am ${me.name}(@${me.username})!`)
+	console.log(`Version: ${config.version}(${config.revision})`)
 	me.host = config.host
 	const modules: IModule[] = []
 	Modulez.forEach(M => {

@@ -13,7 +13,7 @@ export default class SushiModule implements IModule {
 
 	public onMention(msg: MessageLike) {
 		if (!msg.text) return false
-		let m = msg.text.match(/(お)?(すし|寿司)にぎ(って|れ|にぎ|り|ろ)/)
+		let m = msg.text.match(/(お)?(すし|寿司)(にぎ|握)(って|れ|にぎ|り|ろ)/)
 		if (m) {
             const emojiarr = [this.randomEmoji(), this.randomEmoji(), this.randomEmoji()]
 			msg.reply(`にぎりました！${emojiarr.join('')}`)

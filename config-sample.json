@@ -18,7 +18,8 @@
 		"emojiList",
 		"dice",
 		"math",
-		"kakariukeGraph"
+		"kakariukeGraph",
+		"sushi"
 	],
 	"markovSpeaking": {
 		"blocked": ["somebody@example.com"],

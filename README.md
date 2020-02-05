@@ -36,6 +36,7 @@ A chatbot that works on Misskey instances.
 | math             | 数式の描画 (render Asciimath, LaTeX), AsciiMath -> LaTeX conversion                              |
 | othello-redirect | contains "othello" -> reply "cc: @ai"                                                            |
 | ping             | /ping -> pong!                                                                                   |
+| sushi            | ランダム絵文字 (respond with a random emoji)
 
 各モジュールは`config.json`でオンオフの設定ができます。
 Each module can be either enabled or disabled by modifying `config.json`.

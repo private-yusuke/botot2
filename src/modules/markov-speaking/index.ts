@@ -17,6 +17,10 @@ export default class MarkovSpeakingModule implements IModule {
 		{
 			name: "markov reset",
 			desc: "Explode the DB of NLP related data"
+		},
+		{
+			name: "markov delete",
+			desc: "Remove chains containing specified morphemes"
 		}
 	]
 	private ai: Ai
@@ -97,6 +101,14 @@ export default class MarkovSpeakingModule implements IModule {
 					if (isOp(msg.user)) {
 						this.database.reset()
 						msg.reply("👍")
+					} else {
+						msg.reply("👎(You don't have a permission)")
+					}
+					break
+				case "delete":
+					if (isOp(msg.user)) {
+						this.markov.removeTriplets(cmd.slice(2).join(""))
+						msg.reply(`👍\n\`${cmd.slice(2)}\``)
 					} else {
 						msg.reply("👎(You don't have a permission)")
 					}

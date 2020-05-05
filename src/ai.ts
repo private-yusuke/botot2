@@ -73,7 +73,8 @@ export default class Ai {
 					options: meta
 				}
 			},
-			json: true
+			json: true,
+			headers: config.headers
 		})
 		return res
 	}

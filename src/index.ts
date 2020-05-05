@@ -12,7 +12,8 @@ async function main() {
 		method: "POST",
 		body: JSON.stringify({
 			i: config.i
-		})
+		}),
+		headers: config.headers
 	})
 	let me = await tmp.json()
 	console.log(`I am ${me.name}(@${me.username})!`)

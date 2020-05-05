@@ -14,6 +14,7 @@ type LengthRange = {
 type Config = {
 	i: string
 	host: string
+	headers?: { [key: string]: string }
 	baseURL?: string
 	wsURL?: string
 	apiURL?: string

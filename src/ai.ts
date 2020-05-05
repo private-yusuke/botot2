@@ -56,7 +56,8 @@ export default class Ai {
 		)
 		return fetch(url, {
 			method: "POST",
-			body: data
+			body: data,
+			headers: config.headers
 		})
 	}
 

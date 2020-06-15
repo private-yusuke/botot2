@@ -1,5 +1,7 @@
 # botot2
 
+[![Compile](https://github.com/private-yusuke/botot2/workflows/Compile/badge.svg)](https://github.com/private-yusuke/botot2/actions/runs/135598838))
+
 Misskey インスタンス上で動作するチャットボットです。
 
 - 日本語の文章を形態素解析して学習し、リプライが飛んできたら支離滅裂な返答をします。
@@ -36,7 +38,7 @@ A chatbot that works on Misskey instances.
 | math             | 数式の描画 (render Asciimath, LaTeX), AsciiMath -> LaTeX conversion                              |
 | othello-redirect | contains "othello" -> reply "cc: @ai"                                                            |
 | ping             | /ping -> pong!                                                                                   |
-| sushi            | ランダム絵文字 (respond with a random emoji)
+| sushi            | ランダム絵文字 (respond with a random emoji)                                                     |
 
 各モジュールは`config.json`でオンオフの設定ができます。
 Each module can be either enabled or disabled by modifying `config.json`.

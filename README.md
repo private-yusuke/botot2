@@ -1,6 +1,6 @@
 # botot2
 
-[![Compile](https://github.com/private-yusuke/botot2/workflows/Compile/badge.svg)](https://github.com/private-yusuke/botot2/actions/runs/135598838))
+[![Compile](https://github.com/private-yusuke/botot2/workflows/Compile/badge.svg)](https://github.com/private-yusuke/botot2/actions?query=workflow%3A"Compile")
 
 Misskey インスタンス上で動作するチャットボットです。
 

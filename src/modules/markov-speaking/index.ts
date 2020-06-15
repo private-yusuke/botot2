@@ -77,7 +77,9 @@ export default class MarkovSpeakingModule implements IModule {
 	}
 
 	public learn(sender: User, message: string) {
-		if(!config.markovSpeaking.allowLearn) return
+		// if "allowLearn" is specified as "false"...
+		// (backward compatibility)
+		if(config.markovSpeaking.allowLearn == false) return
 		if (!isBlocked(sender) && message) {
 			this.markov.learn(
 				message.replace(/@[A-Za-z0-9_]+(?:@[A-Za-z0-9\.\-]+[A-Za-z0-9])?/g, "")

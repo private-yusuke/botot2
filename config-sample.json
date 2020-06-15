@@ -22,6 +22,7 @@
 		"sushi"
 	],
 	"markovSpeaking": {
+		"allowLearn": true,
 		"blocked": ["somebody@example.com"],
 		"filtering": true,
 		"wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",

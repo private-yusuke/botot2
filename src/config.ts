@@ -26,6 +26,7 @@ type Config = {
 	intervalPostDuration: Duration
 	modules: [string]
 	markovSpeaking: {
+		allowLearn: boolean
 		/*
 		 * If you want the bot not to learn the message
 		 * from a specified account, you can add an account

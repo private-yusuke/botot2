@@ -37,7 +37,7 @@ export default class MathModule implements IModule {
 		type = type.toLowerCase()
 		if (type == "latex" || type == "tex") type = "TeX"
 		else if (type == "asciimath") type = "AsciiMath"
-		else type == "TeX"
+		else type = "TeX"
 		let out = await mj.typeset({
 			math: formula,
 			format: type,

@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "node ./built",
 		"build": "tsc && node meta.js",
-		"lint": "prettier './**/*'"
+		"lint": "prettier './**/*'",
+		"test": "tsc"
 	},
 	"author": "",
 	"license": "MIT",

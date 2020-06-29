@@ -8,6 +8,7 @@
 		"value": 1,
 		"unit": "hour"
 	},
+	"postMaxCharacterCount": 1000,
 	"modules": [
 		"autoFollow",
 		"othelloRedirect",

@@ -1,6 +1,7 @@
 import IModule from "../module"
 import MessageLike from "../message-like"
 import Ai from "../ai"
+import config from "../config"
 
 export default class DiceModule implements IModule {
 	public readonly priority = 0
@@ -39,7 +40,7 @@ export default class DiceModule implements IModule {
 					res.push(Math.ceil(Math.random() * m))
 				}
 				let text = `Result:\n${res.join(" ")}`
-				if (text.length > 1000) text = `Too long result`
+				if (text.length > config.postMaxCharacterCount) text = `Too long result`
 				msg.reply(text)
 			}
 			return true

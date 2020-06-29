@@ -24,6 +24,7 @@ type Config = {
 	timelineChannel: Misskey.Channel
 	intervalPost: boolean
 	intervalPostDuration: Duration
+	postMaxCharacterCount: number
 	modules: [string]
 	markovSpeaking: {
 		allowLearn: boolean

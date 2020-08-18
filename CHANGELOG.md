@@ -1,5 +1,14 @@
 # ChangeLog
 
+2.1.6 (2020/08/18)
+
+---
+
+### ✨Improvements
+
+- Add `allowLearnCW` configuration
+  - もしこの設定が偽であるならば、CW が指定された投稿が学習されないようになります。
+
 2.1.3 (2020/05/05)
 
 ---

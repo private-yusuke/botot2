@@ -28,11 +28,11 @@ type Config = {
 	modules: [string]
 	markovSpeaking: {
 		allowLearn: boolean
+		allowLearnCW: boolean
 		/*
-		 * If you want the bot not to learn the message
+		 * If you want this bot not to learn the message
 		 * from a specified account, you can add an account
-		 * into this list to block learning things from them.
-		 * It only prevents from learning. Still send a reply to them.
+		 * into this list to prevent from learning their posts.
 		 */
 		blocked: [string]
 		filtering: boolean

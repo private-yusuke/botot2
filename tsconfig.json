@@ -15,5 +15,7 @@
 		"rootDir": "src"
 	},
 	"compileOnSave": false,
-	"include": ["./src/**/*.ts"]
+	"include": [
+		"./src/**/*.ts"
+	]
 }

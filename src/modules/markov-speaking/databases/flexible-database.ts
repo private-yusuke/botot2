@@ -36,8 +36,8 @@ export default class FlexibleDataBase implements IDatabase {
 		)
 		console.log("database successfully saved")
 	}
-	updateSave() {}
-	reset() {}
+	updateSave() { }
+	reset() { }
 	size() {
 		return this.markov.exportDatabase().length
 	}

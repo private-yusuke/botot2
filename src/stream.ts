@@ -1,1 +1,1 @@
-export default class Stream {}
+export default class Stream { }

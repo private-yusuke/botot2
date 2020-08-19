@@ -179,7 +179,7 @@ export default class Ai {
 			this.onMention(new MessageLike(this, body, false))
 		}
 		if (body.user.isBot) return
-		
+
 		this.modules
 			.filter(m => typeof m.onNote == "function")
 			.forEach(m => {

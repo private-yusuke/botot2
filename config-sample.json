@@ -25,25 +25,36 @@
 	"markovSpeaking": {
 		"allowLearn": true,
 		"allowLearnCW": true,
-		"blocked": ["somebody@example.com"],
+		"blocked": [
+			"somebody@example.com"
+		],
 		"filtering": true,
 		"wordFilterURL": "http://monoroch.net/kinshi/housouKinshiYougo.xml",
-		"wordFilterFiles": ["./filter.txt"],
+		"wordFilterFiles": [
+			"./filter.txt"
+		],
 		"wordFilterLog": true
 	},
 	"math": {
 		"size": 20
 	},
-	"op": ["somebody@example.com"],
+	"op": [
+		"somebody@example.com"
+	],
 	"database": {
 		"path": "db/triplets_db.json",
 		"type": "onlyOne",
 		"saveFrequency": 5,
-		"saveDuration": [30, "minute"],
-
+		"saveDuration": [
+			30,
+			"minute"
+		],
 		"maxSize": 1e6
 	},
-	"sentenceLengthRange": [1, 1],
+	"sentenceLengthRange": [
+		1,
+		1
+	],
 	"mecab": {
 		"commandOptions": ""
 	},

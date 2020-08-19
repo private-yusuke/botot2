@@ -80,7 +80,7 @@ export default class MarkovSpeakingModule implements IModule {
 	public learn(sender: User, message: string) {
 		// if "allowLearn" is specified as "false"...
 		// (backward compatibility)
-		if(config.markovSpeaking.allowLearn == false) return
+		if (config.markovSpeaking.allowLearn == false) return
 		if (!isBlocked(sender) && message) {
 			this.markov.learn(
 				message.replace(/@[A-Za-z0-9_]+(?:@[A-Za-z0-9\.\-]+[A-Za-z0-9])?/g, "")
@@ -94,7 +94,7 @@ export default class MarkovSpeakingModule implements IModule {
 		if (!bad && !(!config.markovSpeaking.allowLearnCW && note.cw)) this.learn(note.user, note.text)
 		console.log(
 			`${isBlocked(note.user) ? "><" : ""}${bad ? "B* " : ""}|${
-				note.user.name
+			note.user.name
 			}(${generateUserId(note.user)}): ${note.text}`
 		)
 	}
@@ -153,11 +153,11 @@ export default class MarkovSpeakingModule implements IModule {
 	public info(): string {
 		let res: string = `Database: ${
 			config.database.type
-		}, ${this.database.size()} / ${
+			}, ${this.database.size()} / ${
 			config.database.maxSize
-		} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
+			} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
 			config.markovSpeaking.wordFilterFiles
-		},${config.markovSpeaking.wordFilterURL}`
+			},${config.markovSpeaking.wordFilterURL}`
 		return res
 	}
 

@@ -63,7 +63,8 @@ export default class MarkovSpeakingModule implements IModule {
 				let text = ""
 				text += this.markov.generate(this.sentenceLength).join("\n")
 				let res = await this.ai.api("notes/create", {
-					text: text
+					text: text,
+					visibility: config.visibility
 				})
 				let json = await res.json()
 				if (json.error) {

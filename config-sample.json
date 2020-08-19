@@ -47,6 +47,6 @@
 	"mecab": {
 		"commandOptions": ""
 	},
-	"visibility": "private",
+	"visibility": "home",
 	"cwStart": 600
 }

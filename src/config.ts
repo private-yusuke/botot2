@@ -51,6 +51,7 @@ type Config = {
 		saveDuration: Duration
 
 		maxSize: number
+		attenuationRate: number
 	}
 	sentenceLengthRange: LengthRange
 	mecab: {
@@ -123,5 +124,9 @@ function getProperVisibilityProperty(config: Config) {
 	}
 }
 config.visibility = getProperVisibilityProperty(config)
+
+// * Backward compatibility
+if (config.database.attenuationRate == undefined)
+	config.database.attenuationRate = 0
 
 export default config as Config

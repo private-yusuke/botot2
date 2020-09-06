@@ -69,6 +69,7 @@ export default class MarkovSpeakingModule implements IModule {
 				let json = await res.json()
 				if (json.error) {
 					console.error("An error occured while creating the interval post")
+					console.error(`content: ${text}`)
 					console.error(json.error)
 				} else {
 					console.log("Successfully posted on setInterval")

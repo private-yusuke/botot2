@@ -44,7 +44,16 @@ export default class OnlyOneDatabase implements IDatabase {
 					config.database.path,
 					`${config.database.path}-${moment().unix()}.json`
 				)
-				this.markov.loadDatabase("{}")
+				// this.markov.loadDatabase("{}")
+				let oldTriplets: { [key: string]: number } = JSON.parse(this.markov.exportDatabase())
+				let newTriplets: { [key: string]: number } = {}
+				for (const key of Object.keys(oldTriplets)) {
+					let value = oldTriplets[key]
+					let newValue = Math.floor(value * config.database.attenuationRate)
+					if (newValue > 0) newTriplets[key] = newValue
+				}
+				console.debug(JSON.stringify(newTriplets))
+				this.markov.loadDatabase(JSON.stringify(newTriplets))
 			}
 		}
 	}

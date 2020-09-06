@@ -1,5 +1,22 @@
 # ChangeLog
 
+2.1.8 (2020/09/06)
+
+---
+
+### ✨Improvements
+
+- Changed how resetting the learned database works by adding `attenuationRate` configuration
+  - 減衰率の値を今までの出現回数に掛けられた値の小数点以下切り捨てが新たなデータベースにおける出現回数となります。その値が0になったときは、それに対応する 3-gram の組は削除されます。
+
+2.1.7 (2020/08/19)
+
+---
+
+### 🐛Bug fix
+
+- Visibility setting on the interval posts is working correctly now
+
 2.1.6 (2020/08/18)
 
 ---

@@ -1,5 +1,15 @@
 # ChangeLog
 
+
+2.1.9 (2020/09/11)
+
+---
+
+### 🐛Bug fix
+
+- Update `node-cabocha`
+  - for details, please check [this issue](https://github.com/fourseasonslab/node-cabocha/issues/1).
+
 2.1.8 (2020/09/06)
 
 ---

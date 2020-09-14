@@ -29,6 +29,7 @@ type Config = {
 	markovSpeaking: {
 		allowLearn: boolean
 		allowLearnCW: boolean
+		allowLearnVisFollowers: boolean
 		/*
 		 * If you want this bot not to learn the message
 		 * from a specified account, you can add an account

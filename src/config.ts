@@ -130,4 +130,7 @@ config.visibility = getProperVisibilityProperty(config)
 if (config.database.attenuationRate == undefined)
 	config.database.attenuationRate = 0
 
+if (config.markov.allowLearnVisFollowers == undefined)
+	config.markov.allowLearnVisFollowers = true
+
 export default config as Config

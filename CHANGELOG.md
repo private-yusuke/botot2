@@ -1,5 +1,14 @@
 # ChangeLog
 
+2.2.0 (2020/09/19)
+
+---
+
+### ✨Improvements
+
+- Configuable `delay`
+  - bot が返信するまでの間隔を、`config.json` の `delay` を変更することで弄れるようになりました。
+- Pagination of `/emoji` is now implemented
 
 2.1.9 (2020/09/11)
 

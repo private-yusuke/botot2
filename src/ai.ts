@@ -13,6 +13,7 @@ export default class Ai {
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
+	meta: any
 
 	constructor(account: User, modules: IModule[]) {
 		this.account = account
@@ -41,6 +42,9 @@ export default class Ai {
 			visibility: config.visibility,
 			timelineChannel: config.timelineChannel
 		})
+
+		this.api('meta').then(meta => meta.json()).then(json => this.meta = json).catch(err => console.error(err))
+
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}
 

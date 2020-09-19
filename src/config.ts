@@ -62,6 +62,7 @@ type Config = {
 
 	version: string
 	revision: string
+	delay: number
 }
 
 const config = require("../config.json")

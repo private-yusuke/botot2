@@ -60,5 +60,6 @@
 		"commandOptions": ""
 	},
 	"visibility": "home",
-	"cwStart": 600
+	"cwStart": 600,
+	"delay": 2000
 }

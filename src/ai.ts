@@ -196,14 +196,14 @@ export default class Ai {
 			let reaction: Reaction
 			if (msg.user.isBot) reaction = "angry"
 			else reaction = "like"
-			await delay(1000)
+			await delay(config.delay)
 			this.api("notes/reactions/create", {
 				noteId: msg.id,
 				reaction: reaction
 			})
 		}
 		if (msg.user.isBot || msg.user.id == this.account.id || !msg.text) return
-		await delay(1000)
+		await delay(config.delay)
 		// If the mention /some arg1 arg2 ..."
 		let regex = new RegExp(`(?:@${this.account.username}\\s)?\\/(.+)?`, "i")
 		let r = msg.text.match(regex)

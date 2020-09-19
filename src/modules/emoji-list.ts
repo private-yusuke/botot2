@@ -22,7 +22,6 @@ export default class EmojiListModule implements IModule {
 			let emojiTexts = this.ai.meta.emojis.map(i => `:${i.name}:`)
 			let maxNoteTextLength = this.ai.meta.maxNoteTextLength
 
-			let lastMsg = msg
 			let k = 0
 			while (k < emojiTexts.length) {
 				let emojiText = ""
@@ -33,9 +32,7 @@ export default class EmojiListModule implements IModule {
 					} else break
 					k++
 				}
-				let rep = await lastMsg.reply(emojiText, 'emojis')
-				if (!lastMsg.isMessage)
-					lastMsg = new MessageLike(this.ai, rep.createdNote, msg.isMessage)
+				await msg.reply(emojiText, 'emojis')
 			}
 			return true
 		}

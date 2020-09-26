@@ -25,6 +25,7 @@
 	"markovSpeaking": {
 		"allowLearn": true,
 		"allowLearnCW": true,
+		"allowLearnVisFollowers": true,
 		"blocked": [
 			"somebody@example.com"
 		],

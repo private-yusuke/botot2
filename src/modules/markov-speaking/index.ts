@@ -92,7 +92,10 @@ export default class MarkovSpeakingModule implements IModule {
 	public onNote(note: any) {
 		this.database.updateSave()
 		let bad = this.filter.isBad(note.text)
-		if (!bad && !(!config.markovSpeaking.allowLearnCW && note.cw)) this.learn(note.user, note.text)
+		if (!bad &&
+			!(!config.markovSpeaking.allowLearnCW && note.cw) &&
+			!(!config.markovSpeaking.allowLearnVisFollowers && note.visibility === 'followers')
+			) this.learn(note.user, note.text)
 		console.log(
 			`${isBlocked(note.user) ? "><" : ""}${bad ? "B* " : ""}|${
 			note.user.name

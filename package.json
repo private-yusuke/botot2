@@ -6,7 +6,11 @@
 	"scripts": {
 		"start": "node ./built",
 		"build": "tsc && node meta.js",
-		"lint": "prettier './**/*'",
+		"lint": "eslint .",
+		"lint:prettier": "prettier --check **/*.{js,ts}",
+		"fix": "npm run fix:eslint; npm run fix:prettier",
+		"fix:eslint": "eslint --fix .",
+		"fix:prettier": "prettier --write **/*.{js,ts}",
 		"test": "tsc"
 	},
 	"author": "",

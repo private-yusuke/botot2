@@ -32,7 +32,7 @@ export default class EmojiListModule implements IModule {
 					} else break
 					k++
 				}
-				await msg.reply(emojiText, 'emojis')
+				await msg.reply(emojiText, "emojis")
 			}
 			return true
 		}

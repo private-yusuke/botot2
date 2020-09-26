@@ -43,7 +43,10 @@ export default class Ai {
 			timelineChannel: config.timelineChannel
 		})
 
-		this.api('meta').then(meta => meta.json()).then(json => this.meta = json).catch(err => console.error(err))
+		this.api("meta")
+			.then(meta => meta.json())
+			.then(json => (this.meta = json))
+			.catch(err => console.error(err))
 
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}
@@ -174,11 +177,11 @@ export default class Ai {
 			(reg != null &&
 				reg[1] == `${this.account.username}@${this.account.host}` &&
 				text.startsWith(`@${this.account.username}@${this.account.host}`)) ||
-			((!body.user.host || body.user.host == this.account.host) && (
-				text == `@${this.account.username}` ||
-				(reg != null &&
-					reg[1] == this.account.username &&
-					text.startsWith(`@${this.account.username}`))))
+			((!body.user.host || body.user.host == this.account.host) &&
+				(text == `@${this.account.username}` ||
+					(reg != null &&
+						reg[1] == this.account.username &&
+						text.startsWith(`@${this.account.username}`))))
 		) {
 			this.onMention(new MessageLike(this, body, false))
 		}

@@ -92,13 +92,18 @@ export default class MarkovSpeakingModule implements IModule {
 	public onNote(note: any) {
 		this.database.updateSave()
 		let bad = this.filter.isBad(note.text)
-		if (!bad &&
+		if (
+			!bad &&
 			!(!config.markovSpeaking.allowLearnCW && note.cw) &&
-			!(!config.markovSpeaking.allowLearnVisFollowers && note.visibility === 'followers')
-			) this.learn(note.user, note.text)
+			!(
+				!config.markovSpeaking.allowLearnVisFollowers &&
+				note.visibility === "followers"
+			)
+		)
+			this.learn(note.user, note.text)
 		console.log(
 			`${isBlocked(note.user) ? "><" : ""}${bad ? "B* " : ""}|${
-			note.user.name
+				note.user.name
 			}(${generateUserId(note.user)}): ${note.text}`
 		)
 	}
@@ -157,11 +162,11 @@ export default class MarkovSpeakingModule implements IModule {
 	public info(): string {
 		let res: string = `Database: ${
 			config.database.type
-			}, ${this.database.size()} / ${
+		}, ${this.database.size()} / ${
 			config.database.maxSize
-			} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
+		} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
 			config.markovSpeaking.wordFilterFiles
-			},${config.markovSpeaking.wordFilterURL}`
+		},${config.markovSpeaking.wordFilterURL}`
 		return res
 	}
 

@@ -6,7 +6,11 @@
 	"scripts": {
 		"start": "node ./built",
 		"build": "tsc && node meta.js",
-		"lint": "prettier './**/*'",
+		"lint": "eslint .",
+		"lint:prettier": "prettier --check '**/*.{js,ts}'",
+		"fix": "npm run fix:eslint; npm run fix:prettier",
+		"fix:eslint": "eslint --fix .",
+		"fix:prettier": "prettier --write '**/*.{js,ts}'",
 		"test": "tsc"
 	},
 	"author": "",
@@ -17,6 +21,7 @@
 		"@types/ws": "^6.0.4",
 		"@types/xml2js": "^0.4.5",
 		"eslint": "^5.10.0",
+		"eslint-config-prettier": "^6.12.0",
 		"eslint-config-standard": "^12.0.0",
 		"eslint-plugin-import": "^2.19.1",
 		"eslint-plugin-node": "^7.0.1",

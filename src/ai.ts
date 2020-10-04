@@ -4,6 +4,7 @@ import config from "./config"
 import IModule from "./module"
 import * as WebSocket from "ws"
 import { User, Reaction, generateUserId } from "./misskey"
+import * as moment from "moment"
 const ReconnectingWebSocket = require("reconnecting-websocket")
 import MessageLike from "./message-like"
 const delay = require("timeout-as-promise")
@@ -13,6 +14,7 @@ export default class Ai {
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
+	private intervalReconnectingObj: NodeJS.Timer
 	meta: any
 
 	constructor(account: User, modules: IModule[]) {
@@ -47,6 +49,12 @@ export default class Ai {
 			.then(meta => meta.json())
 			.then(json => (this.meta = json))
 			.catch(err => console.error(err))
+
+		this.intervalReconnectingObj = setInterval(() => {
+
+		}, moment.duration(1, "hour").asMilliseconds())
+
+		console.log(moment.duration(1, "hour"))
 
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}
@@ -251,6 +259,7 @@ export default class Ai {
 
 	async onInterrupt() {
 		this.isInterrupted = true
+		clearInterval(this.intervalReconnectingObj)
 		this.connection.close()
 		this.modules
 			.filter(m => typeof m.onInterrupted == "function")

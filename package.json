@@ -1,6 +1,6 @@
 {
 	"name": "botot2",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "A chatbot for Misskey with Markov chain",
 	"main": "index.js",
 	"scripts": {
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"asciimath-to-latex": "^0.3.2",
 		"graphviz": "0.0.9",
-		"markov-ja": "^1.0.9",
+		"markov-ja": "^1.0.10",
 		"mathjax-node": "^2.1.1",
 		"moment": "^2.23.0",
 		"node-cabocha": "0.0.5",

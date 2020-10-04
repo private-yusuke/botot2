@@ -50,9 +50,8 @@ export default class Ai {
 			.then(json => (this.meta = json))
 			.catch(err => console.error(err))
 
-		this.intervalReconnectingObj = setInterval(() => {
-
-		}, moment.duration(1, "hour").asMilliseconds())
+		this.intervalReconnectingObj = setInterval(() => {},
+		moment.duration(1, "hour").asMilliseconds())
 
 		console.log(moment.duration(1, "hour"))
 

@@ -50,8 +50,9 @@ export default class Ai {
 			.then(json => (this.meta = json))
 			.catch(err => console.error(err))
 
-		this.intervalReconnectingObj = setInterval(() => { this.connection.reconnect() },
-			moment.duration(1, "hour").asMilliseconds())
+		this.intervalReconnectingObj = setInterval(() => {
+			this.connection.reconnect()
+		}, moment.duration(1, "hour").asMilliseconds())
 
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}

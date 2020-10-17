@@ -18,15 +18,17 @@ export default class WordFilter {
 		let badWords: string[] = []
 		let okWords: string[] = []
 
-		console.info(`Fetching abusive word list from ${this.filterURL}`)
-		dictReq = await fetch(this.filterURL)
+		if (this.filterURL) {
+			console.info(`Fetching abusive word list from ${this.filterURL}`)
+			dictReq = await fetch(this.filterURL)
 
-		let dictStr = await dictReq.text()
-		filterXML = await XML.parseStringPromise(dictStr)
+			let dictStr = await dictReq.text()
+			filterXML = await XML.parseStringPromise(dictStr)
 
-		for (let i of filterXML.housouKinshiYougoList.dirtyWord) {
-			badWords.push(i.word[0]._)
-			badWords.push(i.word[0].$.reading)
+			for (let i of filterXML.housouKinshiYougoList.dirtyWord) {
+				badWords.push(i.word[0]._)
+				badWords.push(i.word[0].$.reading)
+			}
 		}
 
 		for (let filePath of config.markovSpeaking.wordFilterFiles) {

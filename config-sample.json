@@ -21,7 +21,7 @@
 		"math",
 		"kakariukeGraph",
 		"sushi",
-		"choose"
+		"randomChoice"
 	],
 	"markovSpeaking": {
 		"allowLearn": true,

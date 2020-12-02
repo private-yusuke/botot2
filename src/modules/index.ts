@@ -9,6 +9,7 @@ import DiceModule from "./dice"
 import MathModule from "./math"
 import KakariukeGraphModule from "./kakariuke-graph"
 import SushiModule from "./sushi"
+import ChooseModule from "./choose"
 
 export default [
 	AutoFollowModule,
@@ -21,5 +22,6 @@ export default [
 	DiceModule,
 	MathModule,
 	KakariukeGraphModule,
-	SushiModule
+	SushiModule,
+	ChooseModule
 ]

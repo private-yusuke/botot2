@@ -20,7 +20,8 @@
 		"dice",
 		"math",
 		"kakariukeGraph",
-		"sushi"
+		"sushi",
+		"choose"
 	],
 	"markovSpeaking": {
 		"allowLearn": true,

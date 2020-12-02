@@ -9,7 +9,7 @@ import DiceModule from "./dice"
 import MathModule from "./math"
 import KakariukeGraphModule from "./kakariuke-graph"
 import SushiModule from "./sushi"
-import RandomChoiceModule from "./randomChoicw"
+import RandomChoiceModule from "./randomChoice"
 
 export default [
 	AutoFollowModule,

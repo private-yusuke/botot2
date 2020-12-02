@@ -23,7 +23,7 @@ export default class DiceModule implements IModule {
 			if (cmd.length < 2) {
 				msg.reply("Usage: /choose <choice 1> <choice 2> ... <choice N>")
 			} else {
-				let choice = Object(cmd).length - 1
+				const choice = cmd.length - 1
 				msg.reply(cmd[Math.floor(Math.random() * choice) + 1])
 			}
 			return true

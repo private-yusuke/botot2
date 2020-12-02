@@ -1,11 +1,10 @@
 import IModule from "../module"
 import MessageLike from "../message-like"
 import Ai from "../ai"
-import config from "../config"
 
 export default class RandomChoiceModule implements IModule {
 	public readonly priority = 0
-	public readonly name = "choose"
+	public readonly name = "randomChoice"
 	public readonly commands = [
 		{
 			name: "choose",
@@ -23,7 +22,7 @@ export default class RandomChoiceModule implements IModule {
 			if (cmd.length < 2) {
 				msg.reply("Usage: /choose <choice 1> <choice 2> ... <choice N>")
 			} else {
-				let choice = Object(cmd).length - 1
+				let choice = cmd.length - 1
 				msg.reply(cmd[Math.floor(Math.random() * choice) + 1])
 			}
 			return true

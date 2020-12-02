@@ -3,7 +3,7 @@ import MessageLike from "../message-like"
 import Ai from "../ai"
 import config from "../config"
 
-export default class DiceModule implements IModule {
+export default class RandomChoiceModule implements IModule {
 	public readonly priority = 0
 	public readonly name = "choose"
 	public readonly commands = [

@@ -14,7 +14,7 @@ export default class Ai {
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
-	private intervalReconnectingObj: NodeJS.Timer
+	private invervalPingObj: NodeJS.Timer
 	meta: any
 
 	constructor(account: User, modules: IModule[]) {
@@ -50,9 +50,10 @@ export default class Ai {
 			.then(json => (this.meta = json))
 			.catch(err => console.error(err))
 
-		this.intervalReconnectingObj = setInterval(() => {
-			this.connection.reconnect()
-		}, moment.duration(1, "hour").asMilliseconds())
+		this.invervalPingObj = setInterval(() => {
+			this.connection.send("ping")
+			if (process.env.DEBUG) console.log("ping from client")
+		}, moment.duration(1, "minute").asMilliseconds())
 
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}
@@ -128,7 +129,15 @@ export default class Ai {
 			console.log("WebSocket closed")
 		})
 		this.connection.addEventListener("message", message => {
-			const msg = JSON.parse(message.data)
+			let msg: any = undefined
+			try {
+				msg = JSON.parse(message.data)
+			} catch {
+				if (message.data == "pong" && process.env.DEBUG) {
+					console.log("pong from server")
+				}
+				return
+			}
 			if (process.env.DEBUG) console.log(msg)
 			this.onData(msg)
 		})
@@ -257,7 +266,6 @@ export default class Ai {
 
 	async onInterrupt() {
 		this.isInterrupted = true
-		clearInterval(this.intervalReconnectingObj)
 		this.connection.close()
 		this.modules
 			.filter(m => typeof m.onInterrupted == "function")

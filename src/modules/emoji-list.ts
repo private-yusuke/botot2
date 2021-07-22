@@ -1,7 +1,6 @@
 import IModule from "../module"
 import MessageLike from "../message-like"
 import Ai from "../ai"
-import { User } from "../misskey"
 
 export default class EmojiListModule implements IModule {
 	public readonly priority = 0
@@ -20,10 +19,21 @@ export default class EmojiListModule implements IModule {
 
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "emoji") {
-			let req = await this.ai.api("meta")
-			let json = await req.json()
-			let resultText = json.emojis.map(i => `:${i.name}:`).join("")
-			msg.reply(resultText, "Showing the emojis registered in this instance…")
+			let emojiTexts = this.ai.meta.emojis.map(i => `:${i.name}:`)
+			let maxNoteTextLength = this.ai.meta.maxNoteTextLength
+
+			let k = 0
+			while (k < emojiTexts.length) {
+				let emojiText = ""
+				while (true) {
+					if (k == emojiTexts.length) break
+					if (emojiText.length + emojiTexts[k].length <= maxNoteTextLength) {
+						emojiText += emojiTexts[k]
+					} else break
+					k++
+				}
+				await msg.reply(emojiText, "emojis")
+			}
 			return true
 		}
 		return false

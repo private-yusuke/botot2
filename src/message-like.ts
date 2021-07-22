@@ -31,14 +31,14 @@ export default class MessageLike {
 		if (text == null) return null
 		if (cw == null && text.length > config.cwStart) cw = "Too long result"
 
-		await delay(1000)
+		await delay(config.delay)
 		if (this.isMessage) {
 			let obj = {
 				userId: this.user.id,
 				text: text,
 				...meta
 			}
-			return await this.ai.api("messaging/messages/create", obj)
+			return await (await this.ai.api("messaging/messages/create", obj)).json()
 		} else {
 			let a = await this.ai.api("notes/create", {
 				replyId: this.messageOrNote.id,
@@ -47,7 +47,7 @@ export default class MessageLike {
 				visibility: this.messageOrNote.visibility,
 				...meta
 			})
-			return a
+			return await (await a).json()
 		}
 	}
 }

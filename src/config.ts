@@ -29,6 +29,7 @@ type Config = {
 	markovSpeaking: {
 		allowLearn: boolean
 		allowLearnCW: boolean
+		allowLearnVisFollowers: boolean
 		/*
 		 * If you want this bot not to learn the message
 		 * from a specified account, you can add an account
@@ -62,6 +63,7 @@ type Config = {
 
 	version: string
 	revision: string
+	delay: number
 }
 
 const config = require("../config.json")
@@ -128,5 +130,8 @@ config.visibility = getProperVisibilityProperty(config)
 // * Backward compatibility
 if (config.database.attenuationRate == undefined)
 	config.database.attenuationRate = 0
+
+if (config.markovSpeaking.allowLearnVisFollowers == undefined)
+	config.markovSpeaking.allowLearnVisFollowers = true
 
 export default config as Config

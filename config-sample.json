@@ -20,11 +20,13 @@
 		"dice",
 		"math",
 		"kakariukeGraph",
-		"sushi"
+		"sushi",
+		"randomChoice"
 	],
 	"markovSpeaking": {
 		"allowLearn": true,
 		"allowLearnCW": true,
+		"allowLearnVisFollowers": true,
 		"blocked": [
 			"somebody@example.com"
 		],
@@ -60,5 +62,6 @@
 		"commandOptions": ""
 	},
 	"visibility": "home",
-	"cwStart": 600
+	"cwStart": 600,
+	"delay": 2000
 }

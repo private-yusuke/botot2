@@ -4,6 +4,7 @@ import config from "./config"
 import IModule from "./module"
 import * as WebSocket from "ws"
 import { User, Reaction, generateUserId } from "./misskey"
+import * as moment from "moment"
 const ReconnectingWebSocket = require("reconnecting-websocket")
 import MessageLike from "./message-like"
 const delay = require("timeout-as-promise")
@@ -13,6 +14,8 @@ export default class Ai {
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
+	private invervalPingObj: NodeJS.Timer
+	meta: any
 
 	constructor(account: User, modules: IModule[]) {
 		this.account = account
@@ -41,6 +44,17 @@ export default class Ai {
 			visibility: config.visibility,
 			timelineChannel: config.timelineChannel
 		})
+
+		this.api("meta")
+			.then(meta => meta.json())
+			.then(json => (this.meta = json))
+			.catch(err => console.error(err))
+
+		this.invervalPingObj = setInterval(() => {
+			this.connection.send("ping")
+			if (process.env.DEBUG) console.log("ping from client")
+		}, moment.duration(1, "minute").asMilliseconds())
+
 		if (process.env.DEBUG) console.log("DEBUG enabled")
 	}
 
@@ -115,7 +129,15 @@ export default class Ai {
 			console.log("WebSocket closed")
 		})
 		this.connection.addEventListener("message", message => {
-			const msg = JSON.parse(message.data)
+			let msg: any = undefined
+			try {
+				msg = JSON.parse(message.data)
+			} catch {
+				if (message.data == "pong" && process.env.DEBUG) {
+					console.log("pong from server")
+				}
+				return
+			}
 			if (process.env.DEBUG) console.log(msg)
 			this.onData(msg)
 		})
@@ -170,11 +192,11 @@ export default class Ai {
 			(reg != null &&
 				reg[1] == `${this.account.username}@${this.account.host}` &&
 				text.startsWith(`@${this.account.username}@${this.account.host}`)) ||
-			((!body.user.host || body.user.host == this.account.host) && (
-				text == `@${this.account.username}` ||
-				(reg != null &&
-					reg[1] == this.account.username &&
-					text.startsWith(`@${this.account.username}`))))
+			((!body.user.host || body.user.host == this.account.host) &&
+				(text == `@${this.account.username}` ||
+					(reg != null &&
+						reg[1] == this.account.username &&
+						text.startsWith(`@${this.account.username}`))))
 		) {
 			this.onMention(new MessageLike(this, body, false))
 		}
@@ -196,14 +218,14 @@ export default class Ai {
 			let reaction: Reaction
 			if (msg.user.isBot) reaction = "angry"
 			else reaction = "like"
-			await delay(1000)
+			await delay(config.delay)
 			this.api("notes/reactions/create", {
 				noteId: msg.id,
 				reaction: reaction
 			})
 		}
 		if (msg.user.isBot || msg.user.id == this.account.id || !msg.text) return
-		await delay(1000)
+		await delay(config.delay)
 		// If the mention /some arg1 arg2 ..."
 		let regex = new RegExp(`(?:@${this.account.username}\\s)?\\/(.+)?`, "i")
 		let r = msg.text.match(regex)

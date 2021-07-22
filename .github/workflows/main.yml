@@ -15,5 +15,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run prettier
+        run: npm run lint:prettier
+
       - name: Run test
         run: npm test

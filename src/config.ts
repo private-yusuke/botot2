@@ -60,6 +60,10 @@ type Config = {
 	}
 	visibility: Misskey.Visibility
 	cwStart: number
+	suru: {
+		yes: string[]
+		no: string[]
+	}
 
 	version: string
 	revision: string

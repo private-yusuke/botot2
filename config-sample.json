@@ -21,7 +21,8 @@
 		"math",
 		"kakariukeGraph",
 		"sushi",
-		"randomChoice"
+		"randomChoice",
+		"suru"
 	],
 	"markovSpeaking": {
 		"allowLearn": true,
@@ -63,5 +64,29 @@
 	},
 	"visibility": "home",
 	"cwStart": 600,
-	"delay": 2000
+	"delay": 2000,
+	"suru": {
+		"yes": [
+			"はい",
+			"いいよ",
+			"やれ",
+			"やりましょう",
+			"やろ",
+			"OK",
+			"いいですよ",
+			"今すぐやりなさい",
+			"しよう"
+		],
+		"no": [
+			"だめ",
+			"だ～め",
+			"いいえ",
+			"やるな",
+			"やってはいけません",
+			"NG",
+			"だめですよ",
+			"まだその時ではない",
+			"時期が悪い"
+		]
+	}
 }

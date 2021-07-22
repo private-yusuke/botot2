@@ -10,6 +10,7 @@ import MathModule from "./math"
 import KakariukeGraphModule from "./kakariuke-graph"
 import SushiModule from "./sushi"
 import RandomChoiceModule from "./random-choice"
+import SuruModule from "./suru"
 
 export default [
 	AutoFollowModule,
@@ -23,5 +24,6 @@ export default [
 	MathModule,
 	KakariukeGraphModule,
 	SushiModule,
-	RandomChoiceModule
+	RandomChoiceModule,
+	SuruModule
 ]

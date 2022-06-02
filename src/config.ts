@@ -17,6 +17,7 @@ type Config = {
 	headers?: { [key: string]: string }
 	baseURL?: string
 	wsURL?: string
+	wsParams?: { [key: string]: string }
 	apiURL?: string
 	streamURL?: string
 	connectionTimeout?: number
@@ -76,7 +77,10 @@ const meta = require("./meta.json")
 config.baseURL = `https://${config.host}`
 config.wsURL = `wss://${config.host}`
 config.apiURL = `${config.baseURL}/api`
-config.streamURL = `${config.wsURL}/streaming?i=${config.i}`
+
+const wsParams = new URLSearchParams({ i: config.i, ...config.wsParams })
+config.streamURL = `${config.wsURL}/streaming?${wsParams.toString()}`
+
 config.version = meta.version
 config.revision = meta.revision
 

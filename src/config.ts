@@ -70,7 +70,7 @@ type Config = {
 	delay: number
 }
 
-const config = require("../config.json")
+const config = require("../config.json") as Config
 const meta = require("./meta.json")
 
 config.baseURL = `https://${config.host}`
@@ -97,13 +97,16 @@ function getTimelineURL(config: Config) {
 	}
 }
 
-function getProperTimelineProperty(config: Config) {
+function getProperTimelineProperty(config: Config): Misskey.Channel {
 	switch (config.timeline) {
 		case "home":
+			return "homeTimeline"
 		case "local":
+			return "localTimeline"
 		case "global":
+			return "globalTimeline"
 		case "hybrid":
-			return `${config.timeline}Timeline`
+			return "hybridTimeline"
 		case "social":
 			console.warn(
 				"specifying 'social' as a timeline is deprecated. using hybridTimeline."

@@ -3,3 +3,4 @@
 LICENSE
 *.sh
 yarn.lock
+/built

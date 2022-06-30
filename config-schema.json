@@ -1,0 +1,293 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Channel": {
+            "enum": [
+                "drive",
+                "gamesReversi",
+                "gamesReversiGame",
+                "globalTimeline",
+                "hashtag",
+                "homeTimeline",
+                "hybridTimeline",
+                "localTimeline",
+                "main",
+                "messaging",
+                "messagingIndex",
+                "notesStats",
+                "serverStats",
+                "userList"
+            ],
+            "type": "string"
+        },
+        "Database": {
+            "enum": [
+                "flexible",
+                "onlyOne"
+            ],
+            "type": "string"
+        },
+        "Timeline": {
+            "enum": [
+                "global",
+                "home",
+                "hybrid",
+                "local",
+                "social"
+            ],
+            "type": "string"
+        },
+        "Visibility": {
+            "enum": [
+                "followers",
+                "home",
+                "private",
+                "public",
+                "specified"
+            ],
+            "type": "string"
+        },
+        "moment.unitOfTime.Base": {
+            "enum": [
+                "M",
+                "d",
+                "day",
+                "days",
+                "h",
+                "hour",
+                "hours",
+                "m",
+                "millisecond",
+                "milliseconds",
+                "minute",
+                "minutes",
+                "month",
+                "months",
+                "ms",
+                "s",
+                "second",
+                "seconds",
+                "w",
+                "week",
+                "weeks",
+                "y",
+                "year",
+                "years"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "apiURL": {
+            "type": "string"
+        },
+        "baseURL": {
+            "type": "string"
+        },
+        "connectionTimeout": {
+            "type": "number"
+        },
+        "cwStart": {
+            "type": "number"
+        },
+        "database": {
+            "properties": {
+                "attenuationRate": {
+                    "type": "number"
+                },
+                "maxSize": {
+                    "type": "number"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "saveDuration": {
+                    "properties": {
+                        "unit": {
+                            "$ref": "#/definitions/moment.unitOfTime.Base"
+                        },
+                        "value": {
+                            "type": "number"
+                        }
+                    },
+                    "type": "object"
+                },
+                "saveFrequency": {
+                    "type": "number"
+                },
+                "type": {
+                    "$ref": "#/definitions/Database"
+                }
+            },
+            "type": "object"
+        },
+        "delay": {
+            "type": "number"
+        },
+        "headers": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "host": {
+            "type": "string"
+        },
+        "i": {
+            "type": "string"
+        },
+        "intervalPost": {
+            "type": "boolean"
+        },
+        "intervalPostDuration": {
+            "properties": {
+                "unit": {
+                    "$ref": "#/definitions/moment.unitOfTime.Base"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "markovSpeaking": {
+            "properties": {
+                "allowLearn": {
+                    "type": "boolean"
+                },
+                "allowLearnCW": {
+                    "type": "boolean"
+                },
+                "allowLearnVisFollowers": {
+                    "type": "boolean"
+                },
+                "blocked": {
+                    "items": [
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "filtering": {
+                    "type": "boolean"
+                },
+                "wordFilterFiles": {
+                    "items": [
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "wordFilterLog": {
+                    "type": "boolean"
+                },
+                "wordFilterURL": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "math": {
+            "properties": {
+                "size": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "mecab": {
+            "properties": {
+                "commandOptions": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "modules": {
+            "items": [
+                {
+                    "type": "string"
+                }
+            ],
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "op": {
+            "items": [
+                {
+                    "type": "string"
+                }
+            ],
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "postMaxCharacterCount": {
+            "type": "number"
+        },
+        "revision": {
+            "type": "string"
+        },
+        "sentenceLengthRange": {
+            "properties": {
+                "end": {
+                    "type": "number"
+                },
+                "start": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "streamURL": {
+            "type": "string"
+        },
+        "suru": {
+            "properties": {
+                "no": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "yes": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "timeline": {
+            "$ref": "#/definitions/Timeline"
+        },
+        "timelineChannel": {
+            "$ref": "#/definitions/Channel"
+        },
+        "version": {
+            "type": "string"
+        },
+        "visibility": {
+            "$ref": "#/definitions/Visibility"
+        },
+        "wsParams": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "wsURL": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

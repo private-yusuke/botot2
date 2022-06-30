@@ -20,7 +20,7 @@
 		"@types/node-fetch": "2.6.2",
 		"@types/ws": "8.5.3",
 		"@types/xml2js": "0.4.11",
-		"eslint": "5.16.0",
+		"eslint": "8.18.0",
 		"eslint-config-prettier": "6.15.0",
 		"eslint-config-standard": "12.0.0",
 		"eslint-plugin-import": "2.25.3",

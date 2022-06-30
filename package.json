@@ -35,7 +35,7 @@
 		"graphviz": "0.0.9",
 		"markov-ja": "^1.0.10",
 		"mathjax-node": "^2.1.1",
-		"moment": "^2.29.1",
+		"moment": "^2.29.2",
 		"node-cabocha": "0.0.5",
 		"node-fetch": "^2.6.7",
 		"reconnecting-websocket": "^4.2.0",

@@ -1,6 +1,6 @@
 {
 	"name": "botot2",
-	"version": "2.2.2",
+	"version": "3.0.0",
 	"description": "A chatbot for Misskey with Markov chain",
 	"main": "index.js",
 	"scripts": {

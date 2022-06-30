@@ -21,7 +21,7 @@ export default class AutoFollowModule implements IModule {
 			const res = await this.ai.api("following/create", {
 				userId: user.id,
 			})
-			const json = await res.json()
+			const json = await res.json() as { error?: unknown } // Force convert to { error?: unknown }
 			if (json.error)
 				console.log(`Following ${user.name}(@${user.username}): ${json.error}`)
 			else console.log(`Followed user ${user.name}(@${user.username})`)

@@ -65,8 +65,8 @@ export default class MarkovSpeakingModule implements IModule {
 					text: text,
 					visibility: config.visibility,
 				})
-				let json = await res.json()
-				if (json.error) {
+				const json = await res.json() as { error?: unknown } // Force convert to { error?: unknown }
+				if ("error" in json) {
 					console.error("An error occured while creating the interval post")
 					console.error(`content: ${text}`)
 					console.error(json.error)

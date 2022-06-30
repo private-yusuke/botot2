@@ -3,6 +3,7 @@ import Ai from "./ai"
 import Modulez from "./modules"
 import fetch from "node-fetch"
 import IModule from "./module"
+import { User } from "./misskey"
 
 console.log(">>> starting... <<<")
 
@@ -15,7 +16,7 @@ async function main() {
 		}),
 		headers: config.headers,
 	})
-	let me = await tmp.json()
+	let me = await tmp.json() as User // Force convert to misskey.User
 	console.log(`I am ${me.name}(@${me.username})!`)
 	console.log(`Version: ${config.version}(${config.revision})`)
 	me.host = config.host

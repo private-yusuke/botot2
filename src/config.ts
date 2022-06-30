@@ -2,16 +2,16 @@ import * as moment from "moment"
 import * as Misskey from "./misskey"
 import { Database } from "./modules/markov-speaking/database"
 
-type Duration = {
+export type Duration = {
 	value: number
 	unit: moment.unitOfTime.Base
 }
-type LengthRange = {
+export type LengthRange = {
 	start: number
 	end: number
 }
 
-type Config = {
+export type Config = {
 	i: string
 	host: string
 	headers?: { [key: string]: string }
@@ -26,7 +26,7 @@ type Config = {
 	intervalPost: boolean
 	intervalPostDuration: Duration
 	postMaxCharacterCount: number
-	modules: [string]
+	modules: string[]
 	markovSpeaking: {
 		allowLearn: boolean
 		allowLearnCW: boolean

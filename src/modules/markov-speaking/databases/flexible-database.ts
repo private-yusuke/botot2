@@ -1,15 +1,13 @@
 import { IDatabase } from "../database"
 import * as moment from "moment"
-import config from "../../../config"
+import config, { Duration } from "../../../config"
 import * as fs from "fs"
 import Ai from "../../../ai"
-const MarkovJa = require("markov-ja")
 
 export default class FlexibleDataBase implements IDatabase {
 	public readonly markov: any
 	public readonly ai: Ai
-	public readonly config: any
-	private readonly duration: any
+	private readonly duration: Duration
 	private intervalObj: NodeJS.Timer
 
 	constructor(markov: any, ai: Ai) {
@@ -18,7 +16,7 @@ export default class FlexibleDataBase implements IDatabase {
 		this.duration = config.database.saveDuration
 		this.intervalObj = setInterval(() => {
 			this.save()
-		}, moment.duration(this.duration[0], this.duration[1]).asMilliseconds())
+		}, moment.duration(this.duration.value, this.duration.unit).asMilliseconds())
 	}
 
 	load() {

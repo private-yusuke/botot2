@@ -34,10 +34,9 @@ export default class MarkovSpeakingModule implements IModule {
 			return Math.floor(Math.random() * Math.floor(max))
 		}
 		if (config.sentenceLengthRange) {
-			let l = config.sentenceLengthRange[0]
-			let r = config.sentenceLengthRange[1]
-			let m = r - 1
-			return getRandomInt(m + 1) + 1
+			let l = config.sentenceLengthRange.start
+			let r = config.sentenceLengthRange.end
+			return getRandomInt(r - l + 1) + l
 		} else return 1
 	}
 

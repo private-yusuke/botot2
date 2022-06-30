@@ -210,13 +210,9 @@
             "type": "object"
         },
         "modules": {
-            "items": [
-                {
-                    "type": "string"
-                }
-            ],
-            "maxItems": 1,
-            "minItems": 1,
+            "items": {
+                "type": "string"
+            },
             "type": "array"
         },
         "op": {

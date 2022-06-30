@@ -18,7 +18,7 @@
 	"devDependencies": {
 		"@types/node": "10.17.60",
 		"@types/node-fetch": "2.6.2",
-		"@types/ws": "6.0.4",
+		"@types/ws": "8.5.3",
 		"@types/xml2js": "0.4.11",
 		"eslint": "5.16.0",
 		"eslint-config-prettier": "6.15.0",
@@ -43,7 +43,7 @@
 		"svg2png": "^4.1.1",
 		"timeout-as-promise": "^1.0.0",
 		"typescript": "^3.7.3",
-		"ws": "^6.1.2",
+		"ws": "^8.0.0",
 		"xml2js": "^0.4.22"
 	}
 }

@@ -17,7 +17,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "10.17.60",
-		"@types/node-fetch": "2.5.12",
+		"@types/node-fetch": "2.6.2",
 		"@types/ws": "6.0.4",
 		"@types/xml2js": "0.4.11",
 		"eslint": "5.16.0",

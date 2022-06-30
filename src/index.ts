@@ -11,16 +11,16 @@ async function main() {
 	let tmp = await fetch(`${config.apiURL}/i`, {
 		method: "POST",
 		body: JSON.stringify({
-			i: config.i
+			i: config.i,
 		}),
-		headers: config.headers
+		headers: config.headers,
 	})
 	let me = await tmp.json()
 	console.log(`I am ${me.name}(@${me.username})!`)
 	console.log(`Version: ${config.version}(${config.revision})`)
 	me.host = config.host
 	const modules: IModule[] = []
-	Modulez.forEach(M => {
+	Modulez.forEach((M) => {
 		const m = new M()
 		if (config.modules.indexOf(m.name) >= 0) modules.push(m)
 	})

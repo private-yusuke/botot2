@@ -36,7 +36,7 @@ export default class MessageLike {
 			let obj = {
 				userId: this.user.id,
 				text: text,
-				...meta
+				...meta,
 			}
 			return await (await this.ai.api("messaging/messages/create", obj)).json()
 		} else {
@@ -45,7 +45,7 @@ export default class MessageLike {
 				text: text,
 				cw: cw,
 				visibility: this.messageOrNote.visibility,
-				...meta
+				...meta,
 			})
 			return await (await a).json()
 		}

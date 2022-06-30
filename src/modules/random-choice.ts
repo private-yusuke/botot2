@@ -8,8 +8,8 @@ export default class RandomChoiceModule implements IModule {
 	public readonly commands = [
 		{
 			name: "choose",
-			desc: "choose one from given N choices"
-		}
+			desc: "choose one from given N choices",
+		},
 	]
 	private ai: Ai
 

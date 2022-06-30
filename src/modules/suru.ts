@@ -9,8 +9,8 @@ export default class SuruModule implements IModule {
 	public readonly commands = [
 		{
 			name: "suru",
-			desc: "return yes or no"
-		}
+			desc: "return yes or no",
+		},
 	]
 
 	private ai: Ai

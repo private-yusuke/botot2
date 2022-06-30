@@ -18,7 +18,7 @@ export default class SushiModule implements IModule {
 			const emojiarr = [
 				this.randomEmoji(),
 				this.randomEmoji(),
-				this.randomEmoji()
+				this.randomEmoji(),
 			]
 			msg.reply(`にぎりました！${emojiarr.join("")}`)
 			return true

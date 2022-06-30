@@ -26,5 +26,5 @@ export {
 	Channel,
 	generateUserId,
 	isOp,
-	isBlocked
+	isBlocked,
 }

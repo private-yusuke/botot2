@@ -37,18 +37,18 @@ export default class Ai {
 		}
 		this.modules = loadedModules
 		console.info("loaded modules:")
-		this.modules.forEach(m => console.log(`${m.priority}: ${m.name}`))
+		this.modules.forEach((m) => console.log(`${m.priority}: ${m.name}`))
 
 		this.initConnection()
 		console.log({
 			visibility: config.visibility,
-			timelineChannel: config.timelineChannel
+			timelineChannel: config.timelineChannel,
 		})
 
 		this.api("meta")
-			.then(meta => meta.json())
-			.then(json => (this.meta = json))
-			.catch(err => console.error(err))
+			.then((meta) => meta.json())
+			.then((json) => (this.meta = json))
+			.catch((err) => console.error(err))
 
 		this.invervalPingObj = setInterval(() => {
 			this.connection.send("ping")
@@ -63,7 +63,7 @@ export default class Ai {
 		const data = JSON.stringify(
 			Object.assign(
 				{
-					i: config.i
+					i: config.i,
 				},
 				body
 			)
@@ -71,7 +71,7 @@ export default class Ai {
 		return fetch(url, {
 			method: "POST",
 			body: data,
-			headers: config.headers
+			headers: config.headers,
 		})
 	}
 
@@ -84,11 +84,11 @@ export default class Ai {
 				i: config.i,
 				file: {
 					value: file,
-					options: meta
-				}
+					options: meta,
+				},
 			},
 			json: true,
-			headers: config.headers
+			headers: config.headers,
 		})
 		return res
 	}
@@ -96,10 +96,10 @@ export default class Ai {
 	private initConnection() {
 		this.connection = new ReconnectingWebSocket(config.streamURL, [], {
 			WebSocket: WebSocket,
-			connectionTimeout: config.connectionTimeout | 5000
+			connectionTimeout: config.connectionTimeout | 5000,
 		})
 
-		this.connection.addEventListener("error", e => {
+		this.connection.addEventListener("error", (e) => {
 			console.error("WebSocket Error")
 			console.error(e)
 		})
@@ -114,7 +114,7 @@ export default class Ai {
 				console.log(mainData)
 			}
 			function sleep(time: number) {
-				return new Promise<void>(resolve => {
+				return new Promise<void>((resolve) => {
 					setTimeout(() => resolve(), time)
 				})
 			}
@@ -128,7 +128,7 @@ export default class Ai {
 			if (this.isInterrupted) this.connection.close()
 			console.log("WebSocket closed")
 		})
-		this.connection.addEventListener("message", message => {
+		this.connection.addEventListener("message", (message) => {
 			let msg: any = undefined
 			try {
 				msg = JSON.parse(message.data)
@@ -146,8 +146,8 @@ export default class Ai {
 				type: "connect",
 				body: {
 					id: id,
-					channel: channel
-				}
+					channel: channel,
+				},
 			}
 		}
 	}
@@ -203,8 +203,8 @@ export default class Ai {
 		if (body.user.isBot) return
 
 		this.modules
-			.filter(m => typeof m.onNote == "function")
-			.forEach(m => {
+			.filter((m) => typeof m.onNote == "function")
+			.forEach((m) => {
 				return m.onNote(body)
 			})
 	}
@@ -212,7 +212,7 @@ export default class Ai {
 	private async onMention(msg: MessageLike) {
 		if (msg.isMessage) {
 			this.api("messaging/messages/read", {
-				messageId: msg.id
+				messageId: msg.id,
 			})
 		} else {
 			let reaction: Reaction
@@ -221,7 +221,7 @@ export default class Ai {
 			await delay(config.delay)
 			this.api("notes/reactions/create", {
 				noteId: msg.id,
-				reaction: reaction
+				reaction: reaction,
 			})
 		}
 		if (msg.user.isBot || msg.user.id == this.account.id || !msg.text) return
@@ -233,7 +233,7 @@ export default class Ai {
 			console.log(
 				`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`
 			)
-			let funcs = this.modules.filter(m => typeof m.onCommand == "function")
+			let funcs = this.modules.filter((m) => typeof m.onCommand == "function")
 			let done: boolean
 			for (let i = 0; i < funcs.length; i++) {
 				if (done) break
@@ -244,8 +244,8 @@ export default class Ai {
 		} else {
 			let res: ReturnType<IModule["onMention"]>
 			this.modules
-				.filter(m => typeof m.onMention == "function")
-				.some(m => {
+				.filter((m) => typeof m.onMention == "function")
+				.some((m) => {
 					res = m.onMention(msg)
 					return res === true || typeof res === "object"
 				})
@@ -258,8 +258,8 @@ export default class Ai {
 
 	private onFollowed(user: User) {
 		this.modules
-			.filter(m => typeof m.onFollowed == "function")
-			.forEach(m => {
+			.filter((m) => typeof m.onFollowed == "function")
+			.forEach((m) => {
 				return m.onFollowed(user)
 			})
 	}
@@ -268,8 +268,8 @@ export default class Ai {
 		this.isInterrupted = true
 		this.connection.close()
 		this.modules
-			.filter(m => typeof m.onInterrupted == "function")
-			.forEach(m => m.onInterrupted())
+			.filter((m) => typeof m.onInterrupted == "function")
+			.forEach((m) => m.onInterrupted())
 		process.exit(0)
 	}
 }

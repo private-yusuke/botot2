@@ -12,16 +12,16 @@ export default class AdminModule implements IModule {
 	public readonly commands = [
 		{
 			name: "info",
-			desc: "Display the status of the bot"
+			desc: "Display the status of the bot",
 		},
 		{
 			name: "help",
-			desc: "Display all the comamnds with descriptions"
+			desc: "Display all the comamnds with descriptions",
 		},
 		{
 			name: "halt",
-			desc: "Shutdown the bot"
-		}
+			desc: "Shutdown the bot",
+		},
 	]
 	private ai: Ai
 
@@ -34,23 +34,23 @@ export default class AdminModule implements IModule {
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "info") {
 			let res = `\`\`\`
-Modules: ${this.ai.modules.map(i => `${i.name}(${i.priority})`).join(", ")}
+Modules: ${this.ai.modules.map((i) => `${i.name}(${i.priority})`).join(", ")}
 Uptime: ${this.getUptime()}
 ${process.title} ${process.version} ${process.arch} ${process.platform}
 Version: ${config.version}(${config.revision})
 `
 			res += this.ai.modules
-				.filter(i => typeof i.info == "function")
-				.map(i => i.info())
+				.filter((i) => typeof i.info == "function")
+				.map((i) => i.info())
 				.join("\n")
 			res += "\n```"
 			msg.reply(res)
 			return true
 		} else if (cmd[0] == "help") {
 			let res = "```\n"
-			this.ai.modules.forEach(v => {
+			this.ai.modules.forEach((v) => {
 				if (v.commands) {
-					v.commands.forEach(c => {
+					v.commands.forEach((c) => {
 						if (c.desc) res += `/${c.name}: ${c.desc}\n`
 						else res += `/${c.name}\n`
 					})

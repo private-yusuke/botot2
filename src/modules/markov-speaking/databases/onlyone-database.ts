@@ -37,7 +37,7 @@ export default class OnlyOneDatabase implements IDatabase {
 				console.log("renaming the database file.")
 				let res = await this.ai.api("notes/create", {
 					text: `【Information】\n\`\`\`\nデータベースが所定の大きさ(${config.database.maxSize}bytes)以上になったので、データベースが初期化されました。\nmax = ${config.database.maxSize} <= size = ${size}\n\`\`\``,
-					visibility: config.visibility
+					visibility: config.visibility,
 				})
 				console.log(await res.json())
 				fs.renameSync(

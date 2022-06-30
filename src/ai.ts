@@ -14,7 +14,6 @@ export default class Ai {
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
-	private invervalPingObj: NodeJS.Timer
 	meta: any
 
 	constructor(account: User, modules: IModule[]) {
@@ -25,7 +24,7 @@ export default class Ai {
 	}
 
 	private init() {
-		let loadedModules = []
+		let loadedModules: IModule[] = []
 		for (let m of this.modules) {
 			try {
 				m.install(this)
@@ -50,7 +49,7 @@ export default class Ai {
 			.then((json) => (this.meta = json))
 			.catch((err) => console.error(err))
 
-		this.invervalPingObj = setInterval(() => {
+		setInterval(() => {
 			this.connection.send("ping")
 			if (process.env.DEBUG) console.log("ping from client")
 		}, moment.duration(1, "minute").asMilliseconds())
@@ -96,7 +95,7 @@ export default class Ai {
 	private initConnection() {
 		this.connection = new ReconnectingWebSocket(config.streamURL, [], {
 			WebSocket: WebSocket,
-			connectionTimeout: config.connectionTimeout | 5000,
+			connectionTimeout: config.connectionTimeout || 5000,
 		})
 
 		this.connection.addEventListener("error", (e) => {
@@ -205,7 +204,7 @@ export default class Ai {
 		this.modules
 			.filter((m) => typeof m.onNote == "function")
 			.forEach((m) => {
-				return m.onNote(body)
+				return m.onNote!(body) // onNote's nullability has been checked
 			})
 	}
 
@@ -234,19 +233,20 @@ export default class Ai {
 				`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`
 			)
 			let funcs = this.modules.filter((m) => typeof m.onCommand == "function")
-			let done: boolean
+			let done = false
 			for (let i = 0; i < funcs.length; i++) {
 				if (done) break
-				let res = await funcs[i].onCommand(msg, r[1].split(" "))
+				// onCommand's nullability has been checked
+				let res = await funcs[i].onCommand!(msg, r[1].split(" "))
 				if (res === true || typeof res === "object") done = true
 			}
 			if (!done) msg.reply("command not found")
 		} else {
-			let res: ReturnType<IModule["onMention"]>
+			let res: ReturnType<NonNullable<IModule["onMention"]>>
 			this.modules
 				.filter((m) => typeof m.onMention == "function")
 				.some((m) => {
-					res = m.onMention(msg)
+					res = m.onMention!(msg) // onMention's nullability has been checked
 					return res === true || typeof res === "object"
 				})
 		}
@@ -260,7 +260,7 @@ export default class Ai {
 		this.modules
 			.filter((m) => typeof m.onFollowed == "function")
 			.forEach((m) => {
-				return m.onFollowed(user)
+				return m.onFollowed!(user) // onFollowed's nullability has been checked
 			})
 	}
 
@@ -269,7 +269,9 @@ export default class Ai {
 		this.connection.close()
 		this.modules
 			.filter((m) => typeof m.onInterrupted == "function")
-			.forEach((m) => m.onInterrupted())
+			.forEach((m) => {
+				m.onInterrupted!() // onInterrupted's nullability has been checked
+			})
 		process.exit(0)
 	}
 }

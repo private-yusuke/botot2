@@ -14,7 +14,7 @@ export default class KakariukeGraphModule implements IModule {
 			desc: "Generate a directed graph for kakariuke(Ja)",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
 
 	public install(ai: Ai) {
 		this.ai = ai
@@ -69,11 +69,11 @@ export default class KakariukeGraphModule implements IModule {
 				})
 
 				if (msg.isMessage) {
-					msg.reply("描画しました！", null, {
+					msg.reply("描画しました！", undefined, {
 						fileId: imageRes.id,
 					})
 				} else
-					msg.reply("描画しました！！", null, {
+					msg.reply("描画しました！！", undefined, {
 						fileIds: [imageRes.id],
 					})
 			}

@@ -11,11 +11,8 @@ export default class PingModule implements IModule {
 			name: "ping",
 		},
 	]
-	private ai: Ai
 
-	public install(ai: Ai) {
-		this.ai = ai
-	}
+	public install(_: Ai) {}
 
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "ping") {

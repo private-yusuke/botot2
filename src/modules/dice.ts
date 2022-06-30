@@ -12,11 +12,8 @@ export default class DiceModule implements IModule {
 			desc: "3d6 -> /dice 3 6",
 		},
 	]
-	private ai: Ai
 
-	public install(ai: Ai) {
-		this.ai = ai
-	}
+	public install(_: Ai) {}
 
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "dice") {
@@ -35,7 +32,7 @@ export default class DiceModule implements IModule {
 					msg.reply("Argument is invalid. (amount > 0, max > 0, amount <= 500)")
 					return true
 				}
-				let res = []
+				let res: number[] = []
 				for (let i = 0; i < amount; i++) {
 					res.push(Math.ceil(Math.random() * m))
 				}

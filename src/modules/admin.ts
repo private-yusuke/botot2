@@ -23,7 +23,7 @@ export default class AdminModule implements IModule {
 			desc: "Shutdown the bot",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
 
 	public install(ai: Ai) {
 		this.ai = ai
@@ -41,7 +41,7 @@ Version: ${config.version}(${config.revision})
 `
 			res += this.ai.modules
 				.filter((i) => typeof i.info == "function")
-				.map((i) => i.info())
+				.map((i) => i.info!()) // info's nullability has been checked
 				.join("\n")
 			res += "\n```"
 			msg.reply(res)

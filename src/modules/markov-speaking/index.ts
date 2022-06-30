@@ -16,12 +16,12 @@ export default class MarkovSpeakingModule implements IModule {
 	public readonly commands = [
 		{
 			name: "markov reset",
-			desc: "Explode the DB of NLP related data"
+			desc: "Explode the DB of NLP related data",
 		},
 		{
 			name: "markov delete",
-			desc: "Remove chains containing specified morphemes"
-		}
+			desc: "Remove chains containing specified morphemes",
+		},
 	]
 	private ai: Ai
 	private markov: any
@@ -63,7 +63,7 @@ export default class MarkovSpeakingModule implements IModule {
 				text += this.markov.generate(this.sentenceLength).join("\n")
 				let res = await this.ai.api("notes/create", {
 					text: text,
-					visibility: config.visibility
+					visibility: config.visibility,
 				})
 				let json = await res.json()
 				if (json.error) {
@@ -161,11 +161,11 @@ export default class MarkovSpeakingModule implements IModule {
 	public info(): string {
 		let res: string = `Database: ${
 			config.database.type
-		}, ${this.database.size()} / ${
-			config.database.maxSize
-		} (${(this.database.size() / config.database.maxSize) * 100}%)\nFilters: ${
-			config.markovSpeaking.wordFilterFiles
-		},${config.markovSpeaking.wordFilterURL}`
+		}, ${this.database.size()} / ${config.database.maxSize} (${
+			(this.database.size() / config.database.maxSize) * 100
+		}%)\nFilters: ${config.markovSpeaking.wordFilterFiles},${
+			config.markovSpeaking.wordFilterURL
+		}`
 		return res
 	}
 

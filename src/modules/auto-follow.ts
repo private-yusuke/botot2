@@ -19,7 +19,7 @@ export default class AutoFollowModule implements IModule {
 	async follow(user: User) {
 		try {
 			const res = await this.ai.api("following/create", {
-				userId: user.id
+				userId: user.id,
 			})
 			const json = await res.json()
 			if (json.error)

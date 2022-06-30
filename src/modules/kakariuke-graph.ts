@@ -11,8 +11,8 @@ export default class KakariukeGraphModule implements IModule {
 	public readonly commands = [
 		{
 			name: "kakariuke(abbr: ka)",
-			desc: "Generate a directed graph for kakariuke(Ja)"
-		}
+			desc: "Generate a directed graph for kakariuke(Ja)",
+		},
 	]
 	private ai: Ai
 
@@ -20,8 +20,8 @@ export default class KakariukeGraphModule implements IModule {
 		this.ai = ai
 	}
 	cabochaParsePromise(sentence: string): Promise<any> {
-		return new Promise(resolve => {
-			cabocha.parse(sentence, result => {
+		return new Promise((resolve) => {
+			cabocha.parse(sentence, (result) => {
 				resolve(result)
 			})
 		})
@@ -30,10 +30,10 @@ export default class KakariukeGraphModule implements IModule {
 		return new Promise((resolve, reject) => {
 			graph.output(
 				type,
-				data => {
+				(data) => {
 					resolve(data)
 				},
-				err => {
+				(err) => {
 					reject(err)
 				}
 			)
@@ -65,16 +65,16 @@ export default class KakariukeGraphModule implements IModule {
 				let resImage = await this.graphvizOutputPromise(graph, "png")
 				let imageRes = await this.ai.upload(resImage, {
 					filename: "graph.png",
-					contentType: "image/png"
+					contentType: "image/png",
 				})
 
 				if (msg.isMessage) {
 					msg.reply("描画しました！", null, {
-						fileId: imageRes.id
+						fileId: imageRes.id,
 					})
 				} else
 					msg.reply("描画しました！！", null, {
-						fileIds: [imageRes.id]
+						fileIds: [imageRes.id],
 					})
 			}
 			return true

@@ -8,8 +8,8 @@ export default class PingModule implements IModule {
 	public readonly name = "ping"
 	public readonly commands = [
 		{
-			name: "ping"
-		}
+			name: "ping",
+		},
 	]
 	private ai: Ai
 

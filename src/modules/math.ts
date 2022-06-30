@@ -13,16 +13,16 @@ export default class MathModule implements IModule {
 	public readonly commands = [
 		{
 			name: "math atol",
-			desc: "Convert AsciiMath code to LaTeX"
+			desc: "Convert AsciiMath code to LaTeX",
 		},
 		{
 			name: "math atol-src",
-			desc: "Convert AsciiMath code to LaTeX code"
+			desc: "Convert AsciiMath code to LaTeX code",
 		},
 		{
 			name: "math render",
-			desc: "Render LaTeX or AsciiMath to .png file"
-		}
+			desc: "Render LaTeX or AsciiMath to .png file",
+		},
 	]
 	private ai: Ai
 
@@ -41,12 +41,12 @@ export default class MathModule implements IModule {
 		let out = await mj.typeset({
 			math: formula,
 			format: type,
-			svg: true
+			svg: true,
 		})
 		let image
 		image = await svg2png(out.svg, {
 			width: out.width.slice(0, -2) * this.size,
-			height: out.height.slice(0, -2) * this.size
+			height: out.height.slice(0, -2) * this.size,
 		})
 		return image
 	}
@@ -56,7 +56,7 @@ export default class MathModule implements IModule {
 
 		let imageRes = await this.ai.upload(image, {
 			filename: "rendered.png",
-			contentType: "image/png"
+			contentType: "image/png",
 		})
 		return imageRes
 	}
@@ -87,11 +87,11 @@ export default class MathModule implements IModule {
 
 					if (msg.isMessage) {
 						msg.reply("Rendered!", null, {
-							fileId: file.id
+							fileId: file.id,
 						})
 					} else
 						msg.reply("Rendered! Here it is", null, {
-							fileIds: [file.id]
+							fileIds: [file.id],
 						})
 					break
 				default:

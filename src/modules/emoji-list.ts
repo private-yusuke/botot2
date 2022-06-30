@@ -8,8 +8,8 @@ export default class EmojiListModule implements IModule {
 	public readonly commands = [
 		{
 			name: "emoji",
-			desc: "Display all the emojis registered in the instance."
-		}
+			desc: "Display all the emojis registered in the instance.",
+		},
 	]
 	private ai: Ai
 
@@ -19,7 +19,7 @@ export default class EmojiListModule implements IModule {
 
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "emoji") {
-			let emojiTexts = this.ai.meta.emojis.map(i => `:${i.name}:`)
+			let emojiTexts = this.ai.meta.emojis.map((i) => `:${i.name}:`)
 			let maxNoteTextLength = this.ai.meta.maxNoteTextLength
 
 			let k = 0

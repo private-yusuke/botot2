@@ -2,7 +2,7 @@ const fs = require("fs")
 const { execFileSync } = require("child_process")
 const meta = require("./package.json")
 
-let gitRev = execFileSync("git", ["rev-parse", "--short", "HEAD"])
+const gitRev = execFileSync("git", ["rev-parse", "--short", "HEAD"])
 	.toString()
 	.trim()
 

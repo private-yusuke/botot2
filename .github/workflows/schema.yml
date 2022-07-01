@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Generate schema
-        run: npx typescript-json-schema ./src/config.ts Config -o config-schema.json
+        run: npm run schema
 
       - name: Check diff
         run: git diff --exit-code config-schema.json

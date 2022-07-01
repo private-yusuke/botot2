@@ -36,16 +36,16 @@ export type Config = {
 		 * from a specified account, you can add an account
 		 * into this list to prevent from learning their posts.
 		 */
-		blocked: [string]
+		blocked: string[]
 		filtering: boolean
 		wordFilterURL: string
-		wordFilterFiles: [string]
+		wordFilterFiles: string[]
 		wordFilterLog: boolean
 	}
 	math: {
 		size: number
 	}
-	op: [string]
+	op: string[]
 	database: {
 		path: string
 		type: Database

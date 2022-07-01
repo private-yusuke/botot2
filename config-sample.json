@@ -1,4 +1,5 @@
 {
+	"$schema": "https://raw.githubusercontent.com/private-yusuke/botot2/master/config-schema.json",
 	"i": "!xxxxxxxxxxx",
 	"host": "misskey.xyz",
 	"timeline": "hybrid",
@@ -48,17 +49,17 @@
 		"path": "db/triplets_db.json",
 		"type": "onlyOne",
 		"saveFrequency": 5,
-		"saveDuration": [
-			30,
-			"minute"
-		],
+		"saveDuration": {
+			"value": 30,
+			"unit": "minute"
+		},
 		"maxSize": 1e6,
 		"attenuationRate": 0.5
 	},
-	"sentenceLengthRange": [
-		1,
-		1
-	],
+	"sentenceLengthRange": {
+		"start": 1,
+		"end": 1
+	},
 	"mecab": {
 		"commandOptions": ""
 	},

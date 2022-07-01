@@ -1,0 +1,26 @@
+name: Validate renovate.json
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  renovate-config-validator:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Renovate CLI
+        run: npm install -g renovate
+
+      - name: Validate renovate.json
+        run: renovate-config-validator

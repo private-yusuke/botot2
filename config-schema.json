@@ -162,26 +162,18 @@
                     "type": "boolean"
                 },
                 "blocked": {
-                    "items": [
-                        {
-                            "type": "string"
-                        }
-                    ],
-                    "maxItems": 1,
-                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    },
                     "type": "array"
                 },
                 "filtering": {
                     "type": "boolean"
                 },
                 "wordFilterFiles": {
-                    "items": [
-                        {
-                            "type": "string"
-                        }
-                    ],
-                    "maxItems": 1,
-                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    },
                     "type": "array"
                 },
                 "wordFilterLog": {
@@ -216,13 +208,9 @@
             "type": "array"
         },
         "op": {
-            "items": [
-                {
-                    "type": "string"
-                }
-            ],
-            "maxItems": 1,
-            "minItems": 1,
+            "items": {
+                "type": "string"
+            },
             "type": "array"
         },
         "postMaxCharacterCount": {

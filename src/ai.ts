@@ -5,14 +5,24 @@ import IModule from "./module"
 import * as WebSocket from "ws"
 import { User, Reaction, generateUserId } from "./misskey"
 import * as moment from "moment"
-const ReconnectingWebSocket = require("reconnecting-websocket")
+import ReconnectingWebSocket from "reconnecting-websocket"
 import MessageLike from "./message-like"
-const delay = require("timeout-as-promise")
+import * as delay from "timeout-as-promise"
+
+type PickRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+
+function assertProperty<T, K extends keyof T>(value: T, key: K): value is PickRequired<T, K> {
+	return value[key] != null
+}
+
+interface Array<T> {
+	filter<U extends T>(pred: (a: T) => a is U): U[]
+}
 
 export default class Ai {
 	public account: User
 	private connection: any
-	modules: IModule[] = []
+	modules: Array<IModule> = new Array<IModule>()
 	private isInterrupted: boolean = false
 	meta: any
 
@@ -258,9 +268,13 @@ export default class Ai {
 
 	private onFollowed(user: User) {
 		this.modules
-			.filter((m) => typeof m.onFollowed == "function")
+			.filter(
+				<(m: IModule) => m is PickRequired<typeof m, "onFollowed">>(
+					((m) => m.onFollowed != null)
+				)
+			)
 			.forEach((m) => {
-				return m.onFollowed!(user) // onFollowed's nullability has been checked
+				return m.onFollowed(user) // onFollowed's nullability has been checked
 			})
 	}
 
@@ -268,9 +282,9 @@ export default class Ai {
 		this.isInterrupted = true
 		this.connection.close()
 		this.modules
-			.filter((m) => typeof m.onInterrupted == "function")
+			.filter((m) => assertProperty(m, "onInterrupted"))
 			.forEach((m) => {
-				m.onInterrupted!() // onInterrupted's nullability has been checked
+				m.onInterrupted() // onInterrupted's nullability has been checked
 			})
 		process.exit(0)
 	}

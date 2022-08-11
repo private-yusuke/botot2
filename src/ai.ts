@@ -8,21 +8,16 @@ import * as moment from "moment"
 import ReconnectingWebSocket from "reconnecting-websocket"
 import MessageLike from "./message-like"
 import * as delay from "timeout-as-promise"
+import { assertProperty } from "./util/assert-property"
 
-type PickRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
-
-function assertProperty<T, K extends keyof T>(value: T, key: K): value is PickRequired<T, K> {
-	return value[key] != null
-}
-
-interface Array<T> {
-	filter<U extends T>(pred: (a: T) => a is U): U[]
+interface TypedArray<T> extends Array<T> {
+	filter<U extends T>(pred: (a: T) => a is U): Array<U>
 }
 
 export default class Ai {
 	public account: User
 	private connection: any
-	modules: Array<IModule> = new Array<IModule>()
+	modules: TypedArray<IModule> = new Array<IModule>()
 	private isInterrupted: boolean = false
 	meta: any
 
@@ -103,10 +98,15 @@ export default class Ai {
 	}
 
 	private initConnection() {
-		this.connection = new ReconnectingWebSocket(config.streamURL, [], {
-			WebSocket: WebSocket,
-			connectionTimeout: config.connectionTimeout || 5000,
-		})
+		// config.streamURL must be string, because config.streamURL is generated in config.ts
+		this.connection = new ReconnectingWebSocket(
+			config.streamURL as string,
+			[],
+			{
+				WebSocket: WebSocket,
+				connectionTimeout: config.connectionTimeout || 5000,
+			}
+		)
 
 		this.connection.addEventListener("error", (e) => {
 			console.error("WebSocket Error")
@@ -211,11 +211,9 @@ export default class Ai {
 		}
 		if (body.user.isBot) return
 
-		this.modules
-			.filter((m) => typeof m.onNote == "function")
-			.forEach((m) => {
-				return m.onNote!(body) // onNote's nullability has been checked
-			})
+		this.modules.filter(assertProperty("onNote")).forEach((m) => {
+			return m.onNote(body)
+		})
 	}
 
 	private async onMention(msg: MessageLike) {
@@ -242,23 +240,20 @@ export default class Ai {
 			console.log(
 				`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`
 			)
-			let funcs = this.modules.filter((m) => typeof m.onCommand == "function")
+			let funcs = this.modules.filter(assertProperty("onCommand"))
 			let done = false
 			for (let i = 0; i < funcs.length; i++) {
 				if (done) break
-				// onCommand's nullability has been checked
-				let res = await funcs[i].onCommand!(msg, r[1].split(" "))
+				let res = await funcs[i].onCommand(msg, r[1].split(" "))
 				if (res === true || typeof res === "object") done = true
 			}
 			if (!done) msg.reply("command not found")
 		} else {
 			let res: ReturnType<NonNullable<IModule["onMention"]>>
-			this.modules
-				.filter((m) => typeof m.onMention == "function")
-				.some((m) => {
-					res = m.onMention!(msg) // onMention's nullability has been checked
-					return res === true || typeof res === "object"
-				})
+			this.modules.filter(assertProperty("onMention")).some((m) => {
+				res = m.onMention(msg)
+				return res === true || typeof res === "object"
+			})
 		}
 	}
 
@@ -267,25 +262,17 @@ export default class Ai {
 	}
 
 	private onFollowed(user: User) {
-		this.modules
-			.filter(
-				<(m: IModule) => m is PickRequired<typeof m, "onFollowed">>(
-					((m) => m.onFollowed != null)
-				)
-			)
-			.forEach((m) => {
-				return m.onFollowed(user) // onFollowed's nullability has been checked
-			})
+		this.modules.filter(assertProperty("onFollowed")).forEach((m) => {
+			return m.onFollowed(user)
+		})
 	}
 
 	async onInterrupt() {
 		this.isInterrupted = true
 		this.connection.close()
-		this.modules
-			.filter((m) => assertProperty(m, "onInterrupted"))
-			.forEach((m) => {
-				m.onInterrupted() // onInterrupted's nullability has been checked
-			})
+		this.modules.filter(assertProperty("onInterrupted")).forEach((m) => {
+			m.onInterrupted()
+		})
 		process.exit(0)
 	}
 }

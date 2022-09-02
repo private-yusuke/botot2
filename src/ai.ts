@@ -5,7 +5,7 @@ import IModule from "./module"
 import * as WebSocket from "ws"
 import { User, Reaction, generateUserId } from "./misskey"
 import * as moment from "moment"
-import ReconnectingWebSocket from "reconnecting-websocket"
+const ReconnectingWebSocket = require("reconnecting-websocket")
 import MessageLike from "./message-like"
 import * as delay from "timeout-as-promise"
 import { assertProperty } from "./util/assert-property"

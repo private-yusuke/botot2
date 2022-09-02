@@ -10,14 +10,10 @@ import MessageLike from "./message-like"
 import * as delay from "timeout-as-promise"
 import { assertProperty } from "./util/assert-property"
 
-interface TypedArray<T> extends Array<T> {
-	filter<U extends T>(pred: (a: T) => a is U): Array<U>
-}
-
 export default class Ai {
 	public account: User
 	private connection: any
-	modules: TypedArray<IModule> = new Array<IModule>()
+	modules: IModule[] = []
 	private isInterrupted: boolean = false
 	meta: any
 

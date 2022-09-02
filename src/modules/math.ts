@@ -2,7 +2,7 @@ import IModule from "../module"
 import MessageLike from "../message-like"
 import Ai from "../ai"
 import config from "../config"
-const asciimathToLaTeX = require("asciimath-to-latex")
+import asciimathToLaTeX from "asciimath-to-latex"
 const mj = require("mathjax-node")
 const svg2png = require("svg2png")
 

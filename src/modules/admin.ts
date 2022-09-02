@@ -1,10 +1,10 @@
 import IModule from "../module"
 import Ai from "../ai"
 import MessageLike from "../message-like"
-import * as os from "os"
 import { isOp } from "../misskey"
 import { now } from "moment"
 import config from "../config"
+import { assertProperty } from "../util/assert-property"
 
 export default class AdminModule implements IModule {
 	public readonly priority = 10
@@ -23,7 +23,7 @@ export default class AdminModule implements IModule {
 			desc: "Shutdown the bot",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
 
 	public install(ai: Ai) {
 		this.ai = ai
@@ -40,7 +40,7 @@ ${process.title} ${process.version} ${process.arch} ${process.platform}
 Version: ${config.version}(${config.revision})
 `
 			res += this.ai.modules
-				.filter((i) => typeof i.info == "function")
+				.filter(assertProperty("info"))
 				.map((i) => i.info())
 				.join("\n")
 			res += "\n```"

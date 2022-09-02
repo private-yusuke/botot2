@@ -23,11 +23,10 @@ export default class MarkovSpeakingModule implements IModule {
 			desc: "Remove chains containing specified morphemes",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
 	private markov: any
-	private database: IDatabase
-	private intervalObj: NodeJS.Timer
-	private filter: WordFilter
+	private database!: IDatabase
+	private filter!: WordFilter
 
 	private get sentenceLength(): number {
 		function getRandomInt(max) {
@@ -58,14 +57,14 @@ export default class MarkovSpeakingModule implements IModule {
 			if (duration == 0) {
 				console.error("Bad duration setting. intervalPost feature is disabled.")
 			}
-			this.intervalObj = setInterval(async () => {
+			setInterval(async () => {
 				let text = ""
 				text += this.markov.generate(this.sentenceLength).join("\n")
 				let res = await this.ai.api("notes/create", {
 					text: text,
 					visibility: config.visibility,
 				})
-				let json = await res.json()
+				const json = (await res.json()) as { error?: unknown } // Force convert to { error?: unknown }
 				if (json.error) {
 					console.error("An error occured while creating the interval post")
 					console.error(`content: ${text}`)

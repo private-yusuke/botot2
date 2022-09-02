@@ -1,7 +1,6 @@
 import IModule from "../module"
 import MessageLike from "../message-like"
 import Ai from "../ai"
-import { User } from "../misskey"
 import config from "../config"
 const asciimathToLaTeX = require("asciimath-to-latex")
 const mj = require("mathjax-node")
@@ -24,9 +23,9 @@ export default class MathModule implements IModule {
 			desc: "Render LaTeX or AsciiMath to .png file",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
+	public size!: number
 
-	public size: number
 	public install(ai: Ai) {
 		this.ai = ai
 		this.size = config.math.size
@@ -86,11 +85,11 @@ export default class MathModule implements IModule {
 					}
 
 					if (msg.isMessage) {
-						msg.reply("Rendered!", null, {
+						msg.reply("Rendered!", undefined, {
 							fileId: file.id,
 						})
 					} else
-						msg.reply("Rendered! Here it is", null, {
+						msg.reply("Rendered! Here it is", undefined, {
 							fileIds: [file.id],
 						})
 					break

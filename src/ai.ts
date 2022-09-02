@@ -7,14 +7,14 @@ import { User, Reaction, generateUserId } from "./misskey"
 import * as moment from "moment"
 const ReconnectingWebSocket = require("reconnecting-websocket")
 import MessageLike from "./message-like"
-const delay = require("timeout-as-promise")
+import * as delay from "timeout-as-promise"
+import { assertProperty } from "./util/assert-property"
 
 export default class Ai {
 	public account: User
 	private connection: any
 	modules: IModule[] = []
 	private isInterrupted: boolean = false
-	private invervalPingObj: NodeJS.Timer
 	meta: any
 
 	constructor(account: User, modules: IModule[]) {
@@ -25,7 +25,7 @@ export default class Ai {
 	}
 
 	private init() {
-		let loadedModules = []
+		let loadedModules: IModule[] = []
 		for (let m of this.modules) {
 			try {
 				m.install(this)
@@ -50,7 +50,7 @@ export default class Ai {
 			.then((json) => (this.meta = json))
 			.catch((err) => console.error(err))
 
-		this.invervalPingObj = setInterval(() => {
+		setInterval(() => {
 			this.connection.send("ping")
 			if (process.env.DEBUG) console.log("ping from client")
 		}, moment.duration(1, "minute").asMilliseconds())
@@ -94,10 +94,15 @@ export default class Ai {
 	}
 
 	private initConnection() {
-		this.connection = new ReconnectingWebSocket(config.streamURL, [], {
-			WebSocket: WebSocket,
-			connectionTimeout: config.connectionTimeout | 5000,
-		})
+		// config.streamURL must be string, because config.streamURL is generated in config.ts
+		this.connection = new ReconnectingWebSocket(
+			config.streamURL as string,
+			[],
+			{
+				WebSocket: WebSocket,
+				connectionTimeout: config.connectionTimeout || 5000,
+			}
+		)
 
 		this.connection.addEventListener("error", (e) => {
 			console.error("WebSocket Error")
@@ -202,11 +207,9 @@ export default class Ai {
 		}
 		if (body.user.isBot) return
 
-		this.modules
-			.filter((m) => typeof m.onNote == "function")
-			.forEach((m) => {
-				return m.onNote(body)
-			})
+		this.modules.filter(assertProperty("onNote")).forEach((m) => {
+			return m.onNote(body)
+		})
 	}
 
 	private async onMention(msg: MessageLike) {
@@ -233,8 +236,8 @@ export default class Ai {
 			console.log(
 				`!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`
 			)
-			let funcs = this.modules.filter((m) => typeof m.onCommand == "function")
-			let done: boolean
+			let funcs = this.modules.filter(assertProperty("onCommand"))
+			let done = false
 			for (let i = 0; i < funcs.length; i++) {
 				if (done) break
 				let res = await funcs[i].onCommand(msg, r[1].split(" "))
@@ -242,13 +245,11 @@ export default class Ai {
 			}
 			if (!done) msg.reply("command not found")
 		} else {
-			let res: ReturnType<IModule["onMention"]>
-			this.modules
-				.filter((m) => typeof m.onMention == "function")
-				.some((m) => {
-					res = m.onMention(msg)
-					return res === true || typeof res === "object"
-				})
+			let res: ReturnType<NonNullable<IModule["onMention"]>>
+			this.modules.filter(assertProperty("onMention")).some((m) => {
+				res = m.onMention(msg)
+				return res === true || typeof res === "object"
+			})
 		}
 	}
 
@@ -257,19 +258,17 @@ export default class Ai {
 	}
 
 	private onFollowed(user: User) {
-		this.modules
-			.filter((m) => typeof m.onFollowed == "function")
-			.forEach((m) => {
-				return m.onFollowed(user)
-			})
+		this.modules.filter(assertProperty("onFollowed")).forEach((m) => {
+			return m.onFollowed(user)
+		})
 	}
 
 	async onInterrupt() {
 		this.isInterrupted = true
 		this.connection.close()
-		this.modules
-			.filter((m) => typeof m.onInterrupted == "function")
-			.forEach((m) => m.onInterrupted())
+		this.modules.filter(assertProperty("onInterrupted")).forEach((m) => {
+			m.onInterrupted()
+		})
 		process.exit(0)
 	}
 }

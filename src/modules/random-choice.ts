@@ -11,11 +11,8 @@ export default class RandomChoiceModule implements IModule {
 			desc: "choose one from given N choices",
 		},
 	]
-	private ai: Ai
 
-	public install(ai: Ai) {
-		this.ai = ai
-	}
+	public install(_: Ai) {}
 
 	public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
 		if (cmd[0] == "choose") {

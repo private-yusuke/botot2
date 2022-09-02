@@ -11,7 +11,7 @@ export default class EmojiListModule implements IModule {
 			desc: "Display all the emojis registered in the instance.",
 		},
 	]
-	private ai: Ai
+	private ai!: Ai
 
 	public install(ai: Ai) {
 		this.ai = ai

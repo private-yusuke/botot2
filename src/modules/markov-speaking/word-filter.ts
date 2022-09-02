@@ -6,8 +6,8 @@ import * as fs from "fs"
 export default class WordFilter {
 	private filterURL: string
 	private initialized: boolean = false
-	public ngwordDict: string[]
-	public okwordDict: string[]
+	public ngwordDict: string[] = []
+	public okwordDict: string[] = []
 
 	constructor() {
 		this.filterURL = config.markovSpeaking.wordFilterURL
@@ -86,7 +86,7 @@ export default class WordFilter {
 			let ok: boolean = false
 			for (let okword of this.okwordDict) {
 				if (str.length - k < okword.length) break
-				if (str.substr(k, okword.length) == okword) {
+				if (str.slice(k, k + okword.length) == okword) {
 					k += okword.length
 					ok = true
 					break
@@ -96,7 +96,7 @@ export default class WordFilter {
 
 			for (let ngword of this.ngwordDict) {
 				if (str.length - k < ngword.length) break
-				if (str.substr(k, ngword.length) == ngword) {
+				if (str.slice(k, k + ngword.length) == ngword) {
 					if (config.markovSpeaking.wordFilterLog) console.log(`*B: ${ngword}`)
 					return true
 				}

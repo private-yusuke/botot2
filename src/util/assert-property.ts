@@ -1,4 +1,4 @@
-export type PickRequired<T, K extends keyof T> = T & Required<Pick<T, K>>
+export type PickRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
 /**
  * Type argument K must be a literal type representing exactly one key given to `key`.
@@ -7,9 +7,9 @@ export type PickRequired<T, K extends keyof T> = T & Required<Pick<T, K>>
  * @returns A assertion function that checks if a value of type T has the property of `key`
  */
 export function assertProperty<T, K extends keyof T>(
-	key: K
+  key: K
 ): (value: T) => value is PickRequired<T, K> {
-	return (value: T): value is PickRequired<T, K> => {
-		return value instanceof Object && key in value
-	}
+  return (value: T): value is PickRequired<T, K> => {
+    return value instanceof Object && key in value;
+  };
 }

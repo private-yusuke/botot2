@@ -1,2 +1,2 @@
-type Timeline = "home" | "local" | "social" | "hybrid" | "global"
-export default Timeline
+type Timeline = "home" | "local" | "social" | "hybrid" | "global";
+export default Timeline;

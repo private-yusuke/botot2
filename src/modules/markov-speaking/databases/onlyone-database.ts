@@ -3,16 +3,15 @@ import * as moment from "moment";
 import * as fs from "fs";
 import config from "../../../config";
 import Ai from "../../../ai";
+import { api } from "../../../misskey";
 const MarkovJa = require("markov-ja");
 
 export default class OnlyOneDatabase implements IDatabase {
   public readonly markov: any;
-  public readonly ai: Ai;
   private unsavedPostCount: number = 0;
 
-  constructor(markov: any, ai: Ai) {
+  constructor(markov: any) {
     this.markov = markov;
-    this.ai = ai;
   }
 
   load() {
@@ -35,7 +34,7 @@ export default class OnlyOneDatabase implements IDatabase {
           `database is too big. max = ${config.database.maxSize} <= size = ${size}.`
         );
         console.log("renaming the database file.");
-        let res = await this.ai.api("notes/create", {
+        let res = await api("notes/create", {
           text: `【Information】\n\`\`\`\nデータベースが所定の大きさ(${config.database.maxSize}bytes)以上になったので、データベースが初期化されました。\nmax = ${config.database.maxSize} <= size = ${size}\n\`\`\``,
           visibility: config.visibility,
         });

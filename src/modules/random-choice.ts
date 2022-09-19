@@ -1,6 +1,5 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
 
 export default class RandomChoiceModule implements IModule {
   public readonly priority = 0;
@@ -12,7 +11,7 @@ export default class RandomChoiceModule implements IModule {
     },
   ];
 
-  public install(_: Ai) {}
+  public install() {}
 
   public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if (cmd[0] == "choose") {

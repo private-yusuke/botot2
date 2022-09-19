@@ -1,6 +1,6 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
+import { upload } from "../misskey";
 const Cabocha = require("node-cabocha");
 const cabocha = new Cabocha();
 const graphviz = require("graphviz");
@@ -14,11 +14,9 @@ export default class KakariukeGraphModule implements IModule {
       desc: "Generate a directed graph for kakariuke(Ja)",
     },
   ];
-  private ai!: Ai;
 
-  public install(ai: Ai) {
-    this.ai = ai;
-  }
+  public install() {}
+
   cabochaParsePromise(sentence: string): Promise<any> {
     return new Promise((resolve) => {
       cabocha.parse(sentence, (result) => {
@@ -63,7 +61,7 @@ export default class KakariukeGraphModule implements IModule {
         }
 
         let resImage = await this.graphvizOutputPromise(graph, "png");
-        let imageRes = await this.ai.upload(resImage, {
+        let imageRes = await upload(resImage, {
           filename: "graph.png",
           contentType: "image/png",
         });

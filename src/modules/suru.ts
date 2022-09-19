@@ -1,6 +1,5 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
 import config from "../config";
 
 export default class SuruModule implements IModule {
@@ -13,7 +12,7 @@ export default class SuruModule implements IModule {
     },
   ];
 
-  public install(_: Ai) {}
+  public install() {}
 
   public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if (cmd[0] == "suru") {

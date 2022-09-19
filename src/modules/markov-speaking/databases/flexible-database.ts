@@ -2,17 +2,14 @@ import { IDatabase } from "../database";
 import * as moment from "moment";
 import config, { Duration } from "../../../config";
 import * as fs from "fs";
-import Ai from "../../../ai";
 
 export default class FlexibleDataBase implements IDatabase {
   public readonly markov: any;
-  public readonly ai: Ai;
   private readonly duration: Duration;
   private intervalObj: NodeJS.Timer;
 
-  constructor(markov: any, ai: Ai) {
+  constructor(markov: any) {
     this.markov = markov;
-    this.ai = ai;
     this.duration = config.database.saveDuration;
     this.intervalObj = setInterval(() => {
       this.save();

@@ -1,12 +1,11 @@
 import IModule from "../module";
-import Ai from "../ai";
 import MessageLike from "../message-like";
 
 export default class SushiModule implements IModule {
   public readonly priority = 2;
   public readonly name = "sushi";
 
-  public install(_: Ai) {}
+  public install() {}
 
   public onMention(msg: MessageLike) {
     if (!msg.text) return false;

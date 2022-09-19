@@ -13,7 +13,7 @@ export default class DiceModule implements IModule {
     },
   ];
 
-  public install(_: Ai) {}
+  public install() {}
 
   public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if (cmd[0] == "dice") {

@@ -22,7 +22,7 @@ async function main() {
   me.host = config.host;
   const modules: IModule[] = [];
   Modulez.forEach((M) => {
-    const m = new M();
+    const m = new M(ai);
     if (config.modules.indexOf(m.name) >= 0) modules.push(m);
   });
   modules.sort((a, b) => {

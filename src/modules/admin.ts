@@ -23,11 +23,14 @@ export default class AdminModule implements IModule {
       desc: "Shutdown the bot",
     },
   ];
-  private ai!: Ai;
+  private ai: Ai;
 
-  public install(ai: Ai) {
+  constructor(ai: Ai) {
     this.ai = ai;
   }
+
+  public install() {}
+
   public getUptime(): string {
     return Math.floor(process.uptime()) + "s";
   }

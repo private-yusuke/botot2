@@ -1,9 +1,7 @@
-import fetch from "node-fetch";
-import * as request from "request-promise-native";
 import config from "./config";
 import IModule from "./module";
 import * as WebSocket from "ws";
-import { User, Reaction, generateUserId } from "./misskey";
+import { User, Reaction, generateUserId, api } from "./misskey";
 import * as moment from "moment";
 const ReconnectingWebSocket = require("reconnecting-websocket");
 import MessageLike from "./message-like";
@@ -28,7 +26,7 @@ export default class Ai {
     let loadedModules: IModule[] = [];
     for (let m of this.modules) {
       try {
-        m.install(this);
+        m.install();
         loadedModules.push(m);
       } catch (e) {
         console.error(`An error has occured while loading module "${m.name}"`);
@@ -45,52 +43,12 @@ export default class Ai {
       timelineChannel: config.timelineChannel,
     });
 
-    this.api("meta")
-      .then((meta) => meta.json())
-      .then((json) => (this.meta = json))
-      .catch((err) => console.error(err));
-
     setInterval(() => {
       this.connection.send("ping");
       if (process.env.DEBUG) console.log("ping from client");
     }, moment.duration(1, "minute").asMilliseconds());
 
     if (process.env.DEBUG) console.log("DEBUG enabled");
-  }
-
-  public api(endpoint: string, body?: any) {
-    const url = `${config.apiURL}/${endpoint}`;
-    const data = JSON.stringify(
-      Object.assign(
-        {
-          i: config.i,
-        },
-        body
-      )
-    );
-    return fetch(url, {
-      method: "POST",
-      body: data,
-      headers: config.headers,
-    });
-  }
-
-  public async upload(file: Buffer, meta?: any) {
-    const url = `${config.apiURL}/drive/files/create`;
-
-    const res = await request.post({
-      url: url,
-      formData: {
-        i: config.i,
-        file: {
-          value: file,
-          options: meta,
-        },
-      },
-      json: true,
-      headers: config.headers,
-    });
-    return res;
   }
 
   private initConnection() {
@@ -203,7 +161,7 @@ export default class Ai {
             reg[1] == this.account.username &&
             text.startsWith(`@${this.account.username}`))))
     ) {
-      this.onMention(new MessageLike(this, body, false));
+      this.onMention(new MessageLike(body, false));
     }
     if (body.user.isBot) return;
 
@@ -214,7 +172,7 @@ export default class Ai {
 
   private async onMention(msg: MessageLike) {
     if (msg.isMessage) {
-      this.api("messaging/messages/read", {
+      api("messaging/messages/read", {
         messageId: msg.id,
       });
     } else {
@@ -222,7 +180,7 @@ export default class Ai {
       if (msg.user.isBot) reaction = "angry";
       else reaction = "like";
       await delay(config.delay);
-      this.api("notes/reactions/create", {
+      api("notes/reactions/create", {
         noteId: msg.id,
         reaction: reaction,
       });
@@ -254,7 +212,7 @@ export default class Ai {
   }
 
   private onMessage(msg: any) {
-    this.onMention(new MessageLike(this, msg, true));
+    this.onMention(new MessageLike(msg, true));
   }
 
   private onFollowed(user: User) {

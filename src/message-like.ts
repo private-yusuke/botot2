@@ -1,10 +1,8 @@
-import Ai from "./ai";
-import { User } from "./misskey";
+import { api, User } from "./misskey";
 import config from "./config";
 const delay = require("timeout-as-promise");
 
 export default class MessageLike {
-  private ai: Ai;
   private messageOrNote: any;
   public isMessage: boolean;
 
@@ -21,8 +19,7 @@ export default class MessageLike {
     return this.messageOrNote.replyId;
   }
 
-  constructor(ai: Ai, messageOrNote: any, isMessage: boolean) {
-    this.ai = ai;
+  constructor(messageOrNote: any, isMessage: boolean) {
     this.messageOrNote = messageOrNote;
     this.isMessage = isMessage;
   }
@@ -38,9 +35,9 @@ export default class MessageLike {
         text: text,
         ...meta,
       };
-      return await (await this.ai.api("messaging/messages/create", obj)).json();
+      return await (await api("messaging/messages/create", obj)).json();
     } else {
-      let a = await this.ai.api("notes/create", {
+      let a = await api("notes/create", {
         replyId: this.messageOrNote.id,
         text: text,
         cw: cw,

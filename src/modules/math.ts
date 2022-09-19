@@ -3,6 +3,7 @@ import MessageLike from "../message-like";
 import Ai from "../ai";
 import config from "../config";
 import asciimathToLaTeX from "asciimath-to-latex";
+import { upload } from "../misskey";
 const mj = require("mathjax-node");
 const svg2png = require("svg2png");
 
@@ -23,11 +24,9 @@ export default class MathModule implements IModule {
       desc: "Render LaTeX or AsciiMath to .png file",
     },
   ];
-  private ai!: Ai;
   public size!: number;
 
-  public install(ai: Ai) {
-    this.ai = ai;
+  public install(_: Ai) {
     this.size = config.math.size;
     mj.start();
   }
@@ -53,7 +52,7 @@ export default class MathModule implements IModule {
     let image = await this.generateImage(type, formula);
     if (!image) return null;
 
-    let imageRes = await this.ai.upload(image, {
+    let imageRes = await upload(image, {
       filename: "rendered.png",
       contentType: "image/png",
     });

@@ -1,16 +1,14 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
+import { api } from "../misskey";
 import Ai from "../ai";
 import { User } from "../misskey";
 
 export default class AutoFollowModule implements IModule {
   public readonly priority = 0;
   public readonly name = "autoFollow";
-  private ai!: Ai;
 
-  public install(ai: Ai) {
-    this.ai = ai;
-  }
+  public install(_: Ai) {}
 
   public onFollowed(user: User) {
     this.follow(user);
@@ -18,7 +16,7 @@ export default class AutoFollowModule implements IModule {
 
   async follow(user: User) {
     try {
-      const res = await this.ai.api("following/create", {
+      const res = await api("following/create", {
         userId: user.id,
       });
       const json = (await res.json()) as { error?: unknown }; // Force convert to { error?: unknown }

@@ -1,6 +1,5 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
 import { api } from "../misskey";
 
 export default class EmojiListModule implements IModule {
@@ -14,7 +13,7 @@ export default class EmojiListModule implements IModule {
   ];
   meta: any;
 
-  public install(_: Ai) {
+  public install() {
     api("meta")
       .then((meta) => meta.json())
       .then((json) => (this.meta = json))

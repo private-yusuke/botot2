@@ -26,7 +26,7 @@ export default class Ai {
     let loadedModules: IModule[] = [];
     for (let m of this.modules) {
       try {
-        m.install(this);
+        m.install();
         loadedModules.push(m);
       } catch (e) {
         console.error(`An error has occured while loading module "${m.name}"`);

@@ -1,12 +1,10 @@
 import IModule from "../../module";
 import MessageLike from "../../message-like";
-import Ai from "../../ai";
-import { User, generateUserId, isOp, isBlocked } from "../../misskey";
+import { User, generateUserId, isOp, isBlocked, api } from "../../misskey";
 import { IDatabase } from "./database";
 import createDatabase from "./databases";
 import config from "../../config";
 import * as moment from "moment";
-import { Body } from "node-fetch";
 import WordFilter from "./word-filter";
 const MarkovJa = require("markov-ja");
 
@@ -23,7 +21,6 @@ export default class MarkovSpeakingModule implements IModule {
       desc: "Remove chains containing specified morphemes",
     },
   ];
-  private ai!: Ai;
   private markov: any;
   private database!: IDatabase;
   private filter!: WordFilter;
@@ -39,10 +36,9 @@ export default class MarkovSpeakingModule implements IModule {
     } else return 1;
   }
 
-  public install(ai: Ai) {
-    this.ai = ai;
+  public install() {
     this.markov = new MarkovJa();
-    this.database = createDatabase(config.database.type, this.markov, this.ai);
+    this.database = createDatabase(config.database.type, this.markov);
     this.database.load();
     this.filter = new WordFilter();
     this.filter.init();
@@ -62,7 +58,7 @@ export default class MarkovSpeakingModule implements IModule {
       setInterval(async () => {
         let text = "";
         text += this.markov.generate(this.sentenceLength).join("\n");
-        let res = await this.ai.api("notes/create", {
+        let res = await api("notes/create", {
           text: text,
           visibility: config.visibility,
         });

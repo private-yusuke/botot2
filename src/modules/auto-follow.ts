@@ -1,14 +1,12 @@
 import IModule from "../module";
-import MessageLike from "../message-like";
 import { api } from "../misskey";
-import Ai from "../ai";
 import { User } from "../misskey";
 
 export default class AutoFollowModule implements IModule {
   public readonly priority = 0;
   public readonly name = "autoFollow";
 
-  public install(_: Ai) {}
+  public install() {}
 
   public onFollowed(user: User) {
     this.follow(user);

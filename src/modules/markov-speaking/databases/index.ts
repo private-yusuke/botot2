@@ -1,22 +1,16 @@
 import FlexibleDataBase from "./flexible-database";
 import { IDatabase } from "../database";
-import config from "../../../config";
 import OnlyOneDatabase from "./onlyone-database";
-import Ai from "../../../ai";
 type Database = "onlyOne" | "flexible";
 
-export default function createDatabase(
-  type: Database,
-  markov: any,
-  ai: Ai
-): IDatabase {
+export default function createDatabase(type: Database, markov: any): IDatabase {
   switch (type) {
     case "flexible":
-      return new FlexibleDataBase(markov, ai);
+      return new FlexibleDataBase(markov);
     case "onlyOne":
-      return new OnlyOneDatabase(markov, ai);
+      return new OnlyOneDatabase(markov);
     default:
       console.warn("Database not specified, using OnlyOneDatabase...");
-      return new OnlyOneDatabase(markov, ai);
+      return new OnlyOneDatabase(markov);
   }
 }

@@ -1,6 +1,5 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
 import config from "../config";
 import asciimathToLaTeX from "asciimath-to-latex";
 import { upload } from "../misskey";
@@ -26,7 +25,7 @@ export default class MathModule implements IModule {
   ];
   public size!: number;
 
-  public install(_: Ai) {
+  public install() {
     this.size = config.math.size;
     mj.start();
   }

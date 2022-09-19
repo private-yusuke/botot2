@@ -1,6 +1,5 @@
 import IModule from "../module";
 import MessageLike from "../message-like";
-import Ai from "../ai";
 import { upload } from "../misskey";
 const Cabocha = require("node-cabocha");
 const cabocha = new Cabocha();
@@ -16,7 +15,7 @@ export default class KakariukeGraphModule implements IModule {
     },
   ];
 
-  public install(_: Ai) {}
+  public install() {}
 
   cabochaParsePromise(sentence: string): Promise<any> {
     return new Promise((resolve) => {

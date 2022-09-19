@@ -1,7 +1,7 @@
 import config from "./config";
 import IModule from "./module";
 import * as WebSocket from "ws";
-import { User, Reaction, generateUserId, api, upload } from "./misskey";
+import { User, Reaction, generateUserId, api } from "./misskey";
 import * as moment from "moment";
 const ReconnectingWebSocket = require("reconnecting-websocket");
 import MessageLike from "./message-like";
@@ -42,11 +42,6 @@ export default class Ai {
       visibility: config.visibility,
       timelineChannel: config.timelineChannel,
     });
-
-    api("meta")
-      .then((meta) => meta.json())
-      .then((json) => (this.meta = json))
-      .catch((err) => console.error(err));
 
     setInterval(() => {
       this.connection.send("ping");

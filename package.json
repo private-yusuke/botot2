@@ -30,7 +30,7 @@
 		"eslint-plugin-standard": "4.1.0",
 		"prettier": "2.7.1",
 		"tslib": "2.4.0",
-		"typescript-json-schema": "0.54.0"
+		"typescript-json-schema": "0.55.0"
 	},
 	"dependencies": {
 		"asciimath-to-latex": "^0.5.0",

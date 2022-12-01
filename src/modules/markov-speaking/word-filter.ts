@@ -1,6 +1,5 @@
 import * as XML from "xml2js";
 import config from "../../config";
-import fetch from "node-fetch";
 import * as fs from "fs";
 
 export default class WordFilter {

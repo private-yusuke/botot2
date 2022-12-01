@@ -1,7 +1,6 @@
 import config from "./config";
 import Ai from "./ai";
 import Modulez from "./modules";
-import fetch from "node-fetch";
 import IModule from "./module";
 import { User } from "./misskey";
 

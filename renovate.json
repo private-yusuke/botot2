@@ -4,7 +4,11 @@
   "timezone": "Asia/Tokyo",
   "packageRules": [
     {
-      "matchPackageNames": ["@types/node"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
       "schedule": ["every 2 weeks on monday"]
     }
   ]

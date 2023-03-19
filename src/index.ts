@@ -13,7 +13,10 @@ async function main() {
     body: JSON.stringify({
       i: config.i,
     }),
-    headers: config.headers,
+    headers: {
+      "Content-Type": "application/json",
+      ...config.headers,
+    },
   });
   let me = (await tmp.json()) as User; // Force convert to misskey.User
   console.log(`I am ${me.name}(@${me.username})!`);

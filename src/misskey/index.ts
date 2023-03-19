@@ -32,7 +32,10 @@ function api(endpoint: string, body?: any) {
   return fetch(url, {
     method: "POST",
     body: data,
-    headers: config.headers,
+    headers: {
+      "Content-Type": "application/json",
+      ...config.headers,
+    },
   });
 }
 

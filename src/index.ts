@@ -22,16 +22,8 @@ async function main() {
   console.log(`I am ${me.name}(@${me.username})!`);
   console.log(`Version: ${config.version}(${config.revision})`);
   me.host = config.host;
-  const modules: IModule[] = [];
-  Modulez.forEach((M) => {
-    const m = new M(ai);
-    if (config.modules.indexOf(m.name) >= 0) modules.push(m);
-  });
-  modules.sort((a, b) => {
-    return b.priority - a.priority;
-  });
 
-  ai = new Ai(me, modules);
+  ai = new Ai(me);
 }
 
 process.on("SIGINT", async () => {

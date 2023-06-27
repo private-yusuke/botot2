@@ -37,12 +37,14 @@ export default class AdminModule implements IModule {
   public async onCommand(msg: MessageLike, cmd: string[]): Promise<boolean> {
     if (cmd[0] == "info") {
       let res = `\`\`\`
-Modules: ${this.ai.modules.map((i) => `${i.name}(${i.priority})`).join(", ")}
+Modules: ${this.ai.loadedModules
+        .map((i) => `${i.name}(${i.priority})`)
+        .join(", ")}
 Uptime: ${this.getUptime()}
 ${process.title} ${process.version} ${process.arch} ${process.platform}
 Version: ${config.version}(${config.revision})
 `;
-      res += this.ai.modules
+      res += this.ai.loadedModules
         .filter(assertProperty("info"))
         .map((i) => i.info())
         .join("\n");
@@ -51,7 +53,7 @@ Version: ${config.version}(${config.revision})
       return true;
     } else if (cmd[0] == "help") {
       let res = "```\n";
-      this.ai.modules.forEach((v) => {
+      this.ai.loadedModules.forEach((v) => {
         if (v.commands) {
           v.commands.forEach((c) => {
             if (c.desc) res += `/${c.name}: ${c.desc}\n`;

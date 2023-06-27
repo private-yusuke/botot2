@@ -1,5 +1,6 @@
 import config from "./config";
 import IModule from "./module";
+import Modulez from "./modules";
 import * as WebSocket from "ws";
 import { User, Reaction, generateUserId, api } from "./misskey";
 import * as moment from "moment";
@@ -10,32 +11,35 @@ import { assertProperty } from "./util/assert-property";
 
 export default class Ai {
   public account: User;
+  public loadedModules: IModule[] = [];
   private connection: any;
-  modules: IModule[] = [];
   private isInterrupted: boolean = false;
   meta: any;
 
-  constructor(account: User, modules: IModule[]) {
+  constructor(account: User) {
     this.account = account;
-    this.modules = modules;
 
     this.init();
   }
 
+  private moduleCandidates() {
+    return Modulez.map((M) => new M(this))
+      .filter((m) => config.modules.includes(m.name))
+      .sort((a, b) => b.priority - a.priority);
+  }
+
   private init() {
-    let loadedModules: IModule[] = [];
-    for (let m of this.modules) {
+    for (let m of this.moduleCandidates()) {
       try {
         m.install();
-        loadedModules.push(m);
+        this.loadedModules.push(m);
       } catch (e) {
         console.error(`An error has occured while loading module "${m.name}"`);
         console.error(e);
       }
     }
-    this.modules = loadedModules;
     console.info("loaded modules:");
-    this.modules.forEach((m) => console.log(`${m.priority}: ${m.name}`));
+    this.loadedModules.forEach((m) => console.log(`${m.priority}: ${m.name}`));
 
     this.initConnection();
     console.log({
@@ -165,7 +169,7 @@ export default class Ai {
     }
     if (body.user.isBot) return;
 
-    this.modules.filter(assertProperty("onNote")).forEach((m) => {
+    this.loadedModules.filter(assertProperty("onNote")).forEach((m) => {
       return m.onNote(body);
     });
   }
@@ -194,7 +198,7 @@ export default class Ai {
       console.log(
         `!${msg.user.name}(@${generateUserId(msg.user)}): ${msg.text}`
       );
-      let funcs = this.modules.filter(assertProperty("onCommand"));
+      let funcs = this.loadedModules.filter(assertProperty("onCommand"));
       let done = false;
       for (let i = 0; i < funcs.length; i++) {
         if (done) break;
@@ -204,7 +208,7 @@ export default class Ai {
       if (!done) msg.reply("command not found");
     } else {
       let res: ReturnType<NonNullable<IModule["onMention"]>>;
-      this.modules.filter(assertProperty("onMention")).some((m) => {
+      this.loadedModules.filter(assertProperty("onMention")).some((m) => {
         res = m.onMention(msg);
         return res === true || typeof res === "object";
       });
@@ -216,7 +220,7 @@ export default class Ai {
   }
 
   private onFollowed(user: User) {
-    this.modules.filter(assertProperty("onFollowed")).forEach((m) => {
+    this.loadedModules.filter(assertProperty("onFollowed")).forEach((m) => {
       return m.onFollowed(user);
     });
   }
@@ -224,7 +228,7 @@ export default class Ai {
   async onInterrupt() {
     this.isInterrupted = true;
     this.connection.close();
-    this.modules.filter(assertProperty("onInterrupted")).forEach((m) => {
+    this.loadedModules.filter(assertProperty("onInterrupted")).forEach((m) => {
       m.onInterrupted();
     });
     process.exit(0);

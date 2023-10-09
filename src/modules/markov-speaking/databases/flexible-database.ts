@@ -6,7 +6,7 @@ import * as fs from "fs";
 export default class FlexibleDataBase implements IDatabase {
   public readonly markov: any;
   private readonly duration: Duration;
-  private intervalObj: NodeJS.Timer;
+  private intervalObj: NodeJS.Timeout;
 
   constructor(markov: any) {
     this.markov = markov;

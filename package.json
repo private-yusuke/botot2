@@ -28,7 +28,7 @@
 		"eslint-plugin-promise": "6.6.0",
 		"eslint-plugin-standard": "5.0.0",
 		"prettier": "2.8.8",
-		"tslib": "2.6.3",
+		"tslib": "2.7.0",
 		"typescript-json-schema": "0.55.0"
 	},
 	"dependencies": {

@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "20.17.5",
-		"@types/ws": "8.5.12",
+		"@types/ws": "8.5.13",
 		"@types/xml2js": "0.4.14",
 		"eslint": "8.57.1",
 		"eslint-config-prettier": "9.1.0",

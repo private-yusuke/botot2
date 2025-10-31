@@ -20,7 +20,7 @@
 		"@types/node": "20.19.24",
 		"@types/ws": "8.18.1",
 		"@types/xml2js": "0.4.14",
-		"eslint": "8.57.1",
+		"eslint": "9.39.0",
 		"eslint-config-prettier": "9.1.2",
 		"eslint-config-standard": "17.1.0",
 		"eslint-plugin-import": "2.32.0",
